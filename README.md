@@ -1,4 +1,4 @@
-# com.twelfthmile.yuga.Yuga
+# Yuga
 
 Parses text for any date format and returns the date object. No need to know format type.
 
