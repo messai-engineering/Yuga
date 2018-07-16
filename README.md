@@ -1,6 +1,6 @@
 # Yuga
 
-Parses text for any date format and returns the date object. No need to know format type.  Yuga powers the text parser for [MessAI](https://www.messai.in)  [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Yuga-green.svg?style=flat )]( https://android-arsenal.com/details/1/7033 )
+Parses text for any date format and returns the date object. No need to know format type. <br/>Yuga powers the text parser for [MessAI](https://www.messai.in) <br/>[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Yuga-green.svg?style=flat )]( https://android-arsenal.com/details/1/7033 )
 
 ## Getting Started
 
