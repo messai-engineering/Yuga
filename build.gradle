@@ -8,10 +8,19 @@ buildscript {
 }
 
 plugins {
+    // Apply the java-library plugin to add support for Java Library
+    id "java"
+    id 'java-library'
     id "com.jfrog.bintray" version "1.7.3"
     id "maven-publish"
-    id "java"
 }
+
+dependencies {
+    // Use JUnit test framework
+    testImplementation 'org.skyscreamer:jsonassert:1.5.0'
+    testImplementation 'junit:junit:4.12'
+}
+
 repositories {
     mavenLocal()
     mavenCentral()
@@ -22,12 +31,6 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
-
-//javadoc.failOnError = false
-//task javadocJar(type: Jar, dependsOn: javadoc) {
-//    classifier = 'javadoc'
-//    from javadoc.destinationDir
-//}
 
 artifacts {
     archives sourcesJar
@@ -103,3 +106,12 @@ bintray {
 
 version = '1.0.1'
 
+jar {
+    manifest {
+        attributes(
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version,
+                'Main-Class': 'com.twelfthmile.yuga.Yuga'
+        )
+    }
+}

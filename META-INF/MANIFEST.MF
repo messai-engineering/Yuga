@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Implementation-Title: Yuga
+Implementation-Version: unspecified
+Main-Class: com.twelfthmile.yuga.Yuga
+
