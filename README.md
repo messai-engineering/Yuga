@@ -1,6 +1,7 @@
 # Yuga
 
 Parses text for any date format and returns the date object. No need to know format type.
+Yuga powers the text parser for [MessAI](https://www.messai.in)
 
 ## Getting Started
 
