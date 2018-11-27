@@ -1,6 +1,6 @@
 package com.twelfthmile.yuga.types;
 
-import com.twelfthmile.yuga.utils.*;
+import com.twelfthmile.yuga.utils.Constants;
 
 import java.util.Date;
 import java.util.HashMap;

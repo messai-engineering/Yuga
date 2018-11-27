@@ -1,4 +1,3 @@
-package test.java.util;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;

@@ -6,6 +6,6 @@ public class RootTrie {
     public HashMap<String, GenTrie> next;
 
     public RootTrie() {
-        next = new HashMap<>();
+        next = new HashMap<String, GenTrie>();
     }
 }

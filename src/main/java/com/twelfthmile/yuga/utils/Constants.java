@@ -30,6 +30,7 @@ public class Constants {
     public static final String TY_PHN = "PHN";
     public static final String TY_TMS = "TIMES";
     public static final String TY_OTP = "OTP";
+    public static final String TY_VPD = "VPD"; //VPA-ID
     //public static final String TY_DCT = "DCT"; //date context like sunday,today,tomorrow
 
     public static final String FSA_MONTHS = "jan;uary,feb;ruary,mar;ch,apr;il,may,jun;e,jul;y,aug;ust,sep;t;ember,oct;ober,nov;ember,dec;ember";
@@ -50,6 +51,7 @@ public class Constants {
     public static final int CH_COLN = 58;
     public static final int CH_SCLN = 59;
     public static final int CH_PLUS = 43;
+    public static final int CH_ATRT = 64;
     public static final int CH_RBKT = 41;
     public static final int CH_STAR = 42;
 

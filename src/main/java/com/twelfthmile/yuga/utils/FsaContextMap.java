@@ -17,7 +17,7 @@ public class FsaContextMap {
     private ArrayList<String> keys;
 
     public FsaContextMap() {
-        keys = new ArrayList<>();
+        keys = new ArrayList<String>();
         map = new HashMap<String, String>();
         valMap = new HashMap<String, String>();
     }
@@ -118,7 +118,7 @@ public class FsaContextMap {
         for (String key : keys) {
             sb.append(map.remove(key));
         }
-        keys = new ArrayList<>();
+        keys = new ArrayList<String>();
         put(k, sb.toString());
     }
 
