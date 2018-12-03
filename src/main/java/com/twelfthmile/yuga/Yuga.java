@@ -168,6 +168,11 @@ public class Yuga {
         return config;
     }
 
+    public static Pair<Integer, String> checkTypes(String type, String word) {
+        init();
+        return Util.checkTypes(root,type,word);
+    }
+
     public static void main(String[] s) {
         try {
 //            parse("29Nov17").print();
