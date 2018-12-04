@@ -271,7 +271,8 @@ public class Yuga {
 //            L.msg(parse("**00....063"));
 //            L.msg(parse("X..X7364"));
 //            L.msg(parse("7011607765@ybl"));
-            L.msg(parse("Thu 22 Nov 2018 07:44:25 GMT"));
+//            L.msg(parse("Thu 22 Nov 2018 07:44:25 GMT"));
+            L.msg(parse(".61").print());
         } catch (ParseException e) {
             L.msg(e.getMessage());
         }
@@ -1123,6 +1124,8 @@ public class Yuga {
         char c = str.charAt(i);
         String subStr = str.substring(i);
         if (c == Constants.CH_FSTP) { //dot
+            if(i==0 && config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_CURR))
+                map.setType(Constants.TY_AMT, Constants.TY_AMT);
             map.append(c);
             return 10;
         } else if (c == 42 || c == 88 || c == 120) {//*Xx
