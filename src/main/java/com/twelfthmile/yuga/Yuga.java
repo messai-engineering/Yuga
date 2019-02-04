@@ -272,7 +272,9 @@ public class Yuga {
 //            L.msg(parse("X..X7364"));
 //            L.msg(parse("7011607765@ybl"));
 //            L.msg(parse("Thu 22 Nov 2018 07:44:25 GMT"));
-            L.msg(parse(".61").print());
+//            L.msg(parse(".61").print());
+//            L.msg(parse("02:18 PM").print());
+            L.msg(parse("01 Jan '18").print());
         } catch (ParseException e) {
             L.msg(e.getMessage());
         }
@@ -707,6 +709,8 @@ public class Yuga {
                     else if (Util.isNumber(c)) {
                         map.upgrade(c);
                         state = 20;
+                    } else if(c == Constants.CH_SQOT && (i+1) < str.length() && Util.isNumber(str.charAt(i+1))) {
+                        state = 24;
                     } else {
                         i = i - 1;
                         state = -1;

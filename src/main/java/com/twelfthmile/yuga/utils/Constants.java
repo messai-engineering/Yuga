@@ -44,6 +44,7 @@ public class Constants {
 
     public static final int CH_SPACE = 32;
     public static final int CH_PCT = 37;
+    public static final int CH_SQOT = 39;
     public static final int CH_COMA = 44;
     public static final int CH_HYPH = 45;
     public static final int CH_FSTP = 46;
