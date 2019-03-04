@@ -11,16 +11,10 @@ import java.util.*;
 public class FsaContextMap {
 
     //todo change to private
-    private HashMap<String, String> map;
-    private HashMap<String, String> valMap;
+    private final Map<String, String> map = new HashMap<>();
+    private final Map<String, String> valMap = new HashMap<>();
     private String prevKey;
-    private ArrayList<String> keys;
-
-    public FsaContextMap() {
-        keys = new ArrayList<String>();
-        map = new HashMap<String, String>();
-        valMap = new HashMap<String, String>();
-    }
+    private List<String> keys = new ArrayList<>();
 
     public boolean contains(String key) {
         return map.containsKey(key);
@@ -38,6 +32,7 @@ public class FsaContextMap {
         prevKey = key;
     }
 
+    @SuppressWarnings("unused")
     public void put(String key, int value) {
         if (!keys.contains(key))
             keys.add(key);
@@ -66,6 +61,7 @@ public class FsaContextMap {
             convert(convertType);
     }
 
+    @SuppressWarnings("unused")
     public String getVal(String name) {
         return valMap.get(name);
     }
@@ -74,7 +70,7 @@ public class FsaContextMap {
         valMap.put(name, val);
     }
 
-    public HashMap<String, String> getValMap() {
+    public Map<String, String> getValMap() {
         return valMap;
     }
 
@@ -114,11 +110,11 @@ public class FsaContextMap {
     }
 
     private void convert(String k) {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         for (String key : keys) {
             sb.append(map.remove(key));
         }
-        keys = new ArrayList<String>();
+        keys = new ArrayList<>();
         put(k, sb.toString());
     }
 
@@ -128,21 +124,28 @@ public class FsaContextMap {
 
     //upgrade for eg from yy to yyy
     public void upgrade(char value) {
-        if (prevKey.equals(Constants.DT_HH)) {
-            put(Constants.DT_mm, value);
-            prevKey = Constants.DT_mm;
-        } else if (prevKey.equals(Constants.DT_mm)) {
-            put(Constants.DT_ss, value);
-            prevKey = Constants.DT_ss;
-        } else if (prevKey.equals(Constants.DT_D)) {
-            put(Constants.DT_MM, value);
-            prevKey = Constants.DT_MM;
-        } else if (prevKey.equals(Constants.DT_MM) || prevKey.equals(Constants.DT_MMM)) {
-            put(Constants.DT_YY, value);
-            prevKey = Constants.DT_YY;
-        } else if (prevKey.equals(Constants.DT_YY)) {
-            put(Constants.DT_YYYY, map.remove(Constants.DT_YY) + value);
-            prevKey = Constants.DT_YYYY;
+        switch (prevKey) {
+            case Constants.DT_HH:
+                put(Constants.DT_mm, value);
+                prevKey = Constants.DT_mm;
+                break;
+            case Constants.DT_mm:
+                put(Constants.DT_ss, value);
+                prevKey = Constants.DT_ss;
+                break;
+            case Constants.DT_D:
+                put(Constants.DT_MM, value);
+                prevKey = Constants.DT_MM;
+                break;
+            case Constants.DT_MM:
+            case Constants.DT_MMM:
+                put(Constants.DT_YY, value);
+                prevKey = Constants.DT_YY;
+                break;
+            case Constants.DT_YY:
+                put(Constants.DT_YYYY, map.remove(Constants.DT_YY) + value);
+                prevKey = Constants.DT_YYYY;
+                break;
         }
     }
 
@@ -161,14 +164,14 @@ public class FsaContextMap {
         map.putAll(fsaContextMap.map);
     }
 
-    public Date getDate(HashMap<String, String> config) {
-        StringBuilder sbf = new StringBuilder("");
-        StringBuilder sbs = new StringBuilder("");
+    public Date getDate(Map<String, String> config) {
+        StringBuilder sbf = new StringBuilder();
+        StringBuilder sbs = new StringBuilder();
         String key;
         boolean ifYear = false;
         boolean ifMonth = false;
         boolean ifDay = false;
-        ArrayList<String> invalidDateContributors = new ArrayList<String>();
+        ArrayList<String> invalidDateContributors = new ArrayList<>();
         //when year is not provided then we assume message year; we check for that when we have both day and month
         try {
             for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -176,18 +179,26 @@ public class FsaContextMap {
                 if (allow(key)) {
                     sbf.append(key).append(" ");
                     sbs.append(entry.getValue()).append(" ");
-                    if (key.equals(Constants.DT_YY) || key.equals(Constants.DT_YYYY))
-                        ifYear = true;
-                    else if (key.equals(Constants.DT_D))
-                        ifDay = true;
-                    else if (key.equals(Constants.DT_MM) || key.equals(Constants.DT_MMM))
-                        ifMonth = true;
+                    switch (key) {
+                        case Constants.DT_YY:
+                        case Constants.DT_YYYY:
+                            ifYear = true;
+                            break;
+                        case Constants.DT_D:
+                            ifDay = true;
+                            break;
+                        case Constants.DT_MM:
+                        case Constants.DT_MMM:
+                            ifMonth = true;
+                            break;
+                    }
                 }
             }
             //date year defaulting
             if (!ifYear && config.containsKey(Constants.YUGA_CONF_DATE)) {
                 sbf.append("yyyy ");
-                sbs.append(config.get(Constants.YUGA_CONF_DATE).split("-")[0] + " ");//assuming yyyy-MM-dd HH:mm:ss format
+                sbs.append(config.get(Constants.YUGA_CONF_DATE).split("-")[0])
+                        .append(" ");//assuming yyyy-MM-dd HH:mm:ss format
             } else {
                 int maxDate = Calendar.getInstance().get(Calendar.YEAR);
                 if (map.containsKey(Constants.DT_YY)) {
@@ -204,7 +215,8 @@ public class FsaContextMap {
 
             if (!ifMonth && config.containsKey(Constants.YUGA_CONF_DATE)) {
                 sbf.append("MM ");
-                sbs.append(config.get(Constants.YUGA_CONF_DATE).split("-")[1] + " ");//assuming yyyy-MM-dd HH:mm:ss format
+                sbs.append(config.get(Constants.YUGA_CONF_DATE).split("-")[1])
+                        .append(" ");//assuming yyyy-MM-dd HH:mm:ss format
             } else {
                 if (map.containsKey(Constants.DT_MM)) {
                     int m = Integer.valueOf(map.get(Constants.DT_MM));
@@ -215,7 +227,8 @@ public class FsaContextMap {
 
             if (!ifDay && config.containsKey(Constants.YUGA_CONF_DATE)) {
                 sbf.append("dd ");
-                sbs.append(config.get(Constants.YUGA_CONF_DATE).split("-")[2].split(" ")[0] + " ");//assuming yyyy-MM-dd HH:mm:ss format
+                sbs.append(config.get(Constants.YUGA_CONF_DATE).split("-")[2].split(" ")[0])
+                .append(" ");//assuming yyyy-MM-dd HH:mm:ss format
             } else {
                 if (map.containsKey(Constants.DT_D)) {
                     int d = Integer.valueOf(map.get(Constants.DT_D));

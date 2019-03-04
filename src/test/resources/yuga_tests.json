@@ -1,0 +1,725 @@
+[
+  {
+    "input": "29Nov17",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-11-29 00:00:00",
+      "index": 7,
+      "date": 1511931600000
+    },
+    "accepted": true
+  },
+  {
+    "input": "08 May",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2018-05-08 00:00:00",
+      "index": 6,
+      "date": 1525752000000
+    },
+    "accepted": true
+  },
+  {
+    "input": "August 15",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2018-08-15 00:00:00",
+      "index": 9,
+      "date": 1534305600000
+    },
+    "accepted": true
+  },
+  {
+    "input": "Sep 2017",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-09-01 00:00:00",
+      "index": 8,
+      "date": 1504238400000
+    },
+    "accepted": true
+  },
+  {
+    "input": "09:40 PM May 21, 2017",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-05-21 21:40:00",
+      "index": 21,
+      "date": 1495417200000
+    },
+    "accepted": true
+  },
+  {
+    "input": "18:10 (Thur, 12 Oct)",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2018-10-12 18:10:00",
+      "index": 19,
+      "date": 1539382200000
+    },
+    "accepted": true
+  },
+  {
+    "input": "07:10 on Wed 14 Jun 17",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-06-14 07:10:00",
+      "index": 22,
+      "date": 1497438600000
+    },
+    "accepted": true
+  },
+  {
+    "input": "Wed Dec 20 17:26:25 GMT+05:30 2017",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-12-20 17:26:25",
+      "index": 34,
+      "date": 1513808785000
+    },
+    "accepted": true
+  },
+  {
+    "input": "2017-09-03:02:15:44",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-09-03 02:15:44",
+      "index": 19,
+      "date": 1504419344000
+    },
+    "accepted": true
+  },
+  {
+    "input": "Mon Sep 04 13:47:13 IST 2017",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-09-04 13:47:13",
+      "index": 28,
+      "date": 1504547233000
+    },
+    "accepted": true
+  },
+  {
+    "input": "07 Jan 18, 06:05",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2018-01-07 06:05:00",
+      "index": 16,
+      "date": 1515323100000
+    },
+    "accepted": true
+  },
+  {
+    "input": "18/09/2017",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-09-18 00:00:00",
+      "index": 10,
+      "date": 1505707200000
+    },
+    "accepted": true
+  },
+  {
+    "input": "12/05",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2018-05-12 00:00:00",
+      "index": 5,
+      "date": 1526097600000
+    },
+    "accepted": true
+  },
+  {
+    "input": "12/05/16",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2016-05-12 00:00:00",
+      "index": 8,
+      "date": 1463025600000
+    },
+    "accepted": true
+  },
+  {
+    "input": "2016/05/12",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2016-05-12 00:00:00",
+      "index": 10,
+      "date": 1463025600000
+    },
+    "accepted": true
+  },
+  {
+    "input": "12Aug2017",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-08-12 00:00:00",
+      "index": 9,
+      "date": 1502510400000
+    },
+    "accepted": true
+  },
+  {
+    "input": "04-Jul-17",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-07-04 00:00:00",
+      "index": 9,
+      "date": 1499140800000
+    },
+    "accepted": true
+  },
+  {
+    "input": "16-Feb-2017 15:26:58",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-02-16 15:26:58",
+      "index": 20,
+      "date": 1487276818000
+    },
+    "accepted": true
+  },
+  {
+    "input": "07 Sep 2017",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-09-07 00:00:00",
+      "index": 11,
+      "date": 1504756800000
+    },
+    "accepted": true
+  },
+  {
+    "input": "21-Aug-17 19:21 Hrs",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-08-21 19:21:00",
+      "index": 19,
+      "date": 1503357660000
+    },
+    "accepted": true
+  },
+  {
+    "input": "27Jan",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2018-01-27 00:00:00",
+      "index": 5,
+      "date": 1517029200000
+    },
+    "accepted": true
+  },
+  {
+    "input": "Sun, 3 Sep, 2017 02:00pm",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-09-03 14:00:00",
+      "index": 24,
+      "date": 1504461600000
+    },
+    "accepted": true
+  },
+  {
+    "input": "23:35 hrs",
+    "response": {
+      "type": "TIME",
+      "valMap": {
+        "time": "23:35"
+      },
+      "str": "23:35 hrs",
+      "index": 9,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "24-10-2017 15:05:57",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-10-24 15:05:57",
+      "index": 19,
+      "date": 1508871957000
+    },
+    "accepted": true
+  },
+  {
+    "input": "22-Oct-2017 21:10",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-10-22 21:10:00",
+      "index": 17,
+      "date": 1508721000000
+    },
+    "accepted": true
+  },
+  {
+    "input": "15:59:24",
+    "response": {
+      "type": "TIME",
+      "valMap": {
+        "time": "15:59"
+      },
+      "str": "15:59:24",
+      "index": 8,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "30-Nov 14:54",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2018-11-30 14:54:00",
+      "index": 12,
+      "date": 1543607640000
+    },
+    "accepted": true
+  },
+  {
+    "input": "06/JAN/17",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-01-06 00:00:00",
+      "index": 9,
+      "date": 1483678800000
+    },
+    "accepted": true
+  },
+  {
+    "input": "Dec 18th",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2018-12-18 00:00:00",
+      "index": 6,
+      "date": 1545109200000
+    },
+    "accepted": true
+  },
+  {
+    "input": "100abc",
+    "response": {
+      "type": "STR",
+      "valMap": {},
+      "str": "100",
+      "index": 6,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "+917032641284",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "PHN"
+      },
+      "str": "917032641284",
+      "index": 13,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "7032641284",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "PHN"
+      },
+      "str": "7032641284",
+      "index": 10,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "1",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "NUM"
+      },
+      "str": "1",
+      "index": 1,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "12",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "NUM"
+      },
+      "str": "12",
+      "index": 2,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "123",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "NUM"
+      },
+      "str": "123",
+      "index": 3,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "123.00",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "123.00",
+      "index": 6,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "1,23,000.00",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "123000.00",
+      "index": 11,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "2000",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "NUM"
+      },
+      "str": "2000",
+      "index": 4,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "2000.00",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "2000.00",
+      "index": 7,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "100%",
+    "response": {
+      "type": "PCT",
+      "valMap": {},
+      "str": "100",
+      "index": 4,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "1,00,00,000.00",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "10000000.00",
+      "index": 14,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "1.23",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "1.23",
+      "index": 4,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "**2657",
+    "response": {
+      "type": "INSTRNO",
+      "valMap": {},
+      "str": "XX2657",
+      "index": 6,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "123**2657",
+    "response": {
+      "type": "INSTRNO",
+      "valMap": {},
+      "str": "123XX2657",
+      "index": 9,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "-351.00",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "-351.00",
+      "index": 7,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "-351",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "-351",
+      "index": 4,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "1-800-2703311",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "PHN"
+      },
+      "str": "18002703311",
+      "index": 13,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "1800-2703311",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "PHN"
+      },
+      "str": "18002703311",
+      "index": 12,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "18002703311",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "PHN"
+      },
+      "str": "18002703311",
+      "index": 11,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "91-7032641284",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "PHN"
+      },
+      "str": "917032641284",
+      "index": 13,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "0484-2340606",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "PHN"
+      },
+      "str": "04842340606",
+      "index": 12,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "040-30425500",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "PHN"
+      },
+      "str": "04030425500",
+      "index": 12,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "080 26703300",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "PHN"
+      },
+      "str": "08026703300",
+      "index": 12,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "26700156",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "NUM"
+      },
+      "str": "26700156",
+      "index": 8,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "35K",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "35000",
+      "index": 3,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "1Lac",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "100000",
+      "index": 3,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "10hrs",
+    "response": {
+      "type": "TIME",
+      "valMap": {
+        "time": "10:00"
+      },
+      "str": "10hrs",
+      "index": 5,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "2045 HRS",
+    "response": {
+      "type": "TIME",
+      "valMap": {
+        "time": "20:45"
+      },
+      "str": "2045 HRS",
+      "index": 8,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "0316-03624669-190001",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "NUM"
+      },
+      "str": "031603624669190001",
+      "index": 20,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "461721XXXXXX7514",
+    "response": {
+      "type": "INSTRNO",
+      "valMap": {},
+      "str": "461721XXXXXX7514",
+      "index": 16,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "4617-21XX-XXXX-7514",
+    "response": {
+      "type": "INSTRNO",
+      "valMap": {},
+      "str": "461721XXXXXX7514",
+      "index": 19,
+      "date": null
+    },
+    "accepted": true
+  },
+  {
+    "input": "0820/0950",
+    "response": {
+      "type": "TIMES",
+      "valMap": {
+        "arrv_time": "09:50",
+        "dept_time": "08:20"
+      },
+      "str": "08200950",
+      "index": 9,
+      "date": null
+    },
+    "accepted": true
+  }
+]
