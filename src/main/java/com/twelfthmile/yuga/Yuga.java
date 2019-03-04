@@ -77,11 +77,11 @@ class Yuga {
      * returns null if string is not of valid date format
      */
     public static Pair<Integer, Date> parseDate(String str) throws ParseException {
-        HashMap<String, String> configMap = generateDefaultConfig();
+        Map<String, String> configMap = generateDefaultConfig();
         return getIntegerDatePair(str, configMap);
     }
 
-    private static Pair<Integer, Date> getIntegerDatePair(String str, HashMap<String, String> configMap) throws ParseException {
+    private static Pair<Integer, Date> getIntegerDatePair(String str, Map<String, String> configMap) throws ParseException {
         Pair<Integer, FsaContextMap> p = parseInternal(str, configMap);
         if (p == null)
             throw new ParseException("[Yuga] Wrong date format: " + str);
@@ -129,7 +129,7 @@ class Yuga {
      * @return Yuga Response type
      */
     public static Response parse(String str) throws ParseException {
-        HashMap<String, String> configMap = generateDefaultConfig();
+        Map<String, String> configMap = generateDefaultConfig();
         return getResponse(str, configMap);
     }
 
@@ -161,8 +161,8 @@ class Yuga {
         }
     }
 
-    private static HashMap<String, String> generateDefaultConfig() {
-        HashMap<String, String> config = new HashMap<String, String>();
+    private static Map<String, String> generateDefaultConfig() {
+        Map<String, String> config = new HashMap<>();
         config.put(Constants.YUGA_CONF_DATE, Constants.dateTimeFormatter().format(new Date()));
         return config;
     }
