@@ -38,4 +38,11 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>artifactory-artifactory-0-releases</name>
+            <url>https://artifactory.messai.in/artifactory/libs-release-local</url>
+        </repository>
+    </distributionManagement>
 </project>
