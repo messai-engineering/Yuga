@@ -74,14 +74,14 @@ public class Yuga {
      * @return A-> last index for date string, b-> date object
      * returns null if string is not of valid date format
      */
-    public static Pair<Integer, Date> parseDate(String str) throws ParseException {
+    public static Pair<Integer, Date> parseDate(String str) {
         HashMap<String, String> configMap = generateDefaultConfig();
         Pair<Integer, FsaContextMap> p = parseInternal(str, configMap);
         if (p == null)
-            throw new ParseException("[Yuga] Wrong date format: " + str);
+            return null;
         Date d = p.getB().getDate(configMap);
         if (d == null)
-            throw new ParseException("[Yuga] Wrong date format: " + str);
+            return null;
         return new Pair<>(p.getA(), d);
     }
 
@@ -93,13 +93,13 @@ public class Yuga {
      * @return A-> last index for date string, b-> date object
      * returns null if string is not of valid date format
      */
-    public static Pair<Integer, Date> parseDate(String str, HashMap<String, String> config) throws ParseException {
+    public static Pair<Integer, Date> parseDate(String str, HashMap<String, String> config) {
         Pair<Integer, FsaContextMap> p = parseInternal(str, config);
         if (p == null)
-            throw new ParseException("[Yuga] Wrong date format: " + str);
+            return null;
         Date d = p.getB().getDate(config);
         if (d == null)
-            throw new ParseException("[Yuga] Wrong date format: " + str);
+            return null;
         return new Pair<Integer, Date>(p.getA(), d);
     }
 
@@ -110,10 +110,10 @@ public class Yuga {
      * @param config config for parsing (Eg: date-defaulting)
      * @return Yuga Response type
      */
-    public static Response parse(String str, HashMap<String, String> config) throws ParseException {
+    public static Response parse(String str, HashMap<String, String> config) {
         Pair<Integer, FsaContextMap> p = parseInternal(str, config);
-        if (p == null)
-            throw new ParseException("[Yuga] Unsupported format: " + str);
+         if (p == null)
+            return null;
         Pair<String, Object> pr = prepareResult(str, p, config);
         return new Response(pr.getA(), p.getB().getValMap(), pr.getB(), p.getA());
     }
@@ -124,11 +124,11 @@ public class Yuga {
      * @param str string to be parsed
      * @return Yuga Response type
      */
-    public static Response parse(String str) throws ParseException {
+    public static Response parse(String str) {
         HashMap<String, String> configMap = generateDefaultConfig();
         Pair<Integer, FsaContextMap> p = parseInternal(str, configMap);
         if (p == null)
-            throw new ParseException("[Yuga] Unsupported format: " + str);
+            return null;
         Pair<String, Object> pr = prepareResult(str, p, configMap);
         return new Response(pr.getA(), p.getB().getValMap(), pr.getB(), p.getA());
     }
@@ -174,7 +174,6 @@ public class Yuga {
     }
 
     public static void main(String[] s) {
-        try {
 //            parse("29Nov17").print();
 //            parse("08 May").print();
 //            parse("August 15").print();
@@ -275,10 +274,9 @@ public class Yuga {
 //            L.msg(parse(".61").print());
 //            L.msg(parse("02:18 PM").print());
 //            L.msg(parse("01 Jan '18").print());
-            L.msg(parse("30 Jun | 2018").print());
-        } catch (ParseException e) {
-            L.msg(e.getMessage());
-        }
+//            L.msg(parse("30 Jun | 2018").print());
+            L.msg(parse("7:35 AM").print());
+            L.msg(parse("abcdef").print());
     }
 
     private static Pair<Integer, FsaContextMap> parseInternal(String str, HashMap<String, String> config) {
