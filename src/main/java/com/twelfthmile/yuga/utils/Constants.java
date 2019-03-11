@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
  * Created by johnjoseph on 19/03/17.
  */
 
+@SuppressWarnings("unused")
 public class Constants {
 
     public static final String DT_D = "d";
@@ -50,6 +51,7 @@ public class Constants {
     public static final int CH_FSTP = 46;
     public static final int CH_SLSH = 47;
     public static final int CH_COLN = 58;
+    @SuppressWarnings("unused")
     public static final int CH_SCLN = 59;
     public static final int CH_PLUS = 43;
     public static final int CH_ATRT = 64;
@@ -61,7 +63,7 @@ public class Constants {
     public static final String YUGA_CONF_DATE = "YUGA_CONF_DATE";
     public static final String YUGA_SOURCE_CONTEXT = "YUGA_SOURCE_CONTEXT";
     public static final String YUGA_SC_CURR = "YUGA_SC_CURR";
-    public static final String DATE_TIME_FORMAT_STR = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_TIME_FORMAT_STR = "yyyy-MM-dd HH:mm:ss";
 
     public static SimpleDateFormat dateTimeFormatter() {
         return new SimpleDateFormat(DATE_TIME_FORMAT_STR);

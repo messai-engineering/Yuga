@@ -31,7 +31,7 @@ public class Util {
         return c == Constants.CH_SLSH || c == Constants.CH_HYPH || c == Constants.CH_SPACE;
     }
 
-    public static boolean isDelimeter(char c) {
+    public static boolean isDelimiter(char c) {
         return c == Constants.CH_SPACE || c == Constants.CH_FSTP || c == Constants.CH_COMA;
     }
 
@@ -45,13 +45,13 @@ public class Util {
         for (i = 0; i < word.length(); i++) {
             char ch = word.charAt(i);
             if (t.leaf && !t.next.containsKey(ch) && isTypeEnd(ch))
-                return new Pair<Integer, String>(i - 1, t.token);
+                return new Pair<>(i - 1, t.token);
             if (t.child && t.next.containsKey(ch)) {
                 t = t.next.get(ch);
             } else break;
         }
         if (t.leaf && i == word.length())
-            return new Pair<Integer, String>(i - 1, t.token);
+            return new Pair<>(i - 1, t.token);
         return null;
     }
 
@@ -59,11 +59,11 @@ public class Util {
         return (isNumber(ch) || ch == Constants.CH_FSTP || ch == Constants.CH_SPACE || ch == Constants.CH_HYPH || ch == Constants.CH_COMA || ch == Constants.CH_SLSH || ch == Constants.CH_RBKT || ch == Constants.CH_PLUS || ch == Constants.CH_STAR || ch == '\r' || ch == '\n');
     }
 
-    public static boolean isAlpha(char c) {
+    private static boolean isAlpha(char c) {
         return ((c >= 65 && c <= 90) || (c >= 97 && c <= 122));
     }
 
-    public static boolean isUpperAlpha(char c) {
+    private static boolean isUpperAlpha(char c) {
         return (c >= 65 && c <= 90);
     }
 
@@ -71,7 +71,7 @@ public class Util {
         return (c >= 97 && c <= 122);
     }
 
-    public static boolean isUpperAlpha(String str) {
+    static boolean isUpperAlpha(String str) {
         if (str == null || str.length() == 0)
             return false;
         for (int i = 0; i < str.length(); i++) {
@@ -81,7 +81,7 @@ public class Util {
         return true;
     }
 
-    public static boolean isLowerAlpha(String str) {
+     static boolean isLowerAlpha(String str) {
         if (str == null || str.length() == 0)
             return false;
         for (int i = 0; i < str.length(); i++) {
@@ -91,7 +91,7 @@ public class Util {
         return true;
     }
 
-    public static boolean isAlpha(String str) {
+    static boolean isAlpha(String str) {
         if (str == null || str.length() == 0)
             return false;
         for (int i = 0; i < str.length(); i++) {

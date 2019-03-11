@@ -5,39 +5,29 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.twelfthmile.yuga</groupId>
     <artifactId>yuga</artifactId>
-    <version>1.0.0</version>
-    <build>
-    <sourceDirectory>src/main/java</sourceDirectory>
-    <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-        </resource>
-    </resources>
-    <plugins>
-        <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.3</version>
-            <configuration>
-                <source>1.8</source>
-                <target>1.8</target>
-            </configuration>
-        </plugin>
-    </plugins>
-    </build>
+    <version>1.1.0</version>
+
+    <properties>
+        <testng.version>6.14.3</testng.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
     <dependencies>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.0.1</version>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.skyscreamer</groupId>
-            <artifactId>jsonassert</artifactId>
-            <version>1.5.0</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.8</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <distributionManagement>
         <repository>
             <id>central</id>
