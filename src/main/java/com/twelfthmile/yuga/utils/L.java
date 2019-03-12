@@ -10,6 +10,7 @@ public class L {
         System.out.println(str);
     }
 
+    @SuppressWarnings("unused")
     public static void error(Exception e) {
         e.printStackTrace();
     }

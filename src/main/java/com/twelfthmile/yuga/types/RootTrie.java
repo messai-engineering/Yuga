@@ -1,11 +1,8 @@
 package com.twelfthmile.yuga.types;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class RootTrie {
-    public HashMap<String, GenTrie> next;
-
-    public RootTrie() {
-        next = new HashMap<String, GenTrie>();
-    }
+    public final Map<String, GenTrie> next = new HashMap<>();
 }

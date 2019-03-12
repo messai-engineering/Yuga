@@ -1,3 +1,4 @@
+package com.twelfthmile.yuga;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -11,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 import java.io.File;
 
-public class Util {
+class Util {
     public static void writeToFile(String str, String fileName) throws IOException {
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName), StandardCharsets.UTF_8));
         writer.write(str);

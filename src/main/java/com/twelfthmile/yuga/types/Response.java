@@ -2,18 +2,19 @@ package com.twelfthmile.yuga.types;
 
 import com.twelfthmile.yuga.utils.Constants;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Response {
     private String type;
-    private HashMap<String, String> valMap;
+    private Map<String, String> valMap;
     private String str;
     private int index;
     private Date date;
 
-    public Response(String type, HashMap<String, String> valMap, Object str, int index) {
+    private Response() {
+    }
+
+    public Response(String type, Map<String, String> valMap, Object str, int index) {
         this.type = type;
         this.valMap = valMap;
         if (str instanceof String)
@@ -26,7 +27,7 @@ public class Response {
     }
 
 
-    public String getType() {
+    private String getType() {
         return type;
     }
 
@@ -34,7 +35,7 @@ public class Response {
         this.type = type;
     }
 
-    public String getStr() {
+    private String getStr() {
         return str;
     }
 
@@ -42,7 +43,7 @@ public class Response {
         this.str = str;
     }
 
-    public int getIndex() {
+    private int getIndex() {
         return index;
     }
 
@@ -50,22 +51,51 @@ public class Response {
         this.index = index;
     }
 
-    public HashMap<String, String> getValMap() {
+    private Map<String, String> getValMap() {
         return valMap;
     }
 
-    public void setValMap(HashMap<String, String> valMap) {
+    public void setValMap(Map<String, String> valMap) {
         this.valMap = valMap;
     }
 
-    public Date getDate() {
+    private Date getDate() {
         return date;
     }
 
+    @SuppressWarnings("unused")
     public void setDate(Date date) {
         this.date = date;
     }
 
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Response.class.getSimpleName() + "[", "]")
+                .add("type='" + type + "'")
+                .add("valMap=" + valMap)
+                .add("str='" + str + "'")
+                .add("index=" + index)
+                .add("date=" + date)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Response)) return false;
+        Response response = (Response) o;
+        return getIndex() == response.getIndex() &&
+                getType().equals(response.getType()) &&
+                getValMap().equals(response.getValMap()) &&
+                getStr().equals(response.getStr());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getType(), getValMap(), getStr(), getIndex());
+    }
+
+    @Deprecated()
     public String print() {
         return "{\"type\":\"" + type + "\", \"str\":\"" + str + "\", \"index\":\"" + index + "\", \"valMap\":" + printValMap() + "}";
     }
