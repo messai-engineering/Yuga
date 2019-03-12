@@ -5,8 +5,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-11-29 00:00:00",
-      "index": 7,
-      "date": 1511931600000
+      "index": 7
     },
     "accepted": true
   },
@@ -16,8 +15,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2018-05-08 00:00:00",
-      "index": 6,
-      "date": 1525752000000
+      "index": 6
     },
     "accepted": true
   },
@@ -27,8 +25,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2018-08-15 00:00:00",
-      "index": 9,
-      "date": 1534305600000
+      "index": 9
     },
     "accepted": true
   },
@@ -38,8 +35,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-09-01 00:00:00",
-      "index": 8,
-      "date": 1504238400000
+      "index": 8
     },
     "accepted": true
   },
@@ -49,8 +45,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-05-21 21:40:00",
-      "index": 21,
-      "date": 1495417200000
+      "index": 21
     },
     "accepted": true
   },
@@ -60,8 +55,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2018-10-12 18:10:00",
-      "index": 19,
-      "date": 1539382200000
+      "index": 19
     },
     "accepted": true
   },
@@ -71,8 +65,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-06-14 07:10:00",
-      "index": 22,
-      "date": 1497438600000
+      "index": 22
     },
     "accepted": true
   },
@@ -82,8 +75,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-12-20 17:26:25",
-      "index": 34,
-      "date": 1513808785000
+      "index": 34
     },
     "accepted": true
   },
@@ -93,8 +85,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-09-03 02:15:44",
-      "index": 19,
-      "date": 1504419344000
+      "index": 19
     },
     "accepted": true
   },
@@ -104,8 +95,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-09-04 13:47:13",
-      "index": 28,
-      "date": 1504547233000
+      "index": 28
     },
     "accepted": true
   },
@@ -115,8 +105,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2018-01-07 06:05:00",
-      "index": 16,
-      "date": 1515323100000
+      "index": 16
     },
     "accepted": true
   },
@@ -126,8 +115,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-09-18 00:00:00",
-      "index": 10,
-      "date": 1505707200000
+      "index": 10
     },
     "accepted": true
   },
@@ -137,8 +125,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2018-05-12 00:00:00",
-      "index": 5,
-      "date": 1526097600000
+      "index": 5
     },
     "accepted": true
   },
@@ -148,8 +135,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2016-05-12 00:00:00",
-      "index": 8,
-      "date": 1463025600000
+      "index": 8
     },
     "accepted": true
   },
@@ -159,8 +145,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2016-05-12 00:00:00",
-      "index": 10,
-      "date": 1463025600000
+      "index": 10
     },
     "accepted": true
   },
@@ -170,8 +155,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-08-12 00:00:00",
-      "index": 9,
-      "date": 1502510400000
+      "index": 9
     },
     "accepted": true
   },
@@ -181,8 +165,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-07-04 00:00:00",
-      "index": 9,
-      "date": 1499140800000
+      "index": 9
     },
     "accepted": true
   },
@@ -192,8 +175,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-02-16 15:26:58",
-      "index": 20,
-      "date": 1487276818000
+      "index": 20
     },
     "accepted": true
   },
@@ -203,8 +185,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-09-07 00:00:00",
-      "index": 11,
-      "date": 1504756800000
+      "index": 11
     },
     "accepted": true
   },
@@ -214,8 +195,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-08-21 19:21:00",
-      "index": 19,
-      "date": 1503357660000
+      "index": 19
     },
     "accepted": true
   },
@@ -225,8 +205,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2018-01-27 00:00:00",
-      "index": 5,
-      "date": 1517029200000
+      "index": 5
     },
     "accepted": true
   },
@@ -236,8 +215,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-09-03 14:00:00",
-      "index": 24,
-      "date": 1504461600000
+      "index": 24
     },
     "accepted": true
   },
@@ -249,8 +227,7 @@
         "time": "23:35"
       },
       "str": "23:35 hrs",
-      "index": 9,
-      "date": null
+      "index": 9
     },
     "accepted": true
   },
@@ -260,8 +237,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-10-24 15:05:57",
-      "index": 19,
-      "date": 1508871957000
+      "index": 19
     },
     "accepted": true
   },
@@ -271,8 +247,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-10-22 21:10:00",
-      "index": 17,
-      "date": 1508721000000
+      "index": 17
     },
     "accepted": true
   },
@@ -284,8 +259,7 @@
         "time": "15:59"
       },
       "str": "15:59:24",
-      "index": 8,
-      "date": null
+      "index": 8
     },
     "accepted": true
   },
@@ -295,8 +269,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2018-11-30 14:54:00",
-      "index": 12,
-      "date": 1543607640000
+      "index": 12
     },
     "accepted": true
   },
@@ -306,8 +279,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2017-01-06 00:00:00",
-      "index": 9,
-      "date": 1483678800000
+      "index": 9
     },
     "accepted": true
   },
@@ -317,8 +289,7 @@
       "type": "DATE",
       "valMap": {},
       "str": "2018-12-18 00:00:00",
-      "index": 6,
-      "date": 1545109200000
+      "index": 6
     },
     "accepted": true
   },
@@ -328,8 +299,7 @@
       "type": "STR",
       "valMap": {},
       "str": "100",
-      "index": 6,
-      "date": null
+      "index": 6
     },
     "accepted": true
   },
@@ -341,8 +311,7 @@
         "num_class": "PHN"
       },
       "str": "917032641284",
-      "index": 13,
-      "date": null
+      "index": 13
     },
     "accepted": true
   },
@@ -354,8 +323,7 @@
         "num_class": "PHN"
       },
       "str": "7032641284",
-      "index": 10,
-      "date": null
+      "index": 10
     },
     "accepted": true
   },
@@ -367,8 +335,7 @@
         "num_class": "NUM"
       },
       "str": "1",
-      "index": 1,
-      "date": null
+      "index": 1
     },
     "accepted": true
   },
@@ -380,8 +347,7 @@
         "num_class": "NUM"
       },
       "str": "12",
-      "index": 2,
-      "date": null
+      "index": 2
     },
     "accepted": true
   },
@@ -393,8 +359,7 @@
         "num_class": "NUM"
       },
       "str": "123",
-      "index": 3,
-      "date": null
+      "index": 3
     },
     "accepted": true
   },
@@ -404,8 +369,7 @@
       "type": "AMT",
       "valMap": {},
       "str": "123.00",
-      "index": 6,
-      "date": null
+      "index": 6
     },
     "accepted": true
   },
@@ -415,8 +379,7 @@
       "type": "AMT",
       "valMap": {},
       "str": "123000.00",
-      "index": 11,
-      "date": null
+      "index": 11
     },
     "accepted": true
   },
@@ -428,8 +391,7 @@
         "num_class": "NUM"
       },
       "str": "2000",
-      "index": 4,
-      "date": null
+      "index": 4
     },
     "accepted": true
   },
@@ -439,8 +401,7 @@
       "type": "AMT",
       "valMap": {},
       "str": "2000.00",
-      "index": 7,
-      "date": null
+      "index": 7
     },
     "accepted": true
   },
@@ -450,8 +411,7 @@
       "type": "PCT",
       "valMap": {},
       "str": "100",
-      "index": 4,
-      "date": null
+      "index": 4
     },
     "accepted": true
   },
@@ -461,8 +421,7 @@
       "type": "AMT",
       "valMap": {},
       "str": "10000000.00",
-      "index": 14,
-      "date": null
+      "index": 14
     },
     "accepted": true
   },
@@ -472,8 +431,7 @@
       "type": "AMT",
       "valMap": {},
       "str": "1.23",
-      "index": 4,
-      "date": null
+      "index": 4
     },
     "accepted": true
   },
@@ -483,8 +441,7 @@
       "type": "INSTRNO",
       "valMap": {},
       "str": "XX2657",
-      "index": 6,
-      "date": null
+      "index": 6
     },
     "accepted": true
   },
@@ -494,8 +451,7 @@
       "type": "INSTRNO",
       "valMap": {},
       "str": "123XX2657",
-      "index": 9,
-      "date": null
+      "index": 9
     },
     "accepted": true
   },
@@ -505,8 +461,7 @@
       "type": "AMT",
       "valMap": {},
       "str": "-351.00",
-      "index": 7,
-      "date": null
+      "index": 7
     },
     "accepted": true
   },
@@ -516,8 +471,7 @@
       "type": "AMT",
       "valMap": {},
       "str": "-351",
-      "index": 4,
-      "date": null
+      "index": 4
     },
     "accepted": true
   },
@@ -529,8 +483,7 @@
         "num_class": "PHN"
       },
       "str": "18002703311",
-      "index": 13,
-      "date": null
+      "index": 13
     },
     "accepted": true
   },
@@ -542,8 +495,7 @@
         "num_class": "PHN"
       },
       "str": "18002703311",
-      "index": 12,
-      "date": null
+      "index": 12
     },
     "accepted": true
   },
@@ -555,8 +507,7 @@
         "num_class": "PHN"
       },
       "str": "18002703311",
-      "index": 11,
-      "date": null
+      "index": 11
     },
     "accepted": true
   },
@@ -568,8 +519,7 @@
         "num_class": "PHN"
       },
       "str": "917032641284",
-      "index": 13,
-      "date": null
+      "index": 13
     },
     "accepted": true
   },
@@ -581,8 +531,7 @@
         "num_class": "PHN"
       },
       "str": "04842340606",
-      "index": 12,
-      "date": null
+      "index": 12
     },
     "accepted": true
   },
@@ -594,8 +543,7 @@
         "num_class": "PHN"
       },
       "str": "04030425500",
-      "index": 12,
-      "date": null
+      "index": 12
     },
     "accepted": true
   },
@@ -607,8 +555,7 @@
         "num_class": "PHN"
       },
       "str": "08026703300",
-      "index": 12,
-      "date": null
+      "index": 12
     },
     "accepted": true
   },
@@ -620,8 +567,7 @@
         "num_class": "NUM"
       },
       "str": "26700156",
-      "index": 8,
-      "date": null
+      "index": 8
     },
     "accepted": true
   },
@@ -631,8 +577,7 @@
       "type": "AMT",
       "valMap": {},
       "str": "35000",
-      "index": 3,
-      "date": null
+      "index": 3
     },
     "accepted": true
   },
@@ -642,8 +587,7 @@
       "type": "AMT",
       "valMap": {},
       "str": "100000",
-      "index": 3,
-      "date": null
+      "index": 3
     },
     "accepted": true
   },
@@ -655,8 +599,7 @@
         "time": "10:00"
       },
       "str": "10hrs",
-      "index": 5,
-      "date": null
+      "index": 5
     },
     "accepted": true
   },
@@ -668,8 +611,7 @@
         "time": "20:45"
       },
       "str": "2045 HRS",
-      "index": 8,
-      "date": null
+      "index": 8
     },
     "accepted": true
   },
@@ -681,8 +623,7 @@
         "num_class": "NUM"
       },
       "str": "031603624669190001",
-      "index": 20,
-      "date": null
+      "index": 20
     },
     "accepted": true
   },
@@ -692,8 +633,7 @@
       "type": "INSTRNO",
       "valMap": {},
       "str": "461721XXXXXX7514",
-      "index": 16,
-      "date": null
+      "index": 16
     },
     "accepted": true
   },
@@ -703,8 +643,7 @@
       "type": "INSTRNO",
       "valMap": {},
       "str": "461721XXXXXX7514",
-      "index": 19,
-      "date": null
+      "index": 19
     },
     "accepted": true
   },
@@ -717,8 +656,7 @@
         "dept_time": "08:20"
       },
       "str": "08200950",
-      "index": 9,
-      "date": null
+      "index": 9
     },
     "accepted": true
   }

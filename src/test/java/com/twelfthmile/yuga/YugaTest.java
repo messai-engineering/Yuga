@@ -2,7 +2,6 @@ package com.twelfthmile.yuga;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.twelfthmile.yuga.types.ParseException;
 import com.twelfthmile.yuga.types.Response;
 import com.twelfthmile.yuga.utils.Constants;
 import org.testng.annotations.DataProvider;
@@ -21,7 +20,7 @@ public class YugaTest {
     private final Map<String, String> configMap = new HashMap<>();
     {
         //noinspection deprecation
-        configMap.put(Constants.YUGA_CONF_DATE, Constants.dateTimeFormatter().format(new Date(118, 1, 1)));
+        configMap.put(Constants.YUGA_CONF_DATE, Constants.dateTimeFormatter().format(new Date(1527811200000l)));//as tests are based on year 2018, giving current date as 06/01/2018 @ 12:00am (UTC)
     }
 
     @DataProvider
@@ -42,16 +41,13 @@ public class YugaTest {
 
     @Test(dataProvider = "getTestData")
     public void testDateParsing(String input, Response response, boolean accepted) {
-        try {
             Response r = Yuga.parse(input, configMap);
-            assertEquals(response, r, response.toString());
-        } catch (ParseException e) {
-            if (accepted) {
-                fail("Failed parsing", e);
+            if(r!=null) {
+                assertEquals(response, r, response.toString());
+                if (!accepted)
+                    fail("Was indicated to fail parsing, but succeeded");
             }
-        }
-        if (!accepted) {
-            fail("Was indicated to fail parsing, but succeeded");
-        }
+            else if (accepted)
+                fail("Failed parsing");
     }
 }

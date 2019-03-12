@@ -87,13 +87,12 @@ public class Response {
         return getIndex() == response.getIndex() &&
                 getType().equals(response.getType()) &&
                 getValMap().equals(response.getValMap()) &&
-                getStr().equals(response.getStr()) &&
-                Objects.equals(getDate(), response.getDate());
+                getStr().equals(response.getStr());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getType(), getValMap(), getStr(), getIndex(), getDate());
+        return Objects.hash(getType(), getValMap(), getStr(), getIndex());
     }
 
     @Deprecated()

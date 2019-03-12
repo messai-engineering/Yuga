@@ -100,7 +100,7 @@ class Yuga {
      * returns null if string is not of valid date format
      */
 
-    public static Pair<Integer, Date> parseDate(String str, Map<String, String> config) throws ParseException {
+    public static Pair<Integer, Date> parseDate(String str, Map<String, String> config) {
         return getIntegerDatePair(str, config);
     }
 
