@@ -2,6 +2,7 @@ package com.twelfthmile.yuga;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.twelfthmile.yuga.types.Response;
 import com.twelfthmile.yuga.utils.Constants;
 
@@ -15,13 +16,14 @@ class GenerateTestData {
         Map<String, String> configMap = new HashMap<>();
 
         //noinspection deprecation
-        configMap.put(Constants.YUGA_CONF_DATE, Constants.dateTimeFormatter().format(new Date(2019, 1, 1)));
+        configMap.put(Constants.YUGA_CONF_DATE, Constants.dateTimeFormatter().format(new Date(1527811200000L)));
 
         TypeReference<String[]> arrayRef = new TypeReference<String[]>() {
         };
 
         String[] dates;
         ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         try (InputStream is = GenerateTestData.class.getResourceAsStream("/yuga_test.json")) {
             dates = mapper.readValue(is, arrayRef);
         }
@@ -35,8 +37,6 @@ class GenerateTestData {
                         testData.add(packet);
                     }
                 });
-        System.out.println(mapper.writerWithDefaultPrettyPrinter().
-
-                writeValueAsString(testData));
+        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(testData));
     }
 }
