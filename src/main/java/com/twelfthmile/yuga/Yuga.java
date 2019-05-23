@@ -19,29 +19,36 @@ import java.util.regex.Pattern;
 
 class Yuga {
 
-    private static RootTrie root;
+
     private static final boolean D_DEBUG = false;
 
-    private static void init() {
-        if (root == null) {
-            root = new RootTrie();
-            root.next.put("FSA_MONTHS", new GenTrie());
-            root.next.put("FSA_DAYS", new GenTrie());
-            root.next.put("FSA_TIMEPRFX", new GenTrie());
-            root.next.put("FSA_AMT", new GenTrie());
-            root.next.put("FSA_TIMES", new GenTrie());
-            root.next.put("FSA_TZ", new GenTrie());
-            root.next.put("FSA_DAYSFFX", new GenTrie());
-            root.next.put("FSA_UPI", new GenTrie());
-            seeding(Constants.FSA_MONTHS, root.next.get("FSA_MONTHS"));
-            seeding(Constants.FSA_DAYS, root.next.get("FSA_DAYS"));
-            seeding(Constants.FSA_TIMEPRFX, root.next.get("FSA_TIMEPRFX"));
-            seeding(Constants.FSA_AMT, root.next.get("FSA_AMT"));
-            seeding(Constants.FSA_TIMES, root.next.get("FSA_TIMES"));
-            seeding(Constants.FSA_TZ, root.next.get("FSA_TZ"));
-            seeding(Constants.FSA_DAYSFFX, root.next.get("FSA_DAYSFFX"));
-            seeding(Constants.FSA_UPI, root.next.get("FSA_UPI"));
-        }
+    private static class LazyHolder {
+        static RootTrie root = createRoot();
+    }
+
+    public static RootTrie getRoot() {
+        return LazyHolder.root;
+    }
+
+    private static RootTrie createRoot() {
+        RootTrie root = new RootTrie();
+        root.next.put("FSA_MONTHS", new GenTrie());
+        root.next.put("FSA_DAYS", new GenTrie());
+        root.next.put("FSA_TIMEPRFX", new GenTrie());
+        root.next.put("FSA_AMT", new GenTrie());
+        root.next.put("FSA_TIMES", new GenTrie());
+        root.next.put("FSA_TZ", new GenTrie());
+        root.next.put("FSA_DAYSFFX", new GenTrie());
+        root.next.put("FSA_UPI", new GenTrie());
+        seeding(Constants.FSA_MONTHS, root.next.get("FSA_MONTHS"));
+        seeding(Constants.FSA_DAYS, root.next.get("FSA_DAYS"));
+        seeding(Constants.FSA_TIMEPRFX, root.next.get("FSA_TIMEPRFX"));
+        seeding(Constants.FSA_AMT, root.next.get("FSA_AMT"));
+        seeding(Constants.FSA_TIMES, root.next.get("FSA_TIMES"));
+        seeding(Constants.FSA_TZ, root.next.get("FSA_TZ"));
+        seeding(Constants.FSA_DAYSFFX, root.next.get("FSA_DAYSFFX"));
+        seeding(Constants.FSA_UPI, root.next.get("FSA_UPI"));
+        return root;
     }
 
     private static void seeding(String type, GenTrie root) {
@@ -171,13 +178,11 @@ class Yuga {
     }
 
     public static Pair<Integer, String> checkTypes(String type, String word) {
-        init();
-        return Util.checkTypes(root, type, word);
+        return Util.checkTypes(getRoot(), type, word);
     }
 
 
     private static Pair<Integer, FsaContextMap> parseInternal(String str, Map<String, String> config) {
-        init();
         int state = 1, i = 0;
         Pair<Integer, String> p;
         char c;
@@ -193,12 +198,12 @@ class Yuga {
                         map.setType(Constants.TY_NUM, null);
                         map.put(Constants.TY_NUM, c);
                         state = 2;
-                    } else if ((p = Util.checkTypes(root, "FSA_MONTHS", str.substring(i))) != null) {
+                    } else if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
                         map.setType(Constants.TY_DTE, null);
                         map.put(Constants.DT_MMM, p.getB());
                         i += p.getA();
                         state = 33;
-                    } else if ((p = Util.checkTypes(root, "FSA_DAYS", str.substring(i))) != null) {
+                    } else if ((p = Util.checkTypes(getRoot(), "FSA_DAYS", str.substring(i))) != null) {
                         map.setType(Constants.TY_DTE, null);
                         map.put(Constants.DT_DD, p.getB());
                         i += p.getA();
@@ -225,7 +230,7 @@ class Yuga {
                         delimiterStack.push(c);
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         state = 16;
-                    } else if ((p = Util.checkTypes(root, "FSA_MONTHS", str.substring(i))) != null) {
+                    } else if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         map.put(Constants.DT_MMM, p.getB());
                         i += p.getA();
@@ -248,12 +253,12 @@ class Yuga {
                         delimiterStack.push(c);
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         state = 16;
-                    } else if ((p = Util.checkTypes(root, "FSA_MONTHS", str.substring(i))) != null) {
+                    } else if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         map.put(Constants.DT_MMM, p.getB());
                         i += p.getA();
                         state = 24;
-                    } else if ((p = Util.checkTypes(root, "FSA_DAYSFFX", str.substring(i))) != null) {
+                    } else if ((p = Util.checkTypes(getRoot(), "FSA_DAYSFFX", str.substring(i))) != null) {
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         i += p.getA();
                         state = 32;
@@ -287,7 +292,7 @@ class Yuga {
                         map.put(Constants.DT_HH, String.valueOf(Integer.parseInt(map.get(Constants.DT_HH)) + 12));
                         i = i + 1;
                         state = -1;
-                    } else if ((p = Util.checkTypes(root, "FSA_TIMES", str.substring(i))) != null) {
+                    } else if ((p = Util.checkTypes(getRoot(), "FSA_TIMES", str.substring(i))) != null) {
                         i += p.getA();
                         state = -1;
                     } else
@@ -314,7 +319,7 @@ class Yuga {
                         if (hh != 12)
                             map.put(Constants.DT_HH, String.valueOf(hh + 12));
                         i = i + 1;
-                    } else if ((p = Util.checkTypes(root, "FSA_TIMES", str.substring(i))) != null) {
+                    } else if ((p = Util.checkTypes(getRoot(), "FSA_TIMES", str.substring(i))) != null) {
                         i += p.getA();
                     } else
                         i = i - 2;
@@ -470,7 +475,7 @@ class Yuga {
                         state = 17;
                     } else if (c == Constants.CH_SPACE || c == Constants.CH_COMA)
                         state = 16;
-                    else if ((p = Util.checkTypes(root, "FSA_MONTHS", str.substring(i))) != null) {
+                    else if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
                         map.put(Constants.DT_MMM, p.getB());
                         i += p.getA();
                         state = 24;
@@ -480,7 +485,7 @@ class Yuga {
                         map.setType(Constants.TY_NUM, Constants.TY_NUM);
                         map.append(c);
                         state = 10;
-                    } else if (i > 0 && (p = Util.checkTypes(root, "FSA_TIMES", str.substring(i))) != null) {
+                    } else if (i > 0 && (p = Util.checkTypes(getRoot(), "FSA_TIMES", str.substring(i))) != null) {
                         map.setType(Constants.TY_TME, null);
                         String s = str.substring(0, i);
                         if (p.getB().equals("mins") || p.getB().equals("minutes"))
@@ -490,7 +495,7 @@ class Yuga {
                         state = -1;
                     } else {//this is just a number, not a date
                         //to cater to 16 -Nov -17
-                        if (delimiterStack.pop() == Constants.CH_SPACE && c == Constants.CH_HYPH && i + 1 < str.length() && (Util.isNumber(str.charAt(i + 1)) || (p = Util.checkTypes(root, "FSA_MONTHS", str.substring(i + 1))) != null)) {
+                        if (delimiterStack.pop() == Constants.CH_SPACE && c == Constants.CH_HYPH && i + 1 < str.length() && (Util.isNumber(str.charAt(i + 1)) || (p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i + 1))) != null)) {
                             state = 16;
                         } else {
                             map.setType(Constants.TY_NUM, Constants.TY_NUM);
@@ -616,7 +621,7 @@ class Yuga {
                         map.setType(Constants.TY_DTE, Constants.DT_YYYY);
                         map.put(Constants.DT_MM, c);
                         state = 26;
-                    } else if (i > 0 && (p = Util.checkTypes(root, "FSA_TIMES", str.substring(i))) != null) {
+                    } else if (i > 0 && (p = Util.checkTypes(getRoot(), "FSA_TIMES", str.substring(i))) != null) {
                         map.setType(Constants.TY_TME, null);
                         String s = str.substring(0, i);
                         if (p.getB().equals("mins"))
@@ -701,7 +706,7 @@ class Yuga {
                     if (Util.isNumber(c)) {
                         map.append(c);
                         state = 32;
-                    } else if ((p = Util.checkTypes(root, "FSA_MONTHS", str.substring(i))) != null) {
+                    } else if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
                         map.put(Constants.DT_MMM, p.getB());
                         i += p.getA();
                         state = 24;
@@ -713,13 +718,13 @@ class Yuga {
                     }
                     break;
                 case 32:
-                    if ((p = Util.checkTypes(root, "FSA_MONTHS", str.substring(i))) != null) {
+                    if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
                         map.put(Constants.DT_MMM, p.getB());
                         i += p.getA();
                         state = 24;
                     } else if (c == Constants.CH_COMA || c == Constants.CH_SPACE)
                         state = 32;
-                    else if ((p = Util.checkTypes(root, "FSA_DAYSFFX", str.substring(i))) != null) {
+                    else if ((p = Util.checkTypes(getRoot(), "FSA_DAYSFFX", str.substring(i))) != null) {
                         i += p.getA();
                         state = 32;
                     } else {
@@ -911,22 +916,22 @@ class Yuga {
             int in = i + skip(str.substring(i));
             String sub = str.substring(in);
             if (in < str.length()) {
-                if (Util.isNumber(str.charAt(in)) || Util.checkTypes(root, "FSA_MONTHS", sub) != null || Util.checkTypes(root, "FSA_DAYS", sub) != null) {
+                if (Util.isNumber(str.charAt(in)) || Util.checkTypes(getRoot(), "FSA_MONTHS", sub) != null || Util.checkTypes(getRoot(), "FSA_DAYS", sub) != null) {
                     Pair<Integer, FsaContextMap> p_ = parseInternal(sub, config);
                     if (p_ != null && p_.getB().getType().equals(Constants.TY_DTE)) {
                         map.putAll(p_.getB());
                         i = in + p_.getA();
                     }
-                } else if ((pTime = Util.checkTypes(root, "FSA_TIMEPRFX", sub)) != null) {
+                } else if ((pTime = Util.checkTypes(getRoot(), "FSA_TIMEPRFX", sub)) != null) {
                     int iTime = in + pTime.getA() + 1 + skip(str.substring(in + pTime.getA() + 1));
-                    if (iTime < str.length() && (Util.isNumber(str.charAt(iTime)) || Util.checkTypes(root, "FSA_DAYS", str.substring(iTime)) != null)) {
+                    if (iTime < str.length() && (Util.isNumber(str.charAt(iTime)) || Util.checkTypes(getRoot(), "FSA_DAYS", str.substring(iTime)) != null)) {
                         Pair<Integer, FsaContextMap> p_ = parseInternal(str.substring(iTime), config);
                         if (p_ != null && p_.getB().getType().equals(Constants.TY_DTE)) {
                             map.putAll(p_.getB());
                             i = iTime + p_.getA();
                         }
                     }
-                } else if ((pTime = Util.checkTypes(root, "FSA_TZ", sub)) != null) {
+                } else if ((pTime = Util.checkTypes(getRoot(), "FSA_TZ", sub)) != null) {
                     int j = skipForTZ(str.substring(in + pTime.getA() + 1), map);
                     i = in + pTime.getA() + 1 + j;
                 } else if (sub.toLowerCase().startsWith("pm") || sub.toLowerCase().startsWith("am")) {
@@ -1041,12 +1046,12 @@ class Yuga {
             }
             map.setType(Constants.TY_STR, Constants.TY_STR);
             return 36;
-        } else if (i > 0 && (p = Util.checkTypes(root, "FSA_AMT", subStr)) != null) {
+        } else if (i > 0 && (p = Util.checkTypes(getRoot(), "FSA_AMT", subStr)) != null) {
             map.setIndex(p.getA());
             map.setType(Constants.TY_AMT, Constants.TY_AMT);
             map.append(getAmt(p.getB()));
             return 38;
-        } else if (i > 0 && (p = Util.checkTypes(root, "FSA_TIMES", subStr)) != null) {
+        } else if (i > 0 && (p = Util.checkTypes(getRoot(), "FSA_TIMES", subStr)) != null) {
             int ind = i + p.getA();
             map.setIndex(ind);
             map.setType(Constants.TY_TME, null);
