@@ -55,15 +55,15 @@ public class Util {
         return null;
     }
 
-    private static boolean isTypeEnd(char ch) {
+    public static boolean isTypeEnd(char ch) {
         return (isNumber(ch) || ch == Constants.CH_FSTP || ch == Constants.CH_SPACE || ch == Constants.CH_HYPH || ch == Constants.CH_COMA || ch == Constants.CH_SLSH || ch == Constants.CH_RBKT || ch == Constants.CH_PLUS || ch == Constants.CH_STAR || ch == '\r' || ch == '\n');
     }
 
-    private static boolean isAlpha(char c) {
+    public static boolean isAlpha(char c) {
         return ((c >= 65 && c <= 90) || (c >= 97 && c <= 122));
     }
 
-    private static boolean isUpperAlpha(char c) {
+    public static boolean isUpperAlpha(char c) {
         return (c >= 65 && c <= 90);
     }
 
@@ -71,7 +71,7 @@ public class Util {
         return (c >= 97 && c <= 122);
     }
 
-    static boolean isUpperAlpha(String str) {
+    public static boolean isUpperAlpha(String str) {
         if (str == null || str.length() == 0)
             return false;
         for (int i = 0; i < str.length(); i++) {
@@ -81,7 +81,7 @@ public class Util {
         return true;
     }
 
-     static boolean isLowerAlpha(String str) {
+    public static boolean isLowerAlpha(String str) {
         if (str == null || str.length() == 0)
             return false;
         for (int i = 0; i < str.length(); i++) {
@@ -91,7 +91,7 @@ public class Util {
         return true;
     }
 
-    static boolean isAlpha(String str) {
+    public static boolean isAlpha(String str) {
         if (str == null || str.length() == 0)
             return false;
         for (int i = 0; i < str.length(); i++) {

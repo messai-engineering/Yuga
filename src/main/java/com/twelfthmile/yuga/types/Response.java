@@ -27,7 +27,7 @@ public class Response {
     }
 
 
-    private String getType() {
+    public String getType() {
         return type;
     }
 
@@ -35,7 +35,7 @@ public class Response {
         this.type = type;
     }
 
-    private String getStr() {
+    public String getStr() {
         return str;
     }
 
@@ -43,7 +43,7 @@ public class Response {
         this.str = str;
     }
 
-    private int getIndex() {
+    public int getIndex() {
         return index;
     }
 
@@ -51,7 +51,7 @@ public class Response {
         this.index = index;
     }
 
-    private Map<String, String> getValMap() {
+    public Map<String, String> getValMap() {
         return valMap;
     }
 
@@ -59,7 +59,7 @@ public class Response {
         this.valMap = valMap;
     }
 
-    private Date getDate() {
+    public Date getDate() {
         return date;
     }
 

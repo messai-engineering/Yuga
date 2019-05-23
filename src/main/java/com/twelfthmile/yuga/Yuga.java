@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * Created by johnjoseph on 19/03/17.
  */
 
-class Yuga {
+public class Yuga {
 
 
     private static final boolean D_DEBUG = false;
@@ -26,7 +26,11 @@ class Yuga {
         static RootTrie root = createRoot();
     }
 
-    public static RootTrie getRoot() {
+    public static void init() {
+        RootTrie root = getRoot();
+    }
+
+    private static RootTrie getRoot() {
         return LazyHolder.root;
     }
 
