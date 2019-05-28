@@ -64,9 +64,14 @@ public class Constants {
     public static final String YUGA_SOURCE_CONTEXT = "YUGA_SOURCE_CONTEXT";
     public static final String YUGA_SC_CURR = "YUGA_SC_CURR";
     private static final String DATE_TIME_FORMAT_STR = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_FORMAT_STR = "yyyy-MM-dd";
 
     public static SimpleDateFormat dateTimeFormatter() {
         return new SimpleDateFormat(DATE_TIME_FORMAT_STR);
+    }
+
+    public static SimpleDateFormat dateFormatter() {
+        return new SimpleDateFormat(DATE_FORMAT_STR);
     }
 
 }
