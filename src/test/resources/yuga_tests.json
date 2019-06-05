@@ -659,5 +659,29 @@
       "index": 9
     },
     "accepted": true
+  },
+  {
+    "input": "[727301]",
+    "response": {
+      "type":"NUM",
+      "valMap":{
+        "num_class":"NUM"
+      },
+      "str":"727301",
+      "index":7
+    },
+    "accepted": true
+  },
+  {
+    "input": "727-301",
+    "response": {
+      "type":"NUM",
+      "valMap":{
+        "num_class":"NUM"
+      },
+      "str":"727301",
+      "index":7
+    },
+    "accepted": true
   }
 ]

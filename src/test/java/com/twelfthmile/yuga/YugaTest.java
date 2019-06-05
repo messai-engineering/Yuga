@@ -50,4 +50,13 @@ public class YugaTest {
             else if (accepted)
                 fail("Failed parsing");
     }
+
+    @Test
+    public void testYuga() {
+        Response r = Yuga.parse("727-301", configMap);
+        if(r!=null)
+            System.out.println(r.toString());
+        else
+            System.out.println("Fail");
+    }
 }

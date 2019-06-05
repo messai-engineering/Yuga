@@ -214,6 +214,8 @@ public class Yuga {
                         state = 30;
                     } else if (c == Constants.CH_HYPH) {//it could be a negative number
                         state = 37;
+                    } else if (c == Constants.CH_LSBT) {//it could be an OTP
+                        state = 1;
                     } else {
                         state = accAmtNumPct(str, i, map, config);
                         if (map.getType() == null)
@@ -335,8 +337,10 @@ public class Yuga {
                         state = 9;
                     } else {
                         state = accAmtNumPct(str, i, map, config);
-                        if ((c == Constants.CH_SPACE || c == Constants.CH_HYPH) && state == -1 && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1)))
+                        if (c == Constants.CH_SPACE && state == -1 && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1)))
                             state = 12;
+                        else if (c == Constants.CH_HYPH && state == -1 && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1)))
+                            state = 45;
                         else if (state == -1 && !map.getType().equals(Constants.TY_PCT))
                             i = i - 1;
                     }
@@ -871,6 +875,19 @@ public class Yuga {
                         state = 44;
                     } else
                         state = -1;
+                    break;
+                case 45:
+                    if (Util.isNumber(c)) {
+                        map.append(c);
+                    } else if (c == Constants.CH_HYPH && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1))) {
+                        state = 39;
+                    } else {
+                        if (i - 1 > 0 && str.charAt(i - 1) == Constants.CH_COMA)
+                            i = i - 2;
+                        else
+                            i = i - 1;
+                        state = -1;
+                    }
                     break;
             }
             i++;

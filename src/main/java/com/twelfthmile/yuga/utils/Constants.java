@@ -58,6 +58,8 @@ public class Constants {
     public static final int CH_RBKT = 41;
     public static final int CH_STAR = 42;
 
+    public static final int CH_LSBT = 91;
+
     public static final String INDEX = "INDEX";
 
     public static final String YUGA_CONF_DATE = "YUGA_CONF_DATE";
