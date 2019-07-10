@@ -578,7 +578,10 @@ public class Yuga {
                         map.append(c);
                         state = 21;
                     } else if (c == ':') {
-                        map.convert(Constants.DT_YY, Constants.DT_HH);
+                        if(map.contains(Constants.DT_YY))
+                            map.convert(Constants.DT_YY, Constants.DT_HH);
+                        else if(map.contains(Constants.DT_YYYY))
+                            map.convert(Constants.DT_YYYY, Constants.DT_HH);
                         state = 4;
                     } else {
                         map.remove(Constants.DT_YY);//since there is no one number year
@@ -591,7 +594,10 @@ public class Yuga {
                         map.upgrade(c);
                         state = 22;
                     } else if (c == ':') {
-                        map.convert(Constants.DT_YY, Constants.DT_HH);
+                        if(map.contains(Constants.DT_YY))
+                            map.convert(Constants.DT_YY, Constants.DT_HH);
+                        else if(map.contains(Constants.DT_YYYY))
+                            map.convert(Constants.DT_YYYY, Constants.DT_HH);
                         state = 4;
                     } else {
                         i = i - 1;
@@ -769,8 +775,12 @@ public class Yuga {
                     break;
                 case 35:
                     if (Util.isNumber(c)) {
-                        map.convert(Constants.DT_D, Constants.DT_YYYY);
-                        map.append(c);
+                        if(i>1 && Util.isNumber(str.charAt(i-1))) {
+                            map.convert(Constants.DT_D, Constants.DT_YYYY);
+                            map.append(c);
+                        }
+                        else
+                            map.put(Constants.DT_YY, c);
                         state = 20;
                     } else if (c == Constants.CH_SPACE || c == Constants.CH_COMA)
                         state = 40;

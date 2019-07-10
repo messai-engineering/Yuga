@@ -53,7 +53,7 @@ public class YugaTest {
 
     @Test
     public void testYuga() {
-        Response r = Yuga.parse("727-301", configMap);
+        Response r = Yuga.parse("May 1 12:07 AM", configMap);
         if(r!=null)
             System.out.println(r.toString());
         else
