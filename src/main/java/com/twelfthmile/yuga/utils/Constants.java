@@ -23,6 +23,7 @@ public class Constants {
     public static final String TY_AMT = "AMT";
     public static final String TY_PCT = "PCT";
     public static final String TY_DST = "DST";
+    public static final String TY_WGT = "WGT";
     public static final String TY_ACC = "INSTRNO";
     public static final String TY_TYP = "TYP";
     public static final String TY_DTE = "DATE";
@@ -68,12 +69,15 @@ public class Constants {
     private static final String DATE_TIME_FORMAT_STR = "yyyy-MM-dd HH:mm:ss";
     private static final String DATE_FORMAT_STR = "yyyy-MM-dd";
 
+    public static final SimpleDateFormat DATE_TIME_FORMATTER = new SimpleDateFormat(DATE_TIME_FORMAT_STR);
+    public static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT_STR);
+
     public static SimpleDateFormat dateTimeFormatter() {
-        return new SimpleDateFormat(DATE_TIME_FORMAT_STR);
+        return DATE_TIME_FORMATTER;
     }
 
     public static SimpleDateFormat dateFormatter() {
-        return new SimpleDateFormat(DATE_FORMAT_STR);
+        return DATE_FORMATTER;
     }
 
 }

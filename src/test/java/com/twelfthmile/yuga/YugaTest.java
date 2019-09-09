@@ -53,7 +53,7 @@ public class YugaTest {
 
     @Test
     public void testYuga() {
-        Response r = Yuga.parse("May 1 12:07 AM", configMap);
+        Response r = Yuga.parse("106.68kg", configMap);
         if(r!=null)
             System.out.println(r.toString());
         else
