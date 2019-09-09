@@ -432,8 +432,12 @@ public class Yuga {
                     } else if (c == Constants.CH_PCT) {
                         map.setType(Constants.TY_PCT, Constants.TY_PCT);
                         state = -1;
-                    } else if (c == 'k' && (i + 1) < str.length() && str.charAt(i + 1) == 'm') {
+                    } else if ((c == 'k' || c == 'c') && (i + 1) < str.length() && str.charAt(i + 1) == 'm') {
                         map.setType(Constants.TY_DST, Constants.TY_DST);
+                        i += 1;
+                        state = -1;
+                    } else if ((c == 'k' || c == 'm') && (i + 1) < str.length() && str.charAt(i + 1) == 'g') {
+                        map.setType(Constants.TY_WGT, Constants.TY_WGT);
                         i += 1;
                         state = -1;
                     } else {
