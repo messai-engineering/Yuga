@@ -562,7 +562,9 @@ public class Yuga {
                         map.setType(Constants.TY_NUM, Constants.TY_NUM);
                         map.append(c);
                         state = 10;
-                    } else {
+                    } else if (c == Constants.CH_FSTP && map.contains(Constants.DT_D) && map.contains(Constants.DT_MM)) { //dot
+                        state = -1;
+                    }else {
                         map.setType(Constants.TY_STR, Constants.TY_STR);
                         i = i - 1;
                         state = -1;
