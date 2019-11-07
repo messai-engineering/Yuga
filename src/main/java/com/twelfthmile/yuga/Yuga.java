@@ -473,10 +473,12 @@ public class Yuga {
                         state = 11;
                     } else if (c == Constants.CH_SPACE && (i + 2) < str.length() && Util.isNumber(str.charAt(i + 1)) && Util.isNumber(str.charAt(i + 2))) {
                         state = 41;
-                    } else if (c == Constants.CH_ATRT && i == 10) {
-                        delimiterStack.push(c);
-                        state = 43;
-                    } else {
+                    }
+//                    else if (c == Constants.CH_ATRT) {
+//                        delimiterStack.push(c);
+//                        state = 43;
+//                    }
+                    else {
                         i = i - 1;
                         state = -1;
                     }
