@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.twelfthmile.yuga</groupId>
     <artifactId>yuga</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9-SNAPSHOT</version>
 
     <properties>
         <testng.version>6.14.3</testng.version>
@@ -102,6 +102,6 @@
         <connection>scm:git:git://https://github.com/messai-engineering/Yuga.git</connection>
         <developerConnection>scm:git:git@github.com:messai-engineering/Yuga.git</developerConnection>
         <url>https://github.com/messai-engineering/Yuga</url>
-        <tag>nexus-push</tag>
+        <tag>HEAD</tag>
     </scm>
 </project>
