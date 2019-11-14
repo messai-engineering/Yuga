@@ -84,7 +84,7 @@ public class Yuga {
      * Returns Pair of index upto which date was read and the date object
      *
      * @param str date string
-     * @return A-> last index for date string, b-> date object
+     * @return A= last index for date string, b= date object
      * returns null if string is not of valid date format
      */
     public static Pair<Integer, Date> parseDate(String str) {
@@ -107,7 +107,7 @@ public class Yuga {
      *
      * @param str    date string
      * @param config pass the message date string for defaulting
-     * @return A-> last index for date string, b-> date object
+     * @return A= last index for date string, b= date object
      * returns null if string is not of valid date format
      */
 
@@ -867,7 +867,7 @@ public class Yuga {
                         state = -1;
                     }
                     break;
-                case 42: //18->12 case, where 7-2209 was becoming amt as part of phn support
+                case 42: //18=12 case, where 7-2209 was becoming amt as part of phn support
                     if (Util.isNumber(c)) {
                         map.append(c);
                     } else if (c == Constants.CH_HYPH && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1))) {
