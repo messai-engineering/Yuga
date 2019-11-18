@@ -5,6 +5,44 @@
     <artifactId>yuga</artifactId>
     <version>1.0.11-SNAPSHOT</version>
 
+    <name>Yuga Date Parser</name>
+    <description>
+        Parses text for any date format and returns the date object. No need to know format type.
+    </description>
+    <url>https://github.com/messai-engineering/Yuga</url>
+
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>https://raw.githubusercontent.com/messai-engineering/Yuga/master/LICENSE.md</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>johnjoseph</id>
+            <name>John P Joseph</name>
+            <email>johnpjospeh91@gmail.com</email>
+            <organization>MessAI</organization>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+5:30</timezone>
+        </developer>
+        <developer>
+            <id>glenkalarikkal</id>
+            <name>Glen Martin</name>
+            <email>glenkalarikkal@gmail.com</email>
+            <organization>MessAI</organization>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+5:30</timezone>
+        </developer>
+
+    </developers>
+
     <properties>
         <testng.version>6.14.3</testng.version>
         <maven.compiler.source>1.8</maven.compiler.source>
