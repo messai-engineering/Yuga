@@ -1,5 +1,6 @@
 package com.twelfthmile.yuga.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
@@ -71,6 +72,10 @@ public class Constants {
 
     public static final SimpleDateFormat DATE_TIME_FORMATTER = new SimpleDateFormat(DATE_TIME_FORMAT_STR);
     public static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT_STR);
+
+    public static String formatDateTimeToDate(String date, String inputFormat) throws ParseException {
+        return dateFormatter().format(new SimpleDateFormat(inputFormat).parse(date));
+    }
 
     public static SimpleDateFormat dateTimeFormatter() {
         return DATE_TIME_FORMATTER;
