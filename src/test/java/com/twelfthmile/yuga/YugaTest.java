@@ -4,11 +4,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twelfthmile.yuga.types.Response;
 import com.twelfthmile.yuga.utils.Constants;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,5 +60,24 @@ public class YugaTest {
             System.out.println(r.toString());
         else
             System.out.println("Fail");
+    }
+
+    @Test
+    public void testFormatDateTimeToDate() throws ParseException {
+        String output = Constants.formatDateTimeToDate("2019-08-21 12:58:22",
+                "yyyy-MM-dd HH:mm:ss");
+        assertEquals(10, output.length());
+        assertEquals("2019-08-21", output);
+    }
+
+    @Test
+    public void testFormatDateTimeToDateThrowsException() {
+        try {
+            Constants.formatDateTimeToDate("2019-08 12:58:22",
+                    "yyyy-MM-dd HH:mm:ss");
+            Assert.fail("Should have thrown parse exception");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }
