@@ -173,6 +173,6 @@
         <connection>scm:git:git://https://github.com/messai-engineering/Yuga.git</connection>
         <developerConnection>scm:git:git@github.com:messai-engineering/Yuga.git</developerConnection>
         <url>https://github.com/messai-engineering/Yuga</url>
-        <tag>yuga-1.0.10</tag>
+        <tag>yuga-1.0.12</tag>
     </scm>
 </project>
