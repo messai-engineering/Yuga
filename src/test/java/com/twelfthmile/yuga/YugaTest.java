@@ -55,7 +55,7 @@ public class YugaTest {
 
     @Test
     public void testYuga() {
-        Response r = Yuga.parse("930311023827@okicici", configMap);
+        Response r = Yuga.parse("12/05/2000", configMap);
         if(r!=null)
             System.out.println(r.toString());
         else

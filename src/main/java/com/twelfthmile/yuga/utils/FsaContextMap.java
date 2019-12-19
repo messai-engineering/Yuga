@@ -207,7 +207,7 @@ public class FsaContextMap {
                         invalidDateContributors.add(Constants.DT_YY);
                 } else {
                     int y = Integer.parseInt(map.get(Constants.DT_YYYY));
-                    if (!(y > 2000 && y < (maxDate + 3)))
+                    if (!(y > 1971 && y < (maxDate + 3)))
                         invalidDateContributors.add(Constants.DT_YYYY);
                 }
 

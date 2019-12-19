@@ -998,8 +998,14 @@ public class Yuga {
                         state = 1;
                     else if (c == Constants.CH_COLN)
                         state = 2;
-                    else
-                        state = -1;
+                    else {
+                        String s_ = str.substring(0, i).trim();
+                        if (s_.length() == 4 && Util.isNumber(s_)) {//we captured a year after IST Mon Sep 04 13:47:13 IST 2017
+                            map.put(Constants.DT_YYYY, s_);
+                            state = -2;
+                        } else
+                            state = -1;
+                    }
                     break;
                 case 2:
                     //todo re-adjust GMT time, current default +5:30 for IST
