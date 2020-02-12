@@ -32,7 +32,7 @@ public class Util {
     }
 
     public static boolean isDelimiter(char c) {
-        return c == Constants.CH_SPACE || c == Constants.CH_FSTP || c == Constants.CH_COMA;
+        return c == Constants.CH_SPACE || c == Constants.CH_FSTP || c == Constants.CH_COMA || c == Constants.CH_RBKT;
     }
 
     public static boolean isTimeOperator(char c) {
