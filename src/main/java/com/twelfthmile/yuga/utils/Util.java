@@ -56,7 +56,7 @@ public class Util {
     }
 
     public static boolean isTypeEnd(char ch) {
-        return (isNumber(ch) || ch == Constants.CH_FSTP || ch == Constants.CH_SPACE || ch == Constants.CH_HYPH || ch == Constants.CH_COMA || ch == Constants.CH_SLSH || ch == Constants.CH_RBKT || ch == Constants.CH_PLUS || ch == Constants.CH_STAR || ch == '\r' || ch == '\n');
+        return (isNumber(ch) || ch == Constants.CH_FSTP || ch == Constants.CH_SPACE || ch == Constants.CH_HYPH || ch == Constants.CH_COMA || ch == Constants.CH_SLSH || ch == Constants.CH_RBKT || ch == Constants.CH_PLUS || ch == Constants.CH_STAR || ch == '\r' || ch == '\n' || ch =='\'');
     }
 
     public static boolean isAlpha(char c) {
