@@ -693,5 +693,25 @@
       "index":14
     },
     "accepted": true
+  },
+  {
+    "input": "22Jan'20",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2020-01-22 00:00:00",
+      "index": 8
+    },
+    "accepted": true
+  },
+  {
+    "input": "**50...072",
+    "response": {
+      "type": "INSTRNO",
+      "valMap": {},
+      "str": "XX50XXX72",
+      "index": 10
+    },
+    "accepted": true
   }
 ]

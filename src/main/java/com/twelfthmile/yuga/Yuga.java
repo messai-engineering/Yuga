@@ -383,6 +383,10 @@ public class Yuga {
                     } else if (c == ' ' && ((i + 1) < str.length() && (str.charAt(i + 1) == 42 || str.charAt(i + 1) == 88 || str.charAt(i + 1) == 120 || Util.isNumber(str.charAt(i + 1)))))
                         state = 11;
                     else if (c == Constants.CH_FSTP && (insi = lookAheadForInstr(str, i)) > 0) {
+                        int x;
+                        for(x = insi-i;x>0;x--){
+                            map.append('X');
+                        }
                         i = insi;
                     } else {
                         i = i - 1;
@@ -419,6 +423,10 @@ public class Yuga {
                         map.append(c);
                         state = 10;
                     } else if (c == Constants.CH_FSTP && (insi = lookAheadForInstr(str, i)) > 0) {
+                        int x;
+                        for(x = insi-i;x>0;x--){
+                            map.append('X');
+                        }
                         i = insi;
                     } else {
                         i = i - 1;
