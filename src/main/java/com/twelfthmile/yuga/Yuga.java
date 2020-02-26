@@ -387,7 +387,7 @@ public class Yuga {
                         for(x = insi-i;x>0;x--){
                             map.append('X');
                         }
-                        i = insi;
+                        i = (Util.isNumber(str.charAt(insi)))?insi-1:insi;
                     } else {
                         i = i - 1;
                         state = -1;
@@ -427,7 +427,7 @@ public class Yuga {
                         for(x = insi-i;x>0;x--){
                             map.append('X');
                         }
-                        i = insi;
+                        i = (Util.isNumber(str.charAt(insi)))?(insi-1):insi;
                     } else {
                         i = i - 1;
                         state = -1;
