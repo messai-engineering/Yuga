@@ -709,7 +709,7 @@
     "response": {
       "type": "INSTRNO",
       "valMap": {},
-      "str": "XX50XXX72",
+      "str": "XX50XXX072",
       "index": 10
     },
     "accepted": true
