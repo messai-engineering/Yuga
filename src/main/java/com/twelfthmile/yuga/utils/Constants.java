@@ -2,6 +2,7 @@ package com.twelfthmile.yuga.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 /**
  * Created by johnjoseph on 19/03/17.
@@ -70,8 +71,8 @@ public class Constants {
     private static final String DATE_TIME_FORMAT_STR = "yyyy-MM-dd HH:mm:ss";
     private static final String DATE_FORMAT_STR = "yyyy-MM-dd";
 
-    public static final SimpleDateFormat DATE_TIME_FORMATTER = new SimpleDateFormat(DATE_TIME_FORMAT_STR);
-    public static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT_STR);
+    public static final SimpleDateFormat DATE_TIME_FORMATTER = new SimpleDateFormat(DATE_TIME_FORMAT_STR, Locale.ENGLISH);
+    public static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_FORMAT_STR, Locale.ENGLISH);
 
     public static String formatDateTimeToDate(String date, String inputFormat) throws ParseException {
         return dateFormatter().format(new SimpleDateFormat(inputFormat).parse(date));
