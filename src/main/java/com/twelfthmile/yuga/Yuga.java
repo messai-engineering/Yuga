@@ -954,8 +954,21 @@ public class Yuga {
                     map.setVal("num_class", Constants.TY_PHN);
                 else if (map.get(Constants.TY_NUM).length() == 11 && map.get(Constants.TY_NUM).charAt(0) == '0')
                     map.setVal("num_class", Constants.TY_PHN);
-                else
-                    map.setVal("num_class", Constants.TY_NUM);
+                else {
+                    if(config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_ON)) {
+                        Pattern pattern = Pattern.compile("([0-3][0-9])([0-1][0-9])([1-3][0-9])");
+                        Matcher m = pattern.matcher(str);
+                        if (m.find()) {
+                            Pair<Integer, FsaContextMap> p_ = parseInternal(m.group(1) + "-" + m.group(2) + "-" + m.group(3), config);
+                            if (p_ != null) {
+                                i = p_.getA()-2;//to makeup for two additional -
+                                map = p_.getB();
+                            }
+                        }
+                    }
+                    else
+                        map.setVal("num_class", Constants.TY_NUM);
+                }
             }
         } else if (map.getType().equals(Constants.TY_DTE) && (i + 1) < str.length()) {
             Pair<Integer, String> pTime;
