@@ -955,14 +955,28 @@ public class Yuga {
                 else if (map.get(Constants.TY_NUM).length() == 11 && map.get(Constants.TY_NUM).charAt(0) == '0')
                     map.setVal("num_class", Constants.TY_PHN);
                 else {
-                    if(config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_ON)) {
-                        Pattern pattern = Pattern.compile("([0-3][0-9])([0-1][0-9])([1-3][0-9])");
-                        Matcher m = pattern.matcher(str);
-                        if (m.find()) {
-                            Pair<Integer, FsaContextMap> p_ = parseInternal(m.group(1) + "-" + m.group(2) + "-" + m.group(3), config);
-                            if (p_ != null) {
-                                i = p_.getA()-2;//to makeup for two additional -
-                                map = p_.getB();
+                    if(map.get(Constants.TY_NUM) != null && (map.get(Constants.TY_NUM).length() == 6 || map.get(Constants.TY_NUM).length() == 8) && config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_ON) && (i >= str.length() || (str.charAt(i)==Constants.CH_SPACE || str.charAt(i)==Constants.CH_FSTP|| str.charAt(i)==Constants.CH_COMA))) {
+                        Pattern pattern;
+                        Matcher m;
+                        if(map.get(Constants.TY_NUM).length() == 6) {
+                            pattern = Pattern.compile("([0-3][0-9])([0-1][0-9])([1-3][0-9])");
+                            m = pattern.matcher(str);
+                            if (m.find()) {
+                                Pair<Integer, FsaContextMap> p_ = parseInternal(m.group(1) + "-" + m.group(2) + "-" + m.group(3), config);
+                                if (p_ != null) {
+                                    i = p_.getA()-2;//to makeup for two additional -
+                                    map = p_.getB();
+                                }
+                            }
+                        } else if(map.get(Constants.TY_NUM).length() == 8){
+                            pattern = Pattern.compile("([0-3][0-9])([0-1][0-9])([2][0-1][1-5][0-9])");
+                            m = pattern.matcher(str);
+                            if (m.find()) {
+                                Pair<Integer, FsaContextMap> p_ = parseInternal(m.group(1) + "-" + m.group(2) + "-" + m.group(3), config);
+                                if (p_ != null) {
+                                    i = p_.getA()-2;//to makeup for two additional -
+                                    map = p_.getB();
+                                }
                             }
                         }
                     }
