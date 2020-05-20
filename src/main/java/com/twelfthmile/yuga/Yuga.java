@@ -953,7 +953,7 @@ public class Yuga {
                             break;
                         case 'g':
                             map.setVal("data_type","GB");
-                            sData = " BB";
+                            sData = " GB";
                             break;
                     }
                     map.setType(Constants.TY_DTA, Constants.TY_DTA);
