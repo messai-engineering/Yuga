@@ -934,12 +934,41 @@ public class Yuga {
         }
 
         if (map.getType().equals(Constants.TY_AMT)) {
-            if (!map.contains(map.getType()) || ((map.get(map.getType()).contains(".") && map.get(map.getType()).split("\\.")[0].length() > 8) || (!map.get(map.getType()).contains(".") && map.get(map.getType()).length() > 8)))
+            if (!map.contains(map.getType()) || ((map.get(map.getType()).contains(".") && map.get(map.getType()).split("\\.")[0].length() > 8) || (!map.get(map.getType()).contains(".") && map.get(map.getType()).length() > 8))) {
                 map.setType(Constants.TY_NUM, Constants.TY_NUM);
+            }
+            int j = i + skip(str.substring(i));
+            if(j<str.length()) {
+                if ((str.charAt(j) == 'k' || str.charAt(j) == 'm' || str.charAt(j) == 'g') && (j + 1) < str.length() && str.charAt(j + 1) == 'b') {
+                    map.setVal("data",map.get(map.getType()));
+                    String sData = "";
+                    switch (str.charAt(j)){
+                        case 'k':
+                            map.setVal("data_type","KB");
+                            sData = " KB";
+                            break;
+                        case 'm':
+                            map.setVal("data_type","MB");
+                            sData = " MB";
+                            break;
+                        case 'g':
+                            map.setVal("data_type","GB");
+                            sData = " BB";
+                            break;
+                    }
+                    map.setType(Constants.TY_DTA, Constants.TY_DTA);
+                    map.append(sData);
+                    i = j+2;
+                } else if (str.charAt(j) == 'x' && ((j + 1) == str.length() || ((j + 1) < str.length() && (str.charAt(j + 1) == ' ' || str.charAt(j + 1) == '.' || str.charAt(j + 1) == ','))) ) {
+                    map.setType(Constants.TY_MLT, Constants.TY_MLT);
+                    map.append(str.substring(i,j+1));
+                    i = j;
+                }
+            }
         }
 
         if (map.getType().equals(Constants.TY_NUM)) {
-            if (i < str.length() && Character.isAlphabetic(str.charAt(i)) && !config.containsKey(Constants.YUGA_SOURCE_CONTEXT)) {
+            if (i < str.length() && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT)))) {
                 int j = i;
                 while (j < str.length() && str.charAt(j) != ' ')
                     j++;
@@ -967,7 +996,8 @@ public class Yuga {
                                     i = p_.getA()-2;//to makeup for two additional -
                                     map = p_.getB();
                                 }
-                            }
+                            } else
+                                map.setVal("num_class", Constants.TY_NUM);
                         } else if(map.get(Constants.TY_NUM).length() == 8){
                             pattern = Pattern.compile("([0-3][0-9])([0-1][0-9])([2][0-1][1-5][0-9])");
                             m = pattern.matcher(str);
@@ -977,7 +1007,8 @@ public class Yuga {
                                     i = p_.getA()-2;//to makeup for two additional -
                                     map = p_.getB();
                                 }
-                            }
+                            } else
+                                map.setVal("num_class", Constants.TY_NUM);
                         }
                     }
                     else

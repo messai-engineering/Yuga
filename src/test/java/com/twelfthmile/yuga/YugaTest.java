@@ -23,7 +23,7 @@ public class YugaTest {
     {
         //noinspection deprecation
         configMap.put(Constants.YUGA_CONF_DATE, Constants.dateTimeFormatter().format(new Date(1527811200000L)));//as tests are based on year 2018, giving current date as 06/01/2018 @ 12:00am (UTC)
-//        configMap.put(Constants.YUGA_SOURCE_CONTEXT,Constants.YUGA_SC_ON);
+        configMap.put(Constants.YUGA_SOURCE_CONTEXT,Constants.YUGA_SC_ON);
     }
 
     @DataProvider
@@ -56,7 +56,7 @@ public class YugaTest {
 
     @Test
     public void testYuga() {
-        Response r = Yuga.parse("160617", configMap);
+        Response r = Yuga.parse("1.5 X", configMap);
         if(r!=null)
             System.out.println(r.toString());
         else
