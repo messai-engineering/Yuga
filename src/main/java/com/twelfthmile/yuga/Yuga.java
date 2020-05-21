@@ -186,7 +186,7 @@ public class Yuga {
 
 
     private static Pair<Integer, FsaContextMap> parseInternal(String str, Map<String, String> config) {
-        int state = 1, i = 0;
+        int state = 1, i = 0, comma_count = 1;
         Pair<Integer, String> p;
         char c;
         FsaContextMap map = new FsaContextMap();
@@ -397,9 +397,10 @@ public class Yuga {
                     if (Util.isNumber(c)) {
                         map.setType(Constants.TY_AMT, Constants.TY_AMT);
                         map.append(c);
-                    } else if (c == Constants.CH_COMA) //comma
+                    } else if (c == Constants.CH_COMA) {//comma
+                        comma_count++;
                         state = 12;
-                    else if (c == Constants.CH_FSTP) { //dot
+                    } else if (c == Constants.CH_FSTP) { //dot
                         map.append(c);
                         state = 10;
                     } else if (c == Constants.CH_HYPH && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1))) {
@@ -407,8 +408,17 @@ public class Yuga {
                     } else {
                         if (i - 1 > 0 && str.charAt(i - 1) == Constants.CH_COMA)
                             i = i - 2;
+                        else if (i - 3 > 0 &&  str.charAt(i - 3) == Constants.CH_COMA && comma_count==1) { //handling 370,60
+                            char c1 = map.pop();
+                            char c2 = map.pop();
+                            map.append('.');
+                            map.append(c2);
+                            map.append(c1);
+                        }
                         else
                             i = i - 1;
+                        if(comma_count>1 && map.getType().equals(Constants.TY_AMT))
+                            map.setType(Constants.TY_NUM, Constants.TY_NUM);
                         state = -1;
                     }
                     break;
@@ -936,6 +946,13 @@ public class Yuga {
         if (map.getType().equals(Constants.TY_AMT)) {
             if (!map.contains(map.getType()) || ((map.get(map.getType()).contains(".") && map.get(map.getType()).split("\\.")[0].length() > 8) || (!map.get(map.getType()).contains(".") && map.get(map.getType()).length() > 8))) {
                 map.setType(Constants.TY_NUM, Constants.TY_NUM);
+            }
+            if (i - 3 > 0 && str.charAt(i-3)==Constants.CH_COMA) {//handling 370,60
+                char c1 = map.pop();
+                char c2 = map.pop();
+                map.append('.');
+                map.append(c2);
+                map.append(c1);
             }
             int j = i + skip(str.substring(i));
             if(j<str.length()) {

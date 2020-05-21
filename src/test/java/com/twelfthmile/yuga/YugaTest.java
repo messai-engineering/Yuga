@@ -56,7 +56,7 @@ public class YugaTest {
 
     @Test
     public void testYuga() {
-        Response r = Yuga.parse("1.5 X", configMap);
+        Response r = Yuga.parse("3,6,9,12,18,24 ", configMap);//130,79 150000,60
         if(r!=null)
             System.out.println(r.toString());
         else

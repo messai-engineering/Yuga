@@ -746,5 +746,47 @@
       "index": 11
     },
     "accepted": true
+  },
+  {
+    "input": "150000,60.",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "150000.60",
+      "index": 9
+    },
+    "accepted": true
+  },
+  {
+    "input": "150000,60 ",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "150000.60",
+      "index": 10
+    },
+    "accepted": true
+  },
+  {
+    "input": "150000,60",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "150000.60",
+      "index": 9
+    },
+    "accepted": true
+  },
+  {
+    "input": "3,6,9,12,18,24 ",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class":"NUM"
+      },
+      "str": "369121824",
+      "index": 14
+    },
+    "accepted": true
   }
 ]
