@@ -947,6 +947,7 @@ public class Yuga {
             if (!map.contains(map.getType()) || ((map.get(map.getType()).contains(".") && map.get(map.getType()).split("\\.")[0].length() > 8) || (!map.get(map.getType()).contains(".") && map.get(map.getType()).length() > 8))) {
                 map.setType(Constants.TY_NUM, Constants.TY_NUM);
             }
+
             if (i - 3 > 0 && str.charAt(i-3)==Constants.CH_COMA) {//handling 370,60
                 char c1 = map.pop();
                 char c2 = map.pop();
@@ -954,6 +955,7 @@ public class Yuga {
                 map.append(c2);
                 map.append(c1);
             }
+
             int j = i + skip(str.substring(i));
             if(j<str.length()) {
                 if ((str.charAt(j) == 'k' || str.charAt(j) == 'm' || str.charAt(j) == 'g') && (j + 1) < str.length() && str.charAt(j + 1) == 'b') {
