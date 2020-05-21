@@ -34,6 +34,8 @@ public class Constants {
     public static final String TY_PHN = "PHN";
     public static final String TY_TMS = "TIMES";
     public static final String TY_OTP = "OTP";
+    public static final String TY_DTA = "DATA";
+    public static final String TY_MLT = "MLTPL";
     public static final String TY_VPD = "VPD"; //VPA-ID
     //public static final String TY_DCT = "DCT"; //date context like sunday,today,tomorrow
 

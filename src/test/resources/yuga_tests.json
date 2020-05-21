@@ -713,5 +713,80 @@
       "index": 10
     },
     "accepted": true
+  },
+  {
+    "input": "160617",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2017-06-16 00:00:00",
+      "index": 6
+    },
+    "accepted": true
+  },
+  {
+    "input": "16062012",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2012-06-16 00:00:00",
+      "index": 8
+    },
+    "accepted": true
+  },
+  {
+    "input": "43940.00 MB",
+    "response": {
+      "type": "DATA",
+      "valMap": {
+        "data" : "43940.00",
+        "data_type":"MB"
+      },
+      "str": "43940.00 MB",
+      "index": 11
+    },
+    "accepted": true
+  },
+  {
+    "input": "150000,60.",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "150000.60",
+      "index": 9
+    },
+    "accepted": true
+  },
+  {
+    "input": "150000,60 ",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "150000.60",
+      "index": 10
+    },
+    "accepted": true
+  },
+  {
+    "input": "150000,60",
+    "response": {
+      "type": "AMT",
+      "valMap": {},
+      "str": "150000.60",
+      "index": 9
+    },
+    "accepted": true
+  },
+  {
+    "input": "3,6,9,12,18,24 ",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class":"NUM"
+      },
+      "str": "369121824",
+      "index": 14
+    },
+    "accepted": true
   }
 ]

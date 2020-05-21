@@ -94,9 +94,11 @@ public class FsaContextMap {
     }
 
     //removing last appended value
-    public void pop() {
+    public char pop() {
         String preVal = map.get(prevKey);
+        char ret = preVal.charAt(preVal.length() - 1);
         put(prevKey, preVal.substring(0, preVal.length() - 1));
+        return ret;
     }
 
     public void convert(String kOld, String kNew) {

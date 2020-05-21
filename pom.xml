@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>in.messai</groupId>
     <artifactId>yuga</artifactId>
-    <version>1.0.24-SNAPSHOT</version>
+    <version>1.0.30-SNAPSHOT</version>
 
     <name>Yuga Date Parser</name>
     <description>
@@ -45,6 +45,8 @@
 
     <properties>
         <testng.version>6.14.3</testng.version>
+        <gpg_passphrase>abc</gpg_passphrase>
+        <jackson.version>2.10.0</jackson.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -153,7 +155,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>[2.9.10.3,)</version>
+            <version>${jackson.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -174,6 +176,6 @@
         <connection>scm:git:git://https://github.com/messai-engineering/Yuga.git</connection>
         <developerConnection>scm:git:git@github.com:messai-engineering/Yuga.git</developerConnection>
         <url>https://github.com/messai-engineering/Yuga</url>
-        <tag>yuga-1.0.23</tag>
+        <tag>yuga-1.0.29</tag>
     </scm>
 </project>
