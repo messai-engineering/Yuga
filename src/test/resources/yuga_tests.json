@@ -788,5 +788,16 @@
       "index": 14
     },
     "accepted": true
+  },
+  {
+    "input": "020918040601Avlbal",
+    "response": {
+      "type": "STR",
+      "valMap": {
+      },
+      "str": "020918040601",
+      "index": 18
+    },
+    "accepted": true
   }
 ]

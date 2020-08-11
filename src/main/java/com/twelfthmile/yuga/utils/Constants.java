@@ -71,6 +71,7 @@ public class Constants {
     public static final String YUGA_SOURCE_CONTEXT = "YUGA_SOURCE_CONTEXT";
     public static final String YUGA_SC_CURR = "YUGA_SC_CURR";
     public static final String YUGA_SC_ON = "YUGA_SC_ON";
+    public static final String YUGA_SC_TRANSID = "YUGA_SC_TRANSID";
     private static final String DATE_TIME_FORMAT_STR = "yyyy-MM-dd HH:mm:ss";
     private static final String DATE_FORMAT_STR = "yyyy-MM-dd";
 

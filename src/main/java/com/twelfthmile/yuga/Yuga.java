@@ -987,7 +987,7 @@ public class Yuga {
         }
 
         if (map.getType().equals(Constants.TY_NUM)) {
-            if (i < str.length() && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT)))) {
+            if (i < str.length() && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||(!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))&&!Constants.YUGA_SC_TRANSID.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))))) {
                 int j = i;
                 while (j < str.length() && str.charAt(j) != ' ')
                     j++;
