@@ -254,7 +254,8 @@ public class Yuga {
                         delimiterStack.push(c);
                         map.setType(Constants.TY_DTE, Constants.DT_HH);
                         state = 4;
-                    } else if (Util.isDateOperator(c) || c == Constants.CH_COMA) {
+                    }// [IL-77]. Rs 20 at msg end becomes currency Date instead of AMT in absence of extra newline character.
+                     else if ( (Util.isDateOperator(c) && !config.containsValue("YUGA_SC_CURR")  ) || c == Constants.CH_COMA) {
                         delimiterStack.push(c);
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         state = 16;
@@ -438,7 +439,11 @@ public class Yuga {
                             map.append('X');
                         }
                         i = (Util.isNumber(str.charAt(insi)))?(insi-1):insi;
-                    } else {
+                    }
+                    // USSD codes start with * and end with #. Second condition check for string like "*334# for"
+                    else if(c == Constants.CH_HASH && ((i==str.length()-1) || str.charAt(i+1)==Constants.CH_SPACE ) ){
+                        map.setType(Constants.TY_USSD);
+                    }  else {
                         i = i - 1;
                         state = -1;
                     }
@@ -693,7 +698,7 @@ public class Yuga {
                             map.setType(Constants.TY_NUM, Constants.TY_NUM);
                         }
                         map.append(c);
-                        if ((delimiterStack.pop() == Constants.CH_SLSH || delimiterStack.pop() == Constants.CH_HYPH) && i + 1 < str.length() && Util.isNumber(str.charAt(i + 1)) && (i + 2 == str.length() || Util.isDelimiter(str.charAt(i + 2)))) {//flight time 0820/0950
+                        if ((delimiterStack.pop() == Constants.CH_SLSH || delimiterStack.pop() == Constants.CH_HYPH) && i + 1 < str.length() && Util.isNumber(str.charAt(i + 1)) && (i + 2 == str.length() || Util.isDelimiter(str.charAt(i + 2)) || str.charAt(i + 2)=='/' )) {//flight time 0820/0950
                             map.setType(Constants.TY_TMS, Constants.TY_TMS);
                             map.append(str.charAt(i + 1));
                             i = i + 1;
@@ -978,7 +983,14 @@ public class Yuga {
                     map.setType(Constants.TY_DTA, Constants.TY_DTA);
                     map.append(sData);
                     i = j+2;
-                } else if (str.charAt(j) == 'x' && ((j + 1) == str.length() || ((j + 1) < str.length() && (str.charAt(j + 1) == ' ' || str.charAt(j + 1) == '.' || str.charAt(j + 1) == ','))) ) {
+                }else if (str.charAt(j) == 'k'  && (j + 1) < str.length() && str.charAt(j + 1) == 'g'){
+                    map.setVal("data",map.get(map.getType()));
+                    String sData = " KG";
+                    map.setType(Constants.TY_WGT, Constants.TY_WGT);
+                    map.append(sData);
+                    i = j+2;
+                }
+                else if (str.charAt(j) == 'x' && ((j + 1) == str.length() || ((j + 1) < str.length() && (str.charAt(j + 1) == ' ' || str.charAt(j + 1) == '.' || str.charAt(j + 1) == ','))) ) {
                     map.setType(Constants.TY_MLT, Constants.TY_MLT);
                     map.append(str.substring(i,j+1));
                     i = j;
@@ -987,7 +999,8 @@ public class Yuga {
         }
 
         if (map.getType().equals(Constants.TY_NUM)) {
-            if (i < str.length() && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||(!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))&&!Constants.YUGA_SC_TRANSID.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))))) {
+            // Added last char is not space check that prevents 'num' becoming a 'str'. Ex: "+919057235089 pin"
+            if (i < str.length() && str.charAt(i-1)!=' ' && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||(!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))&&!Constants.YUGA_SC_TRANSID.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))))) {
                 int j = i;
                 while (j < str.length() && str.charAt(j) != ' ')
                     j++;
