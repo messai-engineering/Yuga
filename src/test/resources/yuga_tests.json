@@ -799,5 +799,25 @@
       "index": 18
     },
     "accepted": true
+  },
+  {
+    "input": "0630-0845/1030-1220 hrs",
+    "response": {
+      "type" : "TIMES",
+      "valMap": {"arrv_time":"08:45", "dept_time":"06:30"},
+      "str": "06300845",
+      "index": 9
+    },
+    "accepted": true
+  },
+  {
+    "input": "*334#",
+    "response": {
+      "type": "USSD",
+      "valMap": {},
+      "str": "*334#",
+      "index": "5"
+    },
+    "accepted": true
   }
 ]

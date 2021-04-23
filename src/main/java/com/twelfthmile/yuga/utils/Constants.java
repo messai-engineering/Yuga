@@ -37,6 +37,7 @@ public class Constants {
     public static final String TY_DTA = "DATA";
     public static final String TY_MLT = "MLTPL";
     public static final String TY_VPD = "VPD"; //VPA-ID
+    public static final String TY_USSD = "USSD";
     //public static final String TY_DCT = "DCT"; //date context like sunday,today,tomorrow
 
     public static final String FSA_MONTHS = "jan;uary,feb;ruary,mar;ch,apr;il,may,jun;e,jul;y,aug;ust,sep;t;ember,oct;ober,nov;ember,dec;ember";
@@ -56,7 +57,7 @@ public class Constants {
     public static final int CH_FSTP = 46;
     public static final int CH_SLSH = 47;
     public static final int CH_COLN = 58;
-    @SuppressWarnings("unused")
+    public static final int CH_HASH = 35;
     public static final int CH_SCLN = 59;
     public static final int CH_PLUS = 43;
     public static final int CH_ATRT = 64;
