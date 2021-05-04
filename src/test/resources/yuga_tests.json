@@ -819,5 +819,15 @@
       "index": "5"
     },
     "accepted": true
+  },
+  {
+    "input": "+r24.45",
+    "response": {
+      "type": "AMT",
+      "valMap": {"currency":"zar"},
+      "str": "24.45",
+      "index": "7"
+    },
+    "accepted": true
   }
 ]
