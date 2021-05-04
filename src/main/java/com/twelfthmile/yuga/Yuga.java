@@ -493,7 +493,9 @@ public class Yuga {
                         map.setType(Constants.TY_ACC, Constants.TY_ACC);
                         map.append('X');
                         state = 11;
-                    } else if (c == Constants.CH_SPACE && (i + 2) < str.length() && Util.isNumber(str.charAt(i + 1)) && Util.isNumber(str.charAt(i + 2))) {
+                    }
+                    // [IL103]
+                    else if (c == Constants.CH_SPACE && (i + 2) < str.length() && !Util.isNumber(str.charAt(i - 1)) && Util.isNumber(str.charAt(i + 1)) && Util.isNumber(str.charAt(i + 2))) {
                         state = 41;
                     }
 //                    else if (c == Constants.CH_ATRT) {
@@ -831,7 +833,11 @@ public class Yuga {
                         delimiterStack.push(c);
                         map.append(c);
                         state = 16;
-                    } else {
+                    } else if (c== 'r' && Util.isNumber(str.charAt(i + 1))){
+                        map.setVal("currency","zar");
+                        state= 12; // encountered '+r'
+                    }
+                    else {
                         if (counter == 12 || Util.isNumber(str.substring(1, i)))
                             map.setType(Constants.TY_NUM, Constants.TY_NUM);
                         else
@@ -849,7 +855,11 @@ public class Yuga {
                         map.put(Constants.TY_AMT, '-');
                         map.append(c);
                         state = 10;
-                    } else
+                    } else if(c=='r' && Util.isNumber(str.charAt(i + 1)) ){
+                        map.setVal("currency","zar"); // AMT for South Africa ex: [-R234]
+                        state=12;
+                    }
+                    else
                         state = -1;
                     break;
                 case 38:
@@ -879,7 +889,7 @@ public class Yuga {
                 case 41://for phone numbers; same as 12 + space; coming from 27
                     if (Util.isNumber(c)) {
                         map.append(c);
-                    } else if (c == Constants.CH_SPACE)
+                    } else if (c == Constants.CH_SPACE && !Util.isNumber(str.charAt(i + 1)) ) // IL-[103]
                         state = 41;
                     else {
                         if ((i - 1) > 0 && str.charAt(i - 1) == Constants.CH_SPACE)
