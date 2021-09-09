@@ -3,6 +3,10 @@ package com.twelfthmile.yuga.utils;
 import com.twelfthmile.yuga.types.GenTrie;
 import com.twelfthmile.yuga.types.Pair;
 import com.twelfthmile.yuga.types.RootTrie;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by johnjoseph on 19/03/17.
@@ -48,10 +52,44 @@ public class Util {
                 return new Pair<>(i - 1, t.token);
             if (t.child && t.next.containsKey(ch)) {
                 t = t.next.get(ch);
-            } else break;
+            } else{
+                break;
+            }
         }
         if (t.leaf && i == word.length())
             return new Pair<>(i - 1, t.token);
+
+        // All months across languages start with same alphabet.While supporting new language,review this condition.
+        // if the 1st char doesnt match the trie,its not a month. Save further overhead.
+        if(type.equals("FSA_MONTHS") && i<1){
+            return null;
+        }
+
+        if(type.equals("FSA_MONTHS") || type.equals("FSA_DAYS")){
+            return checkNonEngMonth(i,word,type);
+        }
+
+        return null;
+    }
+
+    public static Pair<Integer, String> checkNonEngMonth(int i,String word,String type){
+        HashMap map = type.equals("FSA_MONTHS")? Constants.month : Constants.day;
+        char ch = 0;
+        if (i != word.length()){
+            while(i < word.length() && !isTypeEnd(ch)){
+                ch = word.charAt(i);
+                i++;
+            }
+        }
+        // It could be just "June" Or "June, 31".
+        String toCheck = (i==word.length() && !isTypeEnd(ch))? word.substring(0,i) : word.substring(0,i-1);
+        Iterator<Map.Entry<Set<String>,String>> it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Set<String>,String> pair = it.next();
+            if (pair.getKey().contains(toCheck) ){
+                return new Pair<>(i - 1, pair.getValue());
+            }
+        }
         return null;
     }
 

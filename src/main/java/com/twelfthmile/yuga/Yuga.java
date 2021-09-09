@@ -128,7 +128,7 @@ public class Yuga {
 
     private static Response getResponse(String str, Map<String, String> config) {
         Pair<Integer, FsaContextMap> p = parseInternal(str, config);
-         if (p == null)
+        if (p == null)
             return null;
         Pair<String, Object> pr = prepareResult(str, p, config);
         return new Response(pr.getA(), p.getB().getValMap(), pr.getB(), p.getA());
@@ -165,7 +165,7 @@ public class Yuga {
                 return new Pair<>(Constants.TY_STR, str.substring(0, index));
         } else {
             if (map.get(map.getType()) != null) {
-                if (map.getType().equals(Constants.TY_ACC) && config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_CURR))
+                if (map.getType().equals(Constants.TY_ACC) && configContextIsCURR(config))
                     return new Pair<>(Constants.TY_AMT, map.get(map.getType()).replaceAll("X", ""));
                 return new Pair<>(p.getB().getType(), map.get(map.getType()));
             } else
@@ -193,8 +193,12 @@ public class Yuga {
         DelimiterStack delimiterStack = new DelimiterStack();
         str = str.toLowerCase();
         int counter = 0, insi;
+        ArrayList<Integer> prevStates = new ArrayList<>();
+        prevStates.add(state);
         while (state > 0 && i < str.length()) {
             c = str.charAt(i);
+            if(prevStates.get(prevStates.size()-1)!=state)
+                prevStates.add(state);
             switch (state) {
                 case 1:
                     if (Util.isNumber(c)) {
@@ -255,7 +259,7 @@ public class Yuga {
                         map.setType(Constants.TY_DTE, Constants.DT_HH);
                         state = 4;
                     }// [IL-77]. Rs 20 at msg end becomes currency Date instead of AMT in absence of extra newline character.
-                     else if ( (Util.isDateOperator(c) && !config.containsValue("YUGA_SC_CURR")  ) || c == Constants.CH_COMA) {
+                     else if ( (Util.isDateOperator(c) && !configContextIsCURR(config)  ) || c == Constants.CH_COMA) {
                         delimiterStack.push(c);
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         state = 16;
@@ -337,9 +341,11 @@ public class Yuga {
                         state = 9;
                     } else {
                         state = accAmtNumPct(str, i, map, config);
-                        if (c == Constants.CH_SPACE && state == -1 && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1)))
+                        if (c == Constants.CH_SPACE && state == -1 && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1)) && !configContextIsCURR(config))
+                            // Stop Rs 234 45 from becoming 23445
                             state = 12;
-                        else if (c == Constants.CH_HYPH && state == -1 && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1)))
+                        else if (c == Constants.CH_HYPH && state == -1 && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1)) && !configContextIsCURR(config) )
+                            // currency check for case like "Rs 247-30D-25GB"
                             state = 45;
                         else if (state == -1 && !map.getType().equals(Constants.TY_PCT))
                             i = i - 1;
@@ -347,8 +353,14 @@ public class Yuga {
                     break;
                 case 9:
                     if (Util.isDateOperator(c)) {
-                        delimiterStack.push(c);
-                        state = 25;
+                        // case like Rs 2687 23 jan
+                        if(!configContextIsCURR(config)) {
+                            delimiterStack.push(c);
+                            state = 25;
+                        }
+                        else{
+                            state=-1;
+                        }
                     }
                     //handle for num case
                     else if (Util.isNumber(c)) {
@@ -356,6 +368,10 @@ public class Yuga {
                         counter = 5;
                         state = 15;
                     } else {
+                        // Case like "2687, 22 dec", the comma is used later to break at space
+                        if(c == Constants.CH_COMA){
+                            delimiterStack.push(c);
+                        }
                         state = accAmtNumPct(str, i, map, config);
                         if (state == -1 && !map.getType().equals(Constants.TY_PCT)) {//NUM
                             i = i - 1;
@@ -396,8 +412,14 @@ public class Yuga {
                     break;
                 case 12:
                     if (Util.isNumber(c)) {
-                        map.setType(Constants.TY_AMT, Constants.TY_AMT);
-                        map.append(c);
+                        // case like "729 613 is your Instagram code" Where the num was captured as AMT.
+                        if(i>2 && str.charAt(i-1)==Constants.CH_SPACE && Util.isNumber(str.charAt(i-2))) {
+                            map.append(c);
+                            state=15;
+                        }else {
+                            map.setType(Constants.TY_AMT, Constants.TY_AMT);
+                            map.append(c);
+                        }
                     } else if (c == Constants.CH_COMA) {//comma
                         comma_count++;
                         state = 12;
@@ -406,6 +428,17 @@ public class Yuga {
                         state = 10;
                     } else if (c == Constants.CH_HYPH && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1))) {
                         state = 39;
+                    } else if (getPrevState(prevStates) == 37 && c == Constants.CH_HYPH && (p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i + 1))) != null) { // possibly date: -31-May-2021
+                        i=-1;
+                        map= new FsaContextMap();
+                        str=str.substring(1);
+                        state=1;
+                    }   else if(c==Constants.CH_SPACE && lookAheadForNum(str,i)!=-1 ){
+                        // BLNC: NUM MOBNUM case like "25,011 868886999"
+                        if(delimiterStack.pop()==Constants.CH_COMA)
+                            state=-1;
+                        else
+                            state=15;
                     } else {
                         if (i - 1 > 0 && str.charAt(i - 1) == Constants.CH_COMA)
                             i = i - 2;
@@ -428,7 +461,7 @@ public class Yuga {
                         map.append(c);
                     else if (c == 42 || c == 88 || c == 120)//*Xx
                         map.append('X');
-                    else if (c == Constants.CH_FSTP && config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_CURR)) { //LIC **150.00 fix
+                    else if (c == Constants.CH_FSTP && configContextIsCURR(config)) { //LIC **150.00 fix
                         map.setType(Constants.TY_AMT, Constants.TY_AMT);
                         map.put(Constants.TY_AMT, map.get(Constants.TY_AMT).replaceAll("X", ""));
                         map.append(c);
@@ -484,7 +517,7 @@ public class Yuga {
                     if (Util.isNumber(c)) {
                         counter++;
                         map.append(c);
-                    } else if (c == Constants.CH_COMA) //comma
+                    } else if (c == Constants.CH_COMA && counter<10) //comma  :condition altered for case : "9633535665, 04872426313"
                         state = 12;
                     else if (c == Constants.CH_FSTP) { //dot
                         map.append(c);
@@ -494,8 +527,8 @@ public class Yuga {
                         map.append('X');
                         state = 11;
                     }
-                    // [IL103]
-                    else if (c == Constants.CH_SPACE && (i + 2) < str.length() && !Util.isNumber(str.charAt(i - 1)) && Util.isNumber(str.charAt(i + 1)) && Util.isNumber(str.charAt(i + 2))) {
+                    // Condition changed to seperate two mob nums seperated by space "8289957757 9388566777"
+                    else if (c == Constants.CH_SPACE && counter < 10 && (i + 2) < str.length() && Util.isNumber(str.charAt(i + 1)) && Util.isNumber(str.charAt(i + 2))) {
                         state = 41;
                     }
 //                    else if (c == Constants.CH_ATRT) {
@@ -600,7 +633,11 @@ public class Yuga {
                     if (Util.isNumber(c)) {
                         map.upgrade(c);
                         state = 20;
-                    } else {
+                    }
+                    // Handle case like 05 -08 -2017 18:33:55. where - present before year
+                    else if(c == Constants.CH_HYPH && i + 1 < str.length() && Util.isNumber(str.charAt(i + 1)) ){
+                        state=19;
+                    }else {
                         i = i - 2;
                         state = -1;
                     }
@@ -785,9 +822,13 @@ public class Yuga {
                     if (Util.isNumber(c)) {
                         map.put(Constants.DT_D, c);
                         state = 34;
-                    } else if (c == Constants.CH_SPACE || c == Constants.CH_COMA || c == Constants.CH_HYPH)
+                    } else if (c == Constants.CH_SPACE || c == Constants.CH_COMA || c == Constants.CH_HYPH){
                         state = 33;
-                    else {
+                    } else if (getPrevState(prevStates)==1 && c == Constants.CH_FSTP && lookAheadForNum(str,i)!=-1 ) {
+                        // case like "Dec. 31, 2017"
+                        state=33;
+                        i=lookAheadForNum(str,i);
+                    } else {
                         map.setType(Constants.TY_DTE);
                         i = i - 1;
                         state = -1;
@@ -833,11 +874,7 @@ public class Yuga {
                         delimiterStack.push(c);
                         map.append(c);
                         state = 16;
-                    } else if (c== 'r' && Util.isNumber(str.charAt(i + 1))){
-                        map.setVal("currency","zar");
-                        state= 12; // encountered '+r'
-                    }
-                    else {
+                    } else {
                         if (counter == 12 || Util.isNumber(str.substring(1, i)))
                             map.setType(Constants.TY_NUM, Constants.TY_NUM);
                         else
@@ -855,11 +892,7 @@ public class Yuga {
                         map.put(Constants.TY_AMT, '-');
                         map.append(c);
                         state = 10;
-                    } else if(c=='r' && Util.isNumber(str.charAt(i + 1)) ){
-                        map.setVal("currency","zar"); // AMT for South Africa ex: [-R234]
-                        state=12;
-                    }
-                    else
+                    } else
                         state = -1;
                     break;
                 case 38:
@@ -889,8 +922,14 @@ public class Yuga {
                 case 41://for phone numbers; same as 12 + space; coming from 27
                     if (Util.isNumber(c)) {
                         map.append(c);
-                    } else if (c == Constants.CH_SPACE && !Util.isNumber(str.charAt(i + 1)) ) // IL-[103]
-                        state = 41;
+                    } else if (c == Constants.CH_SPACE)
+                        // Seperate two mobile nums
+                        if(i>=11 && i+1<str.length() && Util.isNumber(str.charAt(i+1))) {
+                            state = -1;
+                            i--;
+                        }
+                        else
+                            state = 41;
                     else {
                         if ((i - 1) > 0 && str.charAt(i - 1) == Constants.CH_SPACE)
                             i = i - 2;
@@ -1082,7 +1121,10 @@ public class Yuga {
                     i = in + pTime.getA() + 1 + j;
                 } else if (sub.toLowerCase().startsWith("pm") || sub.toLowerCase().startsWith("am")) {
                     //todo handle appropriately for pm
-                    i = in + 2;
+                    if((sub.length()>=3 && Util.isDelimiter(sub.charAt(2))) ||(sub.length()==2) ) {
+                        // second if condition added to move index to pm in case like : 11/01/2021:10:09:47PM
+                        i = in + 2;
+                    }
                 }
             }
         } else if (map.getType().equals(Constants.TY_TMS)) {
@@ -1179,11 +1221,13 @@ public class Yuga {
         char c = str.charAt(i);
         String subStr = str.substring(i);
         if (c == Constants.CH_FSTP) { //dot
-            if (i == 0 && config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_CURR))
+            if (i == 0 && configContextIsCURR(config))
                 map.setType(Constants.TY_AMT, Constants.TY_AMT);
             map.append(c);
             return 10;
-        } else if (c == 42 || c == 88 || c == 120) {//*Xx
+        }
+        // change prevents strings like "xxl" "Xfinity" from being INSTRNO
+        else if (isInstrNumStart(c) && (lookAheadForInstr(str,i+2)!=-1)) {//*Xx
             map.setType(Constants.TY_ACC, Constants.TY_ACC);
             map.append('X');
             return 11;
@@ -1193,7 +1237,7 @@ public class Yuga {
             map.setType(Constants.TY_PCT, Constants.TY_PCT);
             return -1;
         } else if (c == Constants.CH_PLUS) {
-            if (config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_CURR)) {
+            if (configContextIsCURR(config)) {
                 return -1;
             }
             map.setType(Constants.TY_STR, Constants.TY_STR);
@@ -1228,6 +1272,10 @@ public class Yuga {
         }
     }
 
+    private static boolean isInstrNumStart(char c) {
+        return (c == 42 || c == 88 || c == 120); //*xX
+    }
+
     private static void extractTime(String str, Map<String, String> valMap, String... prefix) {
         String pre = "";
         if (prefix != null && prefix.length > 0)
@@ -1251,6 +1299,29 @@ public class Yuga {
                 return -1;
         }
         return -1;
+    }
+
+    private static int lookAheadForNum(String str, int index) {
+        char c;
+        for (int i = index+1; i < str.length(); i++) {
+            c = str.charAt(i);
+            if (c == Constants.CH_SPACE) {
+            }
+            else if (Util.isNumber(c))
+                return i-1; //Assuming the index will get incremented by the loop to get to the num
+            else
+                return -1;
+        }
+        return -1;
+    }
+
+    private static boolean configContextIsCURR(Map config) {
+       return  config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_CURR);
+    }
+
+    private static int getPrevState(ArrayList<Integer> prevStates) {
+        int res = prevStates.size()-2;
+        return ( res<0 ) ? 1: prevStates.get(res);
     }
 
     static class DelimiterStack {
