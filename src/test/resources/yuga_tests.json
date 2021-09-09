@@ -821,13 +821,138 @@
     "accepted": true
   },
   {
-    "input": "+r24.45",
+    "input":"-31-May-2021",
     "response": {
-      "type": "AMT",
-      "valMap": {"currency":"zar"},
-      "str": "24.45",
-      "index": "7"
+      "type": "DATE",
+      "valMap":{},
+      "str":"2021-05-31 00:00:00",
+      "index":11
     },
     "accepted": true
+  },
+  {
+    "input":"05 -08 -2017 18:33:55.",
+    "response": {
+      "type": "DATE",
+      "valMap":{},
+      "str":"2017-08-05 18:33:55",
+      "index":21
+    },
+    "accepted": true
+  },
+  {
+    "input":"05 Apr 21, AMD(T1)",
+    "response": {
+      "type": "DATE",
+      "valMap":{},
+      "str":"2021-04-05 00:00:00",
+      "index":9
+    },
+    "accepted": true
+  },
+  {
+    "input":"0484 2454311",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class":"PHN"},
+      "str":"04842454311",
+      "index":12
+    },
+    "accepted": true
+  },
+  {
+    "input":"8289957757 9388566777",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class":"PHN"},
+      "str":"8289957757",
+      "index":10
+    },
+    "accepted": true
+  },
+  {
+    "input":"Dec. 31, 2017",
+    "response": {
+      "type": "DATE",
+      "valMap":{},
+      "str":"2017-12-31 00:00:00",
+      "index":13
+    },
+    "accepted": true
+  },
+  {
+    "input":"6 juni ",
+    "response": {
+      "type": "DATE",
+      "valMap":{},
+      "str":"2018-06-06 00:00:00",
+      "index":7
+    },
+    "accepted": true
+  },
+  {
+    "input":"juni 10",
+    "response": {
+      "type": "DATE",
+      "valMap":{},
+      "str":"2018-06-10 00:00:00",
+      "index":7
+    },
+    "accepted": true
+  },
+  {
+    "input":"3 okt 2017",
+    "response": {
+      "type": "DATE",
+      "valMap":{},
+      "str":"2017-10-03 00:00:00",
+      "index":10
+    },
+    "accepted": true
+  },
+  {
+    "input":"11/01/2021:10:09:47PM",
+    "response": {
+      "type": "DATE",
+      "valMap":{},
+      "str":"2021-01-11 10:09:47",
+      "index":21
+    },
+    "accepted": true
+  },
+  {
+    "input":"867 2656 2852",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class": "NUM"},
+      "str":"86726562852",
+      "index":13
+    },
+    "accepted": true
+  },
+  {
+    "input": "2687, 22 dec",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class": "NUM"},
+      "str":"2687",
+      "index": 6
+    },
+    "accepted": true
+  },
+  {
+    "input":"9633535665, 04872426313",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class": "PHN"},
+      "str":"9633535665",
+      "index":10
+    },
+    "accepted": true
+  },
+  {
+    "input":"xxl",
+    "response": {},
+    "accepted": false
   }
 ]
