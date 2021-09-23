@@ -637,7 +637,18 @@ public class Yuga {
                     // Handle case like 05 -08 -2017 18:33:55. where - present before year
                     else if(c == Constants.CH_HYPH && i + 1 < str.length() && Util.isNumber(str.charAt(i + 1)) ){
                         state=19;
-                    }else {
+                    }
+                    else {
+                        // 1-2 Days
+                        if(Util.isAlpha(c) && (nextSpace(str.substring(i)) >=3 && str.substring(i,i+3).equals("day") )){
+                            String laterDay = map.get("MM");
+                            map = new FsaContextMap();
+                            map.setType(Constants.TY_NUM, Constants.TY_NUM);
+                            map.put(Constants.TY_NUM,laterDay);
+                            i=i-2;
+                            state=-1;
+                            break;
+                        }
                         i = i - 2;
                         state = -1;
                     }

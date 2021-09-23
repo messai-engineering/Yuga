@@ -954,5 +954,15 @@
     "input":"xxl",
     "response": {},
     "accepted": false
-  }
+  },
+  {
+    "input": "1-2 Days",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class": "NUM"},
+      "str": "2",
+      "index": 3
+    },
+    "accepted": true
+}
 ]
