@@ -236,15 +236,26 @@ public class Yuga {
                         map.setType(Constants.TY_DTE, Constants.DT_HH);
                         state = 4;
                     } else if (Util.isDateOperator(c) || c == Constants.CH_COMA) {
-                        delimiterStack.push(c);
-                        map.setType(Constants.TY_DTE, Constants.DT_D);
-                        state = 16;
-                    } else if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
+                        if (c == Constants.CH_SPACE && Util.meridienTimeAhead(str, i + 1)){ //am or pm ahead
+                            map.setType(Constants.TY_DTE, Constants.DT_HH);
+                            map.put(Constants.DT_mm,"00");
+                            state = 7;
+                        } else {
+                            delimiterStack.push(c);
+                            map.setType(Constants.TY_DTE, Constants.DT_D);
+                            state = 16;
+                        }
+                   } else if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         map.put(Constants.DT_MMM, p.getB());
                         i += p.getA();
                         state = 24;
-                    } else {
+                    } else if(Util.meridienTimeAhead(str,i)){ //am or pm ahead
+                        map.setType(Constants.TY_DTE, Constants.DT_HH);
+                        map.put(Constants.DT_mm,"00");
+                        i--;
+                        state = 7;
+                    }else {
                         state = accAmtNumPct(str, i, map, config);
                         if (state == -1 && !map.getType().equals(Constants.TY_PCT))
                             i = i - 1;
@@ -259,16 +270,27 @@ public class Yuga {
                         map.setType(Constants.TY_DTE, Constants.DT_HH);
                         state = 4;
                     }// [IL-77]. Rs 20 at msg end becomes currency Date instead of AMT in absence of extra newline character.
-                     else if ( (Util.isDateOperator(c) && !configContextIsCURR(config)  ) || c == Constants.CH_COMA) {
-                        delimiterStack.push(c);
-                        map.setType(Constants.TY_DTE, Constants.DT_D);
-                        state = 16;
+                    else if ( (Util.isDateOperator(c) && !configContextIsCURR(config)  ) || c == Constants.CH_COMA) {
+                        if(c==Constants.CH_SPACE && Util.meridienTimeAhead(str,i+1)){ //am or pm ahead
+                            map.setType(Constants.TY_DTE, Constants.DT_HH);
+                            map.put(Constants.DT_mm,"00");
+                            state = 7;
+                        }else {
+                            delimiterStack.push(c);
+                            map.setType(Constants.TY_DTE, Constants.DT_D);
+                            state = 16;
+                        }
                     } else if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         map.put(Constants.DT_MMM, p.getB());
                         i += p.getA();
                         state = 24;
-                    } else if ((p = Util.checkTypes(getRoot(), "FSA_DAYSFFX", str.substring(i))) != null) {
+                    } else if(Util.meridienTimeAhead(str,i)){ //am or pm ahead
+                        map.setType(Constants.TY_DTE, Constants.DT_HH);
+                        map.put(Constants.DT_mm,"00");
+                        i--;
+                        state = 7;
+                    }else if ((p = Util.checkTypes(getRoot(), "FSA_DAYSFFX", str.substring(i))) != null) {
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         i += p.getA();
                         state = 32;
@@ -1066,6 +1088,8 @@ public class Yuga {
                     j++;
                 map.setType(Constants.TY_STR, Constants.TY_STR);
                 i = j;
+            }else if(i+1 < str.length() && str.charAt(i)==Constants.CH_SLSH && str.charAt(i+1)==Constants.CH_HYPH ) {
+                map.setType(Constants.TY_AMT, Constants.TY_AMT);
             } else if (map.get(Constants.TY_NUM) != null) {
                 if (map.get(Constants.TY_NUM).length() == 10 && (map.get(Constants.TY_NUM).charAt(0) == '9' || map.get(Constants.TY_NUM).charAt(0) == '8' || map.get(Constants.TY_NUM).charAt(0) == '7'))
                     map.setVal("num_class", Constants.TY_PHN);
