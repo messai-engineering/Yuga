@@ -39,6 +39,18 @@ public class Util {
         return c == Constants.CH_SPACE || c == Constants.CH_FSTP || c == Constants.CH_COMA || c == Constants.CH_RBKT;
     }
 
+    public static boolean meridienTimeAhead(String str, int i) {
+        boolean amOrPmStartAhead = i+1< str.length() && (str.charAt(i)=='a' || str.charAt(i)=='p') && str.charAt(i+1)=='m' ;
+        if (!amOrPmStartAhead)
+            return false;
+        boolean isWordEndAtMeridien = ( i+2 >= str.length() );
+        if (isWordEndAtMeridien)
+            return true;
+        char c = str.charAt(i+2);
+        boolean checkIfJustWordStart = (c == Constants.CH_SPACE || c == Constants.CH_FSTP || c == Constants.CH_COMA || c == Constants.CH_RBKT ||  c == Constants.CH_HYPH) ;  //am or pm ahead but just a  word starting with am/pm like amp
+        return checkIfJustWordStart;
+    }
+
     public static boolean isTimeOperator(char c) {
         return c == Constants.CH_COLN; //colon
     }

@@ -964,5 +964,85 @@
       "index": 3
     },
     "accepted": true
-}
+  },
+  {
+    "input": "5000/-",
+    "response": {
+      "type": "AMT",
+      "valMap":{},
+      "str": "5000",
+      "index": 6
+    },
+    "accepted": true
+  },
+  {
+    "input": "500000/-",
+    "response": {
+      "type": "AMT",
+      "valMap":{},
+      "str": "500000",
+      "index": 8
+    },
+    "accepted": true
+  },
+  {
+    "input": "5 pm",
+    "response": {
+      "type": "TIME",
+      "valMap": {
+        "time": "17:00"
+      },
+      "str": "5 pm",
+      "index": 4
+    },
+    "accepted": true
+  },
+  {
+    "input": "05 pm",
+    "response": {
+      "type": "TIME",
+      "valMap": {
+        "time": "17:00"
+      },
+      "str": "05 pm",
+      "index": 5
+    },
+    "accepted": true
+  },
+  {
+    "input": "05pm",
+    "response": {
+      "type": "TIME",
+      "valMap": {
+        "time": "17:00"
+      },
+      "str": "05pm",
+      "index": 4
+    },
+    "accepted": true
+  },
+  {
+    "input": "5pm",
+    "response": {
+      "type": "TIME",
+      "valMap": {
+        "time": "17:00"
+      },
+      "str": "5pm",
+      "index": 3
+    },
+    "accepted": true
+  },
+  {
+    "input": "5 amp",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "NUM"
+      },
+      "str": "5",
+      "index": 1
+    },
+    "accepted": true
+  }
 ]

@@ -236,15 +236,26 @@ public class Yuga {
                         map.setType(Constants.TY_DTE, Constants.DT_HH);
                         state = 4;
                     } else if (Util.isDateOperator(c) || c == Constants.CH_COMA) {
-                        delimiterStack.push(c);
-                        map.setType(Constants.TY_DTE, Constants.DT_D);
-                        state = 16;
-                    } else if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
+                        if (c == Constants.CH_SPACE && Util.meridienTimeAhead(str, i + 1)){
+                            map.setType(Constants.TY_DTE, Constants.DT_HH);
+                            map.put(Constants.DT_mm,"00");
+                            state = 7;
+                        } else {
+                            delimiterStack.push(c);
+                            map.setType(Constants.TY_DTE, Constants.DT_D);
+                            state = 16;
+                        }
+                   } else if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         map.put(Constants.DT_MMM, p.getB());
                         i += p.getA();
                         state = 24;
-                    } else {
+                    } else if(Util.meridienTimeAhead(str,i)){ //am or pm ahead
+                        map.setType(Constants.TY_DTE, Constants.DT_HH);
+                        map.put(Constants.DT_mm,"00");
+                        i--;
+                        state = 7;
+                    }else {
                         state = accAmtNumPct(str, i, map, config);
                         if (state == -1 && !map.getType().equals(Constants.TY_PCT))
                             i = i - 1;
@@ -259,16 +270,27 @@ public class Yuga {
                         map.setType(Constants.TY_DTE, Constants.DT_HH);
                         state = 4;
                     }// [IL-77]. Rs 20 at msg end becomes currency Date instead of AMT in absence of extra newline character.
-                     else if ( (Util.isDateOperator(c) && !configContextIsCURR(config)  ) || c == Constants.CH_COMA) {
-                        delimiterStack.push(c);
-                        map.setType(Constants.TY_DTE, Constants.DT_D);
-                        state = 16;
+                    else if ( (Util.isDateOperator(c) && !configContextIsCURR(config)  ) || c == Constants.CH_COMA) {
+                        if(c==Constants.CH_SPACE && Util.meridienTimeAhead(str,i+1)){ //am or pm ahead
+                            map.setType(Constants.TY_DTE, Constants.DT_HH);
+                            map.put(Constants.DT_mm,"00");
+                            state = 7;
+                        }else {
+                            delimiterStack.push(c);
+                            map.setType(Constants.TY_DTE, Constants.DT_D);
+                            state = 16;
+                        }
                     } else if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         map.put(Constants.DT_MMM, p.getB());
                         i += p.getA();
                         state = 24;
-                    } else if ((p = Util.checkTypes(getRoot(), "FSA_DAYSFFX", str.substring(i))) != null) {
+                    } else if(Util.meridienTimeAhead(str,i)){ //am or pm ahead
+                        map.setType(Constants.TY_DTE, Constants.DT_HH);
+                        map.put(Constants.DT_mm,"00");
+                        i--;
+                        state = 7;
+                    }else if ((p = Util.checkTypes(getRoot(), "FSA_DAYSFFX", str.substring(i))) != null) {
                         map.setType(Constants.TY_DTE, Constants.DT_D);
                         i += p.getA();
                         state = 32;
@@ -339,7 +361,15 @@ public class Yuga {
                     if (Util.isNumber(c)) {
                         map.append(c);
                         state = 9;
-                    } else {
+                    } else if(c==Constants.CH_SLSH){ // case like "500/-" where num shouldbe captured as AMT
+                        if(i+1<str.length() && str.charAt(i+1)==Constants.CH_HYPH){
+                            map.setType(Constants.TY_AMT, Constants.TY_AMT);
+                            i++;
+                            state=-1;
+                        } else if(configContextIsCURR(config)){  // (Rs. 500/1000)
+                            state= -1;
+                        }
+                    }else {
                         state = accAmtNumPct(str, i, map, config);
                         if (c == Constants.CH_SPACE && state == -1 && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1)) && !configContextIsCURR(config))
                             // Stop Rs 234 45 from becoming 23445
@@ -353,8 +383,13 @@ public class Yuga {
                     break;
                 case 9:
                     if (Util.isDateOperator(c)) {
-                        // case like Rs 2687 23 jan
-                        if(!configContextIsCURR(config)) {
+                        // case like "5000/-" where num shouldbe captured as AMT
+                        if(c==Constants.CH_SLSH && i+1<str.length() && str.charAt(i+1)==Constants.CH_HYPH){
+                            map.setType(Constants.TY_AMT, Constants.TY_AMT);
+                            i++;
+                            state=-1;
+                        }
+                        else if(!configContextIsCURR(config)) { // case like Rs 2687 23 jan
                             delimiterStack.push(c);
                             state = 25;
                         }
@@ -517,6 +552,11 @@ public class Yuga {
                     if (Util.isNumber(c)) {
                         counter++;
                         map.append(c);
+                    } else if(c==Constants.CH_SLSH && i+1<str.length() && str.charAt(i+1)==Constants.CH_HYPH){
+                        // case like "50000/-" where num shouldbe captured as AMT
+                        map.setType(Constants.TY_AMT, Constants.TY_AMT);
+                        i++;
+                        break;
                     } else if (c == Constants.CH_COMA && counter<10) //comma  :condition altered for case : "9633535665, 04872426313"
                         state = 12;
                     else if (c == Constants.CH_FSTP) { //dot
@@ -1020,6 +1060,7 @@ public class Yuga {
                 map.append(c2);
                 map.append(c1);
             }
+
 
             int j = i + skip(str.substring(i));
             if(j<str.length()) {
