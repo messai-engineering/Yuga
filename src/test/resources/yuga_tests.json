@@ -971,12 +971,22 @@
       "type": "AMT",
       "valMap":{},
       "str": "5000",
-      "index": 6
+      "index": 4
     },
     "accepted": true
   },
   {
     "input": "500000/-",
+    "response": {
+      "type": "AMT",
+      "valMap":{},
+      "str": "500000",
+      "index": 6
+    },
+    "accepted": true
+  },
+  {
+    "input": "5,00,000/-",
     "response": {
       "type": "AMT",
       "valMap":{},
