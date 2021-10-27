@@ -2,12 +2,8 @@ package com.twelfthmile.yuga.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
+
 
 /**
  * Created by johnjoseph on 19/03/17.
@@ -97,38 +93,54 @@ public class Constants {
     }
 
     private static HashMap<Set<String>,String> mapMonths(){
-        HashMap<Set<String>,String> months = new HashMap()
-        {{
-            put(Stream.of("januari").collect(Collectors.toCollection(HashSet::new)),"january");
-            put(Stream.of("februari").collect(Collectors.toCollection(HashSet::new)),"february");
-            put(Stream.of("mars").collect(Collectors.toCollection(HashSet::new)),"march");
-          //  put(Stream.of("").collect(Collectors.toCollection(HashSet::new)),"april");
-            put(Stream.of("maj").collect(Collectors.toCollection(HashSet::new)),"may");
-            put(Stream.of("juni").collect(Collectors.toCollection(HashSet::new)),"june");
-            put(Stream.of("juli").collect(Collectors.toCollection(HashSet::new)),"july");
-            put(Stream.of("augusti").collect(Collectors.toCollection(HashSet::new)),"august");
-          //  put(Stream.of("").collect(Collectors.toCollection(HashSet::new)),"september");
-            put(Stream.of("okt").collect(Collectors.toCollection(HashSet::new)),"october");
-          //  put(Stream.of("").collect(Collectors.toCollection(HashSet::new)),"november");
-          //  put(Stream.of("").collect(Collectors.toCollection(HashSet::new)),"december");
-        }};
+        // Add months in non-english language to these String arrays for support
+        String[] jan = {"januari"};
+        String[] feb = {"februari"};
+        String[] mar = {"mars"};
+        //String[] apr = {};
+        String[] may = {"maj"};
+        String[] jun = {"juni"};
+        String[] jul = {"juli"};
+        String[] aug = {"augusti"};
+        //String[] sep = {};
+        String[] oct = {"okt"};
+        //String[] nov = {};
+        //String[] dec = {};
+
+
+        HashMap<Set<String>,String> months = new HashMap<>();
+        months.put(new HashSet<>(Arrays.asList(jan)),"january");
+        months.put(new HashSet<>(Arrays.asList(feb)),"february");
+        months.put(new HashSet<>(Arrays.asList(mar)),"march");
+        months.put(new HashSet<>(Arrays.asList(may)),"may");
+        months.put(new HashSet<>(Arrays.asList(jun)),"june");
+        months.put(new HashSet<>(Arrays.asList(jul)),"july");
+        months.put(new HashSet<>(Arrays.asList(aug)),"august");
+        months.put(new HashSet<>(Arrays.asList(oct)),"october");
 
         return months;
     }
 
     private static HashMap<Set<String>,String> mapDays(){
-        HashMap<Set<String>,String> months = new HashMap()
-        {{
-            put(Stream.of("måndag").collect(Collectors.toCollection(HashSet::new)),"monday");
-            put(Stream.of("tisdag").collect(Collectors.toCollection(HashSet::new)),"tuesday");
-            put(Stream.of("onsdag").collect(Collectors.toCollection(HashSet::new)),"wednesday");
-            put(Stream.of("torsdag").collect(Collectors.toCollection(HashSet::new)),"thursday");
-            put(Stream.of("fredag").collect(Collectors.toCollection(HashSet::new)),"friday");
-            put(Stream.of("lördag").collect(Collectors.toCollection(HashSet::new)),"saturday");
-            put(Stream.of("söndag").collect(Collectors.toCollection(HashSet::new)),"sunday");
-        }};
+        // Add days in non-english language to these String arrays for support
+        String[] mond = {"måndag"};
+        String[] tues = {"tisdag"};
+        String[] wedn = {"onsdag"};
+        String[] thur = {"torsdag"};
+        String[] frid = {"fredag"};
+        String[] satu = {"lördag"};
+        String[] sund = {"söndag"};
 
-        return months;
+        HashMap<Set<String>,String> days = new HashMap<>();
+        days.put(new HashSet<>(Arrays.asList(mond)),"monday");
+        days.put(new HashSet<>(Arrays.asList(tues)),"tuesday");
+        days.put(new HashSet<>(Arrays.asList(wedn)),"wednesday");
+        days.put(new HashSet<>(Arrays.asList(thur)),"thursday");
+        days.put(new HashSet<>(Arrays.asList(frid)),"friday");
+        days.put(new HashSet<>(Arrays.asList(satu)),"saturday");
+        days.put(new HashSet<>(Arrays.asList(sund)),"sunday");
+
+        return days;
     }
 
 }
