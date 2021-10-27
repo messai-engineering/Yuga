@@ -115,6 +115,7 @@ public class Constants {
         months.put(new HashSet<>(Arrays.asList(may)),"may");
         months.put(new HashSet<>(Arrays.asList(jun)),"june");
         months.put(new HashSet<>(Arrays.asList(jul)),"july");
+        months.put(new HashSet<>(Arrays.asList(aug)),"august");
         months.put(new HashSet<>(Arrays.asList(oct)),"october");
 
         return months;
