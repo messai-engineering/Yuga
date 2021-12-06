@@ -1054,5 +1054,53 @@
       "index": 1
     },
     "accepted": true
+  },
+  {
+    "input": "3-4 business days",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "NUM"
+      },
+      "str": "4",
+      "index": 3
+    },
+    "accepted": true
+  },
+  {
+    "input": "3-4 days",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "NUM"
+      },
+      "str": "4",
+      "index": 3
+    },
+    "accepted": true
+  },
+  {
+    "input": "3-4 working days",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "NUM"
+      },
+      "str": "4",
+      "index": 3
+    },
+    "accepted": true
+  },
+  {
+    "input": "3-4 work days",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "NUM"
+      },
+      "str": "4",
+      "index": 3
+    },
+    "accepted": true
   }
 ]
