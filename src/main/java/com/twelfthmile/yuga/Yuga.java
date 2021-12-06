@@ -661,8 +661,11 @@ public class Yuga {
                         state=19;
                     }
                     else {
-                        // 1-2 Days
-                        if(Util.isAlpha(c) && (nextSpace(str.substring(i)) >=3 && str.substring(i,i+3).equals("day") )){
+                        boolean day = nextSpace(str.substring(i)) >=3 && str.substring(i,i+3).equals("day");
+                        boolean working = nextSpace(str.substring(i)) >=4 && str.substring(i,i+4).equals("work");
+                        boolean business= nextSpace(str.substring(i)) >=8 && str.substring(i,i+8).equals("business");
+                        // 1-2 Days, 3-4 working days, 2-3 business days
+                        if(Util.isAlpha(c) && (day || working || business) ){
                             String laterDay = map.get("MM");
                             map = new FsaContextMap();
                             map.setType(Constants.TY_NUM, Constants.TY_NUM);
