@@ -41,7 +41,7 @@ public class Util {
 
     public static boolean meridienTimeAhead(String str, int i) {
         boolean amOrPmStartAhead = i+1< str.length() && (str.charAt(i)=='a' || str.charAt(i)=='p') && str.charAt(i+1)=='m' ;
-        if (!amOrPmStartAhead)
+        if (amOrPmStartAhead ==false)
             return false;
         boolean isWordEndAtMeridien = ( i+2 >= str.length() );
         if (isWordEndAtMeridien)

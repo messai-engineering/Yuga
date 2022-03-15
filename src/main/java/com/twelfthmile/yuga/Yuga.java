@@ -724,8 +724,14 @@ public class Yuga {
                         delimiterStack.push(c);
                         state = 24;
                     } else if (Util.isNumber(c)) {
-                        map.upgrade(c);
-                        state = 20;
+                        // IL-190
+                        if(lookAheadForMerid(str,i)){
+                            state=-1;
+                            i=i-2;
+                        }else{
+                            map.upgrade(c);
+                            state = 20;
+                        }
                     } else if (c == Constants.CH_SQOT && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1))) {
                         state = 24;
                     } else if (c == '|') {
@@ -1075,6 +1081,13 @@ public class Yuga {
                     map.append(sData);
                     i = j+2;
                 }
+                //TCANDROID-38937
+                else if ((j + 2) < str.length() && str.charAt(j) == 't'  && str.charAt(j + 1) == 'o' && str.charAt(j + 2) == 'n'){
+                    String sData = " ton";
+                    map.setType(Constants.TY_WGT, Constants.TY_WGT);
+                    map.append(sData);
+                    i = j+2;
+                }
                 else if (str.charAt(j) == 'x' && ((j + 1) == str.length() || ((j + 1) < str.length() && (str.charAt(j + 1) == ' ' || str.charAt(j + 1) == '.' || str.charAt(j + 1) == ','))) ) {
                     map.setType(Constants.TY_MLT, Constants.TY_MLT);
                     map.append(str.substring(i,j+1));
@@ -1351,6 +1364,17 @@ public class Yuga {
                 return -1;
         }
         return -1;
+    }
+
+    // for cases like 18th Jun, 12 pm
+    private static boolean lookAheadForMerid(String str, int index) {
+        if ( index+4>=str.length())
+            return false;
+        for(int i =index+1;i<index+4;i++){
+           if(Util.meridienTimeAhead(str,i)==true)
+               return true;
+        }
+        return false;
     }
 
     private static boolean configContextIsCURR(Map config) {

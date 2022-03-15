@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>in.messai</groupId>
     <artifactId>yuga</artifactId>
-    <version>1.0.31-SNAPSHOT</version>
+    <version>1.0.38</version>
 
     <name>Yuga Date Parser</name>
     <description>
@@ -176,6 +176,6 @@
         <connection>scm:git:git://https://github.com/messai-engineering/Yuga.git</connection>
         <developerConnection>scm:git:git@github.com:messai-engineering/Yuga.git</developerConnection>
         <url>https://github.com/messai-engineering/Yuga</url>
-        <tag>yuga-1.0.30</tag>
+        <tag>yuga-1.0.38</tag>
     </scm>
 </project>
