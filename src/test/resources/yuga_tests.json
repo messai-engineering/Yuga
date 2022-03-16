@@ -1102,5 +1102,26 @@
       "index": 3
     },
     "accepted": true
+  },
+  {
+    "input":"18th Jun, 12 pm",
+    "response": {
+      "type": "DATE",
+      "valMap":{},
+      "str":"2018-06-18 12:00:00",
+      "index":15
+    },
+    "accepted": true
+  },
+  {
+    "input":"1.5 ton",
+    "response": {
+      "type": "WGT",
+      "valMap":{},
+      "str":"1.5 ton",
+      "index":6
+    },
+    "accepted": true
   }
+
 ]

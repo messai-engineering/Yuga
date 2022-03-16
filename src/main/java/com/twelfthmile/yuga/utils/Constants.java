@@ -51,19 +51,22 @@ public class Constants {
     public static final String FSA_UPI = "UPI,MMT,NEFT";
 
     public static final int CH_SPACE = 32;
+    public static final int CH_HASH = 35;
     public static final int CH_PCT = 37;
     public static final int CH_SQOT = 39;
+    public static final int CH_RBKT = 41;
+    public static final int CH_STAR = 42;
+    public static final int CH_PLUS = 43;
     public static final int CH_COMA = 44;
     public static final int CH_HYPH = 45;
     public static final int CH_FSTP = 46;
     public static final int CH_SLSH = 47;
     public static final int CH_COLN = 58;
-    public static final int CH_HASH = 35;
     public static final int CH_SCLN = 59;
-    public static final int CH_PLUS = 43;
+    public static final int CH_LSTN = 60;
+    public static final int CH_GTTN = 62;
     public static final int CH_ATRT = 64;
-    public static final int CH_RBKT = 41;
-    public static final int CH_STAR = 42;
+
 
     public static final int CH_LSBT = 91;
 
