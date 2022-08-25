@@ -13,6 +13,17 @@ import java.util.*;
 public class Constants {
 
     public static final String DT_D = "d";
+
+    public static final String INSTRNO = "INSTRNO";
+
+    public static final String AMT = "AMT";
+
+    public static final String IDVAL = "IDVAL";
+
+    public static final String NUM = "NUM";
+
+    public static final String URL = "URL";
+
     public static final String DT_DD = "dd";
     public static final String DT_MM = "MM";
     public static final String DT_MMM = "MMM";
@@ -49,11 +60,15 @@ public class Constants {
     public static final String FSA_TZ = "gmt,ist";
     public static final String FSA_DAYSFFX = "st,nd,rd,th";
     public static final String FSA_UPI = "UPI,MMT,NEFT";
+    public static final int CH_NLINE = 10;
 
     public static final int CH_SPACE = 32;
+    public static final int CH_EXCL = 33;
+    public static final int CH_DQOT = 34;
     public static final int CH_HASH = 35;
     public static final int CH_PCT = 37;
     public static final int CH_SQOT = 39;
+    public static final int CH_LBKT = 40;
     public static final int CH_RBKT = 41;
     public static final int CH_STAR = 42;
     public static final int CH_PLUS = 43;
@@ -64,11 +79,15 @@ public class Constants {
     public static final int CH_COLN = 58;
     public static final int CH_SCLN = 59;
     public static final int CH_LSTN = 60;
+    public static final int CH_EQLS = 61;
     public static final int CH_GTTN = 62;
+    public static final int CH_QUEST = 63;
     public static final int CH_ATRT = 64;
 
 
     public static final int CH_LSBT = 91;
+    public static final int CH_BKSLSH = 92;
+    public static final int CH_UNSC = 95;
 
     public static final String INDEX = "INDEX";
 
@@ -82,6 +101,11 @@ public class Constants {
 
     public static final HashMap<Set<String>,String> month = mapMonths();
     public static final HashMap<Set<String>,String> day = mapDays();
+
+    public static final HashMap<String, String> tokens = mapTokens();
+    public static final HashMap<String, String> possiblePrevTokens = setPrevTokenPossibleList();
+    public static Set<String> unmaskTokenSet = new HashSet<>(Arrays.asList(INSTRNO,NUM,IDVAL,AMT,URL));
+
 
     public static String formatDateTimeToDate(String date, String inputFormat) throws ParseException {
         return dateFormatter().format(new SimpleDateFormat(inputFormat).parse(date));
@@ -145,5 +169,32 @@ public class Constants {
 
         return days;
     }
-
+    private static HashMap<String, String>  mapTokens() {
+        HashMap<String, String> getTokens = new HashMap<>();
+        getTokens.put("upi", "TRANSFER");
+        getTokens.put("neft", "TRANSFER");
+        getTokens.put("mmt", "TRANSFER");
+        getTokens.put("sms", "SMS");
+        getTokens.put("www", "WWW");
+        getTokens.put("crn", "IDPRX");
+        getTokens.put("krn", "IDPRX");
+        getTokens.put("http", "HTTP");
+        getTokens.put("https", "HTTP");
+        return getTokens;
+    }
+    private static HashMap<String, String> setPrevTokenPossibleList() {
+        HashMap<String, String> getTokenList = new HashMap<>();
+        getTokenList.put("no", "ID");
+        getTokenList.put("pnr", "ID");
+        getTokenList.put("id", "ID");
+        getTokenList.put("promo", "ID");
+        getTokenList.put("awb", "ID");
+        getTokenList.put("utr", "ID");
+        getTokenList.put("code", "ID");
+        getTokenList.put("number", "ID");
+        getTokenList.put("a/c", "INS");
+        getTokenList.put("account", "INS");
+        getTokenList.put("loan", "INS");
+        return getTokenList;
+    }
 }
