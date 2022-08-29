@@ -8,8 +8,8 @@ import java.util.Objects;
 
 public class Pair<A, B> {
 
-    private final A a;
-    private final B b;
+    private A a;
+    private  B b;
 
     public Pair(A a_, B b_) {
         a = a_;
@@ -19,9 +19,15 @@ public class Pair<A, B> {
     public A getA() {
         return a;
     }
+    public void setA(A a) {
+        this.a = a;
+    }
 
     public B getB() {
         return b;
+    }
+    public void setB(B b) {
+        this.b = b;
     }
 
     @Override

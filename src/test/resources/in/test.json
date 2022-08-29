@@ -1,0 +1,82 @@
+[
+  {
+    "date": "2/18/2018 21:43",
+    "addr": "AXISBK",
+    "body": "ALERT:Click goo.gl/AEXHB4 to link Aadhaar if applicable 03Jan18:Rs 1001 credited to A/C 951526;Bal:Rs 23351.65[UPI/P2A/800311013974/USEF SIDDEQ T M]"
+  },
+  {
+    "date": "1/12/2018 13:21",
+    "addr": "AXISBK",
+    "body": "ALERT:Link Aadhaar through ATM now. Your a/c 087976 is Reversed INR 500.00 on 12-01-2018 13:21:44 Info: CASH-ATM/P3AWMU73."
+  },
+  {
+    "date": "1/26/2018 0:00",
+    "addr": "AXISBK",
+    "body": "Dear Customer, acct XX0973 has been debited for Rs.163.00 on 26-Jan-18 towards linked anoopkumarch@axisbank. UPI Ref no 802612374795"
+  },
+  {
+    "body": "Dear Customer, Payment of Rs. 509 on 21-DEC-17 for your BSNL Landline bill against A/C No. 9033567731 against Telephone No. 4842340606 has been received",
+    "date": "03-11-17 20:50",
+    "addr": "BSNLCF"
+  },
+  {
+    "body": "Dear Customer, Your loan/OD account No. ending with xx5404 is having overdue of Rs. 90114.08 as on 18-NOV-2016 kindly arrange to regularise. -Canara Bank",
+    "date": "03-11-17 20:50",
+    "addr": "CANBNK"
+  },
+  {
+    "addr": "FLPKRT",
+    "body": "Order Placed: Your order for Vami Round Neck Women'... with order id OD110364653868704000 amounting to Rs.541 has been received.  You can expect delivery by Tue 10, Oct 2017.  We will send you an update when your order is packed/shipped.You can manage your order here http://fkrt.it/iUele!NNNN .",
+    "date": "03-11-17 20:50"
+  },
+  {
+    "addr": "FLPKRT",
+    "body": "Order Received: We have received your order for Skullcandy S2DUL-J846 ... with order id OD109106834392672000 amounting to Rs.649. You can expect delivery by Thu 18, May 2017. We will send you an update when your order is packed. Manage your order http://fkrt.it/aGgyATuuuN .",
+    "date": "03-11-17 20:50"
+  },
+  {
+    "addr": "FLPKRT",
+    "body": "Packed: Your Amez Back Cover for SA... with order id OD109168202398670000 has  been packed by the seller and will be shipped soon. We will send you the tracking id once the item is  on its way to you. Manage your order here http://fkrt.it/CT23m!NNNN",
+    "date": "03-11-17 20:50"
+  },
+  {
+    "addr": "FLPKRT",
+    "body": "Shipped: Your Skullcandy S2DUL-J846 ... with order id OD109106834392672000 has been shipped and will be delivered  by Thursday, May 18, 2017. You will receive another SMS when the courier executive is out to deliver it.",
+    "date": "03-11-17 20:50"
+  },
+  {
+    "date": "26-10-2017 23:57",
+    "body": "Dear Nitin K S, Your vaccination is scheduled for 31-05-2021 01:00PM-03:00PM at Narayana Hrudayalaya Pvt Ltd ,Your booking reference ID is 29273127028220 and your 4 digits secret code for vaccination is 8220 - CoWIN",
+    "addr": "781188"
+  },
+  {
+    "date": "26-10-2017 23:57",
+    "body": "Dear Anuj Kumar Ray, scheduled vaccination on 31-05-2021 is cancelled, Inconvenience is regretted. Reschedule on cowin.gov.in",
+    "addr": "781188"
+  },
+  {
+    "date": "26-10-2017 23:57",
+    "body": "Dear Gowri S Murthy, You have successfully been vaccinated with your 1st Dose with COVISHIELD on 13-05-2021 at 10:09 AM. You may download your vaccination Certificate from - https://cowin.gov.in - CoWIN",
+    "addr": "781188"
+  },
+  {
+    "date": "4/24/2017 0:00",
+    "addr": "HDFCBK",
+    "body": "Rs 50.00 debited from a/c **6053 on 11-01-20 to VPA 9741129713@okbizaxis(UPI Ref No 001115657548). Not you? Call on 18002586161 to report"
+  },
+  {
+    "date": "4/24/2017 0:00",
+    "addr": "HDFCBK",
+    "body": "Rs 12000.00 debited from a/c **6053 on 11-01-20 to VPA 7742105760-3@icicipay(UPI Ref No 001112123458). Not you? Call on 18002586161 to report"
+  },
+  {
+    "date": "11/13/2017 0:00",
+    "addr": "HDFCBK",
+    "body": "DEAR CARDMEMBER, PAYMENT OF Rs. 15000.00 RECEIVED TOWARDS YOUR CREDIT CARD ENDING 2832 THROUGH NEFT or RTGS ON 13-11-2017.YOUR AVAILABLE LIMIT IS RS. 20270.25"
+  },
+  {
+    "date": "12/18/2017 0:00",
+    "addr": "HDFCBK",
+    "body": "INR 10,500.00 Dr to A/c No XX0182 towards IMPS-733219306523-Sarita Singh-IBKL-xxxxxxxxxxx3504-Rent December 2017 Serena B 701 Val 28-NOV-17. Clr Bal INR 58.95."
+  }
+  ]
