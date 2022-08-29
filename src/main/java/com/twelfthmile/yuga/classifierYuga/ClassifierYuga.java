@@ -16,16 +16,13 @@ import static com.twelfthmile.yuga.utils.Util.isNumber;
 
 public class ClassifierYuga {
 
-    private static Trie prefixTrie;
-    private static Trie upiTrie;
+    private static Trie prefixTrie = new Trie();
+    private static Trie upiTrie = new Trie();
     static {
-        prefixTrie = new Trie();
         prefixTrie.loadTrie();
-        upiTrie = new Trie();
         upiTrie.insertUpis();
     }
     public static JSONObject getYugaTokensNew(String sentence, HashMap<String, String> configMap, IndexTrack indexTrack) throws JSONException {
-        //LinkedList<String> prevTokens = new LinkedList<>();
         Pair<Integer, String> prevToken = new Pair<>(0, "");
         Set<String> unmaskTokenSet = Constants.unmaskTokenSet;
         Map<String, Integer> tokenCount = new HashMap<>();
@@ -47,7 +44,6 @@ public class ClassifierYuga {
             start = indexTrack.next;
             Pair<String, Integer> p = classifyTokens(sentence.substring(indexTrack.next), sentence.substring(indexTrack.next, tokenEndIndex).toLowerCase(), indexTrack, configMap, prevToken, res.getB());
             if(Constants.possiblePrevTokens.containsKey(sentence.substring(start, tokenEndIndex).toLowerCase())) {
-                // prevTokens.add(Constants.possiblePrevTokens.get(sentence.substring(start, tokenEndIndex).toLowerCase()));
                 prevToken.setB(Constants.possiblePrevTokens.get(sentence.substring(start, tokenEndIndex).toLowerCase()));
                 flag = true;
                 prevToken.setA(1);
