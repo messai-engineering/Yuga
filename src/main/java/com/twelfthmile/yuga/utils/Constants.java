@@ -60,6 +60,24 @@ public class Constants {
     public static final String FSA_TZ = "gmt,ist";
     public static final String FSA_DAYSFFX = "st,nd,rd,th";
     public static final String FSA_UPI = "UPI,MMT,NEFT";
+
+    public static final String[] curr = {"rs", "inr", "cny", "amt", "amount", "ngn", "usd", "cad", "eur", "gbp", "aed", "jpy", "aud", "s$", "lkr", "ksh", "egp"};
+
+    public static final String[] instr = {"card", "no", "a/c"};
+
+    public static final String[] fltid = {"6e", "indigo", "ai", "airindia", "sg", "spicejet", "g8", "goair", "uk", "vistara", "ix",
+            "airindiaexpress", "2t", "trujet", "9w", "jetairways"};
+
+    public static final String[] upi = {"airtel", "airtelpaymentsbank", "albk", "allahabadbank", "allbank", "andb", "apb", "apl", "axis", "axisb", "axisbank",
+            "axisgo", "bandhan", "barodampay", "barodapay", "birla", "boi", "cbin", "cboi", "centralbank", "cmsidfc", "cnrb", "csbcash", "csbpay",
+            "cub", "dbs", "dcb", "dcbbank", "denabank", "dlb", "eazypay", "equitas", "ezeepay", "fbl", "federal", "finobank",
+            "hdfcbank", "hdfcbankjd", "hsbc", "icici", "icicibank", "idbi", "idbibank", "idfc", "idfcbank", "idfcnetc", "ikwik", "imobile",
+            "indbank", "indianbank", "indianbk", "icicipay", "indus", "iob", "jkb", "jsbp", "karb", "karurvysyabank", "kaypay", "kbl",
+            "kbl052", "kmb", "kmbl", "kotak", "kvb", "kvbank", "lime", "lvb", "lvbank", "mahb", "myicici", "obc", "okbizaxis", "okaxis",
+            "okhdfcbank", "okicici", "oksbi", "paytm", "payzapp", "pingpay", "pockets", "pnb", "psb", "purz", "rajgovhdfcbank", "sbi",
+            "sc", "scb", "scbl", "scmobile", "sib", "srcb", "synd", "syndbank", "syndicate", "tjsb", "ubi", "uboi",
+            "uco", "unionbank", "unionbankofindia", "united", "utbi", "vijayabank", "vijb", "vjb", "ybl", "yesbank", "yesbankltd", "upi", "ibl"};
+
     public static final int CH_NLINE = 10;
 
     public static final int CH_SPACE = 32;
@@ -99,11 +117,11 @@ public class Constants {
     private static final String DATE_TIME_FORMAT_STR = "yyyy-MM-dd HH:mm:ss";
     private static final String DATE_FORMAT_STR = "yyyy-MM-dd";
 
-    public static final HashMap<Set<String>,String> month = mapMonths();
-    public static final HashMap<Set<String>,String> day = mapDays();
+    public static final HashMap<Set<String>, String> month = mapMonths();
+    public static final HashMap<Set<String>, String> day = mapDays();
 
-    public static final HashMap<String, String> tokens = mapTokens();
-    public static final HashMap<String, String> possiblePrevTokens = setPrevTokenPossibleList();
+    public static final Map<String, String> tokens = mapTokens();
+    public static final Map<String, String> possiblePrevTokens = setPrevTokenPossibleList();
     public static Set<String> unmaskTokenSet = new HashSet<>(Arrays.asList(INSTRNO,NUM,IDVAL,AMT,URL));
 
 
@@ -169,7 +187,7 @@ public class Constants {
 
         return days;
     }
-    private static HashMap<String, String>  mapTokens() {
+    private static Map<String, String>  mapTokens() {
         HashMap<String, String> getTokens = new HashMap<>();
         getTokens.put("upi", "TRANSFER");
         getTokens.put("neft", "TRANSFER");
@@ -182,7 +200,7 @@ public class Constants {
         getTokens.put("https", "HTTP");
         return getTokens;
     }
-    private static HashMap<String, String> setPrevTokenPossibleList() {
+    private static Map<String, String> setPrevTokenPossibleList() {
         HashMap<String, String> getTokenList = new HashMap<>();
         getTokenList.put("no", "ID");
         getTokenList.put("pnr", "ID");
@@ -192,6 +210,7 @@ public class Constants {
         getTokenList.put("utr", "ID");
         getTokenList.put("code", "ID");
         getTokenList.put("number", "ID");
+        getTokenList.put("order", "ID");
         getTokenList.put("a/c", "INS");
         getTokenList.put("account", "INS");
         getTokenList.put("loan", "INS");

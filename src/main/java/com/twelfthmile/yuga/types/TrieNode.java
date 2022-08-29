@@ -1,12 +1,13 @@
 package com.twelfthmile.yuga.types;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class TrieNode {
-    public HashMap<Character, TrieNode> children;
+    private Map<Character, TrieNode> children;
     private boolean leaf;
 
-    String label;
+    private String label;
 
     public TrieNode() {
         children = new HashMap<>();

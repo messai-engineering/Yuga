@@ -1,9 +1,9 @@
 package com.twelfthmile.yuga.types;
 
 public class Triplet<A, B, C> {
-    A a;
-    B b;
-    C c;
+    private final A a;
+    private final B b;
+    private final C c;
 
     public Triplet(A a_, B b_, C c_) {
         a = a_;

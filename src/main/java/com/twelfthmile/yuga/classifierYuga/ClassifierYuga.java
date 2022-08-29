@@ -15,11 +15,18 @@ import static com.twelfthmile.yuga.utils.Util.isNumber;
 
 
 public class ClassifierYuga {
-    public static List<String> yugaList = new ArrayList<>();
-    public static JSONObject getYugaTokensNew(String sentence, HashMap<String, String> configMap, IndexTrack indexTrack) throws JSONException {
-        Trie prefixTrie = new Trie();
+
+    private static Trie prefixTrie;
+    private static Trie upiTrie;
+    static {
+        prefixTrie = new Trie();
         prefixTrie.loadTrie();
-        LinkedList<String> prevTokens = new LinkedList<>();
+        upiTrie = new Trie();
+        upiTrie.insertUpis();
+    }
+    public static JSONObject getYugaTokensNew(String sentence, HashMap<String, String> configMap, IndexTrack indexTrack) throws JSONException {
+        //LinkedList<String> prevTokens = new LinkedList<>();
+        Pair<Integer, String> prevToken = new Pair<>(0, "");
         Set<String> unmaskTokenSet = Constants.unmaskTokenSet;
         Map<String, Integer> tokenCount = new HashMap<>();
         int start = 0;
@@ -29,21 +36,28 @@ public class ClassifierYuga {
         StringBuilder sb = new StringBuilder("");
         Map<String,JSONObject> metaData = new HashMap();
         while(indexTrack.next < sentence.length()) {
+            Boolean flag = false;
             if (skipCharacter(sentence, indexTrack.next, sentence.charAt(indexTrack.next))) {
                 indexTrack.next++;
                 continue;
             }
             char ch = sentence.charAt(indexTrack.next);
-            Pair<Integer, Pair> res = getTokenEndIndex(sentence, indexTrack.next, prefixTrie);
+            Pair<Integer, Pair> res = getTokenEndIndex(sentence, indexTrack.next, ClassifierYuga.prefixTrie);
             int tokenEndIndex = res.getA();
             start = indexTrack.next;
-            Pair<String, Integer> p = classifyTokens(sentence.substring(indexTrack.next), sentence.substring(indexTrack.next, tokenEndIndex).toLowerCase(), indexTrack, configMap, prevTokens, res.getB());
+            Pair<String, Integer> p = classifyTokens(sentence.substring(indexTrack.next), sentence.substring(indexTrack.next, tokenEndIndex).toLowerCase(), indexTrack, configMap, prevToken, res.getB());
+            if(Constants.possiblePrevTokens.containsKey(sentence.substring(start, tokenEndIndex).toLowerCase())) {
+                // prevTokens.add(Constants.possiblePrevTokens.get(sentence.substring(start, tokenEndIndex).toLowerCase()));
+                prevToken.setB(Constants.possiblePrevTokens.get(sentence.substring(start, tokenEndIndex).toLowerCase()));
+                flag = true;
+                prevToken.setA(1);
+            }
             if (p != null) {
-                prevTokens.add(p.getA());
-                sb.append(sentence.substring(start, p.getB()) + " ");
-
+                //prevTokens.add(p.getA());
+                sb.append(sentence.substring(start, p.getB()));
+                prevToken = new Pair<>(0, "");
                 sb.append(p.getA());
-                if(!p.getA().equals("DATE") && tokenCount.containsKey(p.getA())) {
+                if(tokenCount.containsKey(p.getA())) {
                     JSONObject metValForToken = new JSONObject();
                     metValForToken.put("INDEX", String.valueOf(p.getB()));
                     if (tokenCount.get(p.getA()) == 0)
@@ -52,18 +66,14 @@ public class ClassifierYuga {
                         metaData.put(p.getA() + "_" + tokenCount.get(p.getA()), metValForToken);
                     tokenCount.put(p.getA(),tokenCount.get(p.getA())+1);
                 }
-                yugaList.add(p.getA());
                 sb.append(" ");
             }
             else {
-                if(!prevTokens.contains(sentence.substring(indexTrack.next, tokenEndIndex)))
-                    prevTokens.add("NotAvail");
                 sb.append(sentence.substring(indexTrack.next, tokenEndIndex));
                 sb.append(" ");
                 indexTrack.next = tokenEndIndex + 1;
-            }
-            if(Constants.possiblePrevTokens.containsKey(sentence.substring(start, tokenEndIndex).toLowerCase())) {
-                prevTokens.add(Constants.possiblePrevTokens.get(sentence.substring(start, tokenEndIndex).toLowerCase()));
+                if(prevToken != null && flag == false)
+                    prevToken.setA(prevToken.getA() + 1);
             }
             sb.append("");
         }
@@ -76,11 +86,6 @@ public class ClassifierYuga {
         return jsonData;
     }
 
-    public static List<String> getTokensFromYuga() {
-        List<String> dummy = new ArrayList<>(yugaList);
-        yugaList = new ArrayList<>();
-        return dummy;
-    }
     public static boolean skipCharacter(String sentence, int index, char ch) {
         return (goodEndings(sentence.charAt(index)) || ch == Constants.CH_PLUS) || ch == Constants.CH_BKSLSH;
     }
@@ -122,7 +127,7 @@ public class ClassifierYuga {
         return ch == Constants.CH_SPACE || ch == Constants.CH_COMA || ch == Constants.CH_COLN || ch == Constants.CH_FSTP || ch == Constants.CH_RBKT || ch == Constants.CH_HYPH || ch == Constants.CH_LBKT || ch == Constants.CH_DQOT || ch == Constants.CH_EQLS || ch == Constants.CH_LSTN || ch == Constants.CH_GTTN || ch == '\r' || ch == '\n' || ch == Constants.CH_EXCL;
     }
 
-    static Pair<String, Integer> classifyTokens(String sentence, String word, IndexTrack indexTrack, HashMap<String, String> configMap, LinkedList<String> prevTokens, Pair<Integer, String> prefix) {
+    static Pair<String, Integer> classifyTokens(String sentence, String word, IndexTrack indexTrack, HashMap<String, String> configMap, Pair<Integer, String> prevToken, Pair<Integer, String> prefix) {
         Triplet<Integer, String, String> t;
         if(prefix != null && prefix.getB().equals("CRNCY")) {
             Pair<Integer, Boolean> p = lookAheadIntegerForAmt(sentence.substring(prefix.getA()));
@@ -198,9 +203,9 @@ public class ClassifierYuga {
                 }
             }
         }
-        return classifyTokensUsingNext(sentence, word, indexTrack.next, configMap, indexTrack, prevTokens,prefix);
+        return classifyTokensUsingNext(sentence, word, indexTrack.next, configMap, indexTrack, prevToken,prefix);
     }
-    static Pair<String, Integer> classifyTokensUsingNext(String sentence, String word, int index, HashMap<String, String> configMap, IndexTrack indexTrack, LinkedList<String> prevTokens, Pair<Integer, String> prefix) {
+    static Pair<String, Integer> classifyTokensUsingNext(String sentence, String word, int index, HashMap<String, String> configMap, IndexTrack indexTrack, Pair<Integer, String> prevToken, Pair<Integer, String> prefix) {
         if(sentence.charAt(0) == Constants.CH_HASH) {
             int i = lookAheadHash(sentence);
             setNextindex(i, indexTrack);
@@ -211,9 +216,9 @@ public class ClassifierYuga {
                 return new Pair<>(t.getType(), start);
             }
         }
-        return classifyInGeneral(sentence, configMap, indexTrack, prevTokens, prefix);
+        return classifyInGeneral(sentence, configMap, indexTrack, prevToken, prefix);
     }
-    static Pair<String, Integer> classifyInGeneral(String sentence, HashMap<String, String> configMap, IndexTrack indexTrack, LinkedList<String> prevTokens, Pair<Integer, String> prefix) {
+    static Pair<String, Integer> classifyInGeneral(String sentence, HashMap<String, String> configMap, IndexTrack indexTrack, Pair<Integer, String> prevToken, Pair<Integer, String> prefix) {
         //to check for non delimeter based instruments
         if(prefix != null && prefix.getB().equals("INSTR")) {
             Response t = Yuga.parse(sentence.substring(prefix.getA()), configMap);
@@ -242,18 +247,10 @@ public class ClassifierYuga {
             }
         }
         // to check for account numbers once again based on previous token
-        if(prevTokens.size() > 0) {
-            String prevTok = prevTokens.getLast();
-            if(prevTok.equals("INS") || (prevTokens.size() >= 2 && prevTokens.get(prevTokens.size() - 2).equals("INS"))) {
+        if(prevToken != null) {
+            String prevTok = prevToken.getB();
+            if(prevTok.equals("INS") && prevToken.getA() <= 2) {
                 Pair<Integer, String> p = StateMachines.reCheckForAccount(sentence);
-                if(p != null) {
-                    int start = indexTrack.next;
-                    setNextindex(p.getA(), indexTrack);
-                    return new Pair<>("INSTRNO", start);
-                }
-            }
-            else if(prefix != null && prefix.getB().equals("INSTR")) {
-                Pair<Integer, String> p = StateMachines.reCheckForAccount(sentence.substring(prefix.getA()));
                 if(p != null) {
                     int start = indexTrack.next;
                     setNextindex(p.getA(), indexTrack);
@@ -276,16 +273,11 @@ public class ClassifierYuga {
             return new Pair<>("EMAILADDRESS", start);
         }
         p = StateMachines.checkForId(sentence, 0);
-        if(prevTokens.size() > 0) {
-            String prevTok = prevTokens.getLast();
-            if (p != null && (prevTok.equals("ID"))) {
+        if(prevToken != null) {
+            String prevTok = prevToken.getB();
+            if (p != null && (prevTok.equals("ID") && prevToken.getA() <= 2)) {
                 int start = indexTrack.next;
                 char ch = sentence.charAt(p.getA());
-                setNextindex(p.getA() + 1, indexTrack);
-                return new Pair<>("IDVAL", start);
-            }
-            else if(p != null && prevTokens.size() >= 2 && prevTokens.get(prevTokens.size() - 2).equals("ID") && prevTok.equals("NotAvail")) {
-                int start = indexTrack.next;
                 setNextindex(p.getA() + 1, indexTrack);
                 return new Pair<>("IDVAL", start);
             }
@@ -312,8 +304,6 @@ public class ClassifierYuga {
         return null;
     }
     private static int classifyUpi(String handle) {
-        Trie upiTrie = new Trie();
-        upiTrie.insertUpis();
         TrieNode t = upiTrie.root;
         char c;
         int x = -1;

@@ -8,8 +8,8 @@ import java.util.Objects;
 
 public class Pair<A, B> {
 
-    A a;
-    B b;
+    private A a;
+    private  B b;
 
     public Pair(A a_, B b_) {
         a = a_;
