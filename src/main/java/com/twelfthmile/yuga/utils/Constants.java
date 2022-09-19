@@ -105,6 +105,7 @@ public class Constants {
 
     public static final int CH_LSBT = 91;
     public static final int CH_BKSLSH = 92;
+    public static final int CH_LSBTE = 93;
     public static final int CH_UNSC = 95;
 
     public static final String INDEX = "INDEX";

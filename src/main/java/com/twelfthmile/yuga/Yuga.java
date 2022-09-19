@@ -746,6 +746,16 @@ public class Yuga {
                         map.setType(Constants.TY_DTE, Constants.DT_YYYY);
                         map.put(Constants.DT_MM, c);
                         state = 26;
+                    } else if ((p = Util.checkTypes(getRoot(), "FSA_MONTHS", str.substring(i))) != null) {
+                        // to support cases like 2022-SEP-13
+                        if(map.getType().equals("NUM") && map.get(map.getType()).length() == 4) {
+                            map.put(Constants.DT_YYYY, map.get("NUM"));
+                            map.remove("NUM");
+                            map.setType(Constants.TY_DTE);
+                        }
+                        map.put(Constants.DT_MMM, p.getB());
+                        i += p.getA();
+                        state = 27;
                     } else if (i > 0 && (p = Util.checkTypes(getRoot(), "FSA_TIMES", str.substring(i))) != null) {
                         map.setType(Constants.TY_TME, null);
                         String s = str.substring(0, i);

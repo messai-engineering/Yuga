@@ -416,7 +416,7 @@ public class StateMachines {
                     }
                     break;
                 case 2:
-                    if (c == Constants.CH_SPACE || i==str.length()-1) {
+                    if (c == Constants.CH_SPACE || i==str.length()-1 || c == Constants.CH_LSBTE || c == Constants.CH_GTTN) {
                         if((str.charAt(i-1)==Constants.CH_HYPH || dotCountAfterAtrt==0) || labelCounter<=2) {
                             state = -1;
                             break;
