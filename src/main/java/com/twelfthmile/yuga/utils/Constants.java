@@ -34,6 +34,7 @@ public class Constants {
     public static final String DT_ss = "ss";
 
     public static final String TY_NUM = "NUM";
+    public static final String TY_NUMRANGE = "NUMRANGE";
     public static final String TY_AMT = "AMT";
     public static final String TY_PCT = "PCT";
     public static final String TY_DST = "DST";
@@ -169,13 +170,13 @@ public class Constants {
 
     private static HashMap<Set<String>,String> mapDays(){
         // Add days in non-english language to these String arrays for support
-        String[] mond = {"måndag"};
-        String[] tues = {"tisdag"};
+        String[] mond = {"måndag","må"};
+        String[] tues = {"tisdag","ti"};
         String[] wedn = {"onsdag"};
         String[] thur = {"torsdag"};
-        String[] frid = {"fredag"};
-        String[] satu = {"lördag"};
-        String[] sund = {"söndag"};
+        String[] frid = {"fredag","fr"};
+        String[] satu = {"lördag","lö"};
+        String[] sund = {"söndag","sö"};
 
         HashMap<Set<String>,String> days = new HashMap<>();
         days.put(new HashSet<>(Arrays.asList(mond)),"monday");

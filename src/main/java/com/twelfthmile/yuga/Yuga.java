@@ -435,8 +435,11 @@ public class Yuga {
                 case 12:
                     if (Util.isNumber(c)) {
                         // case like "729 613 is your Instagram code" Where the num was captured as AMT.
-                        if(i>2 && str.charAt(i-1)==Constants.CH_SPACE && Util.isNumber(str.charAt(i-2))) {
+                        if(i>2 && str.charAt(i-1)==Constants.CH_SPACE && Util.isNumber(str.charAt(i-2)))
+                        {
                             map.append(c);
+                            if(map.contains("NUM"));
+                                counter = map.get("NUM").length();
                             state=15;
                         }else {
                             map.setType(Constants.TY_AMT, Constants.TY_AMT);
@@ -550,7 +553,7 @@ public class Yuga {
                         state = 11;
                     }
                     // Condition changed to seperate two mob nums seperated by space "8289957757 9388566777"
-                    else if (c == Constants.CH_SPACE && counter < 10 && (i + 2) < str.length() && Util.isNumber(str.charAt(i + 1)) && Util.isNumber(str.charAt(i + 2))) {
+                    else if (c == Constants.CH_SPACE && (counter >= 5 && counter < 10) && !configContextIsCURR(config) && (i + 2) < str.length() && Util.isNumber(str.charAt(i + 1)) && Util.isNumber(str.charAt(i + 2)) ) {
                         state = 41;
                     }
 //                    else if (c == Constants.CH_ATRT) {
