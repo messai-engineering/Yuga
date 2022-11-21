@@ -199,8 +199,10 @@ public class StateMachines {
         }
         return null;
     }
-    public static void checkForUPI(String str, String refId, String userId, HashMap<String, String> userMap, int i) {
-        int state = 1, j;
+    public static String checkForUPI(String str) {
+        int state = 1, j, i = 0;
+        String refId = null;
+        HashMap<String, String> userMap = new HashMap<>();
         Pair<Integer, String> p;
         char c;
         StringBuilder sb = new StringBuilder("");
@@ -243,7 +245,6 @@ public class StateMachines {
                         sb.append(c);
                         state = 4;
                         if (i + 1 == str.length()) {
-                            userId = sb.toString();
                             sb = new StringBuilder("");
                         }
                     } else if (wordCount > -1 && wordCount < 2 && c == Constants.CH_SPACE) {
@@ -251,13 +252,11 @@ public class StateMachines {
                         sb.append(c);
                         state = 4;
                         if (i + 1 == str.length()) {
-                            userId = sb.toString();
                             sb = new StringBuilder("");
                         }
                     } else if (c == Constants.CH_ATRT) {
                         if (!prefix.equals(""))
                             userMap.put(prefix, sb.toString());
-                        userId = sb.toString();
                         sb = new StringBuilder("");
                         state = 5;
                     } else {
@@ -267,7 +266,6 @@ public class StateMachines {
                             sb = new StringBuilder("");
                             state = 4;
                         } else {
-                            userId = u;
                             sb = new StringBuilder("");
                             i -= 1;
                             state = -1;
@@ -309,6 +307,7 @@ public class StateMachines {
             }
             i++;
         }
+        return refId;
     }
     public static Triplet<Integer, String, String> numberParse(String str) {
         int state = 1, i = 0;

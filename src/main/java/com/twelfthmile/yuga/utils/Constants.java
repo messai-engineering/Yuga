@@ -67,7 +67,7 @@ public class Constants {
     public static final String[] instr = {"card", "no", "a/c"};
 
     public static final String[] fltid = {"6e", "indigo", "ai", "airindia", "sg", "spicejet", "g8", "goair", "uk", "vistara", "ix",
-            "airindiaexpress", "2t", "trujet", "9w", "jetairways"};
+            "airindiaexpress", "2t", "trujet", "9w", "jetairways", "ek", "emirates"};
 
     public static final String[] upi = {"airtel", "airtelpaymentsbank", "albk", "allahabadbank", "allbank", "andb", "apb", "apl", "axis", "axisb", "axisbank",
             "axisgo", "bandhan", "barodampay", "barodapay", "birla", "boi", "cbin", "cboi", "centralbank", "cmsidfc", "cnrb", "csbcash", "csbpay",

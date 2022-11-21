@@ -42,9 +42,10 @@ public class ClassifierYuga {
             Pair<Integer, Pair> res = getTokenEndIndex(sentence, indexTrack.next, ClassifierYuga.prefixTrie);
             int tokenEndIndex = res.getA();
             start = indexTrack.next;
-            Pair<String, Integer> p = classifyTokens(sentence.substring(indexTrack.next), sentence.substring(indexTrack.next, tokenEndIndex).toLowerCase(), indexTrack, configMap, prevToken, res.getB());
-            if(Constants.possiblePrevTokens.containsKey(sentence.substring(start, tokenEndIndex).toLowerCase())) {
-                prevToken.setB(Constants.possiblePrevTokens.get(sentence.substring(start, tokenEndIndex).toLowerCase()));
+            String inpt = sentence.substring(start, tokenEndIndex).toLowerCase();
+            Pair<String, Integer> p = classifyTokens(sentence.substring(start), inpt, indexTrack, configMap, prevToken, res.getB());
+            if(Constants.possiblePrevTokens.containsKey(inpt)) {
+                prevToken.setB(Constants.possiblePrevTokens.get(inpt));
                 flag = true;
                 prevToken.setA(1);
             }
@@ -97,11 +98,14 @@ public class ClassifierYuga {
         int i;
         int len = 0;
         String label = null;
+        Boolean flag = true;
         TrieNode root = prefixTrie.root;
         String sentence = str.toLowerCase();
         for (i = 0; i < sentence.length(); i++) {
             char ch = sentence.charAt(i);
-            if(root.hasNext(ch)) {
+            if(!root.hasNext(ch))
+                flag = false;
+            if(root.hasNext(ch) && flag) {
                 root = root.get(ch);
                 len += 1;
                 if(root.isEnd()) {
@@ -134,18 +138,14 @@ public class ClassifierYuga {
             }
         }
         else if(Constants.tokens.containsKey(word) && Constants.tokens.get(word).equals("TRANSFER")) {
-            String refId = null;
-            String userId = null;
-            HashMap<String, String> userMap = new HashMap<>();
-            StateMachines.checkForUPI(word, refId, userId, userMap, 0);
-            if(refId != null) {
+            if (StateMachines.checkForUPI(word) != null) {
                 int start = indexTrack.next;
-                switch(word) {
-                    case "upi" :
+                switch (word) {
+                    case "upi":
                         return new Pair<>("UPI", start);
-                    case "mmt" :
+                    case "mmt":
                         return new Pair<>("IMPS", start);
-                    case "neft" :
+                    case "neft":
                         return new Pair<>("NEFT", start);
                 }
             }
@@ -153,7 +153,6 @@ public class ClassifierYuga {
         else if(prefix != null && prefix.getB().equals("FLTID")) {
             int i = lookAheadInteger(sentence.substring(word.length()));
             boolean nextIsNumber = (i + 1 + word.length()) < sentence.length() && isNumber(sentence.charAt(i + 1 + word.length()));
-            Boolean currencyPosible = false;
             if (i >= 0 && i <= 5 && nextIsNumber && (t = StateMachines.numberParse(sentence.substring(i + word.length()))) != null) {
                 int start = indexTrack.next;
                 setNextindex(word.length() + i + t.getA(), indexTrack);
@@ -189,8 +188,6 @@ public class ClassifierYuga {
         else if(Constants.tokens.containsKey(word) && Constants.tokens.get(word).equals("IDPRX")) {
             int i = ClassifierYuga.lookAheadNumberForIdPrx(sentence.substring(indexTrack.next));
             StringBuilder num = new StringBuilder();
-            int idx = 0;
-            boolean currencyPossible = false;
             if (i >= 0 && i <= 2) {
                 t = StateMachines.numberParse(sentence.substring(i + indexTrack.next));
                 if (t != null) {
@@ -278,6 +275,12 @@ public class ClassifierYuga {
                 return new Pair<>("IDVAL", start);
             }
         }
+        Integer idx = classifyUpiWrapper(sentence, 0);
+        if (idx != null) {
+            int start = indexTrack.next;
+            setNextindex(idx + 1, indexTrack);
+            return new Pair<>("UPI", start);
+        }
         return null;
     }
     private static Integer classifyUpiWrapper(String sentence, int index) {
@@ -294,7 +297,7 @@ public class ClassifierYuga {
             else
                 return null;
         }
-        int ind = classifyUpi(sentence.substring(index + 1));
+        int ind = classifyUpi(sentence.substring(index + 1) + " ");
         if(ind > 0)
             return index + ind + 1;
         return null;
