@@ -3,6 +3,8 @@ package com.twelfthmile.yuga.utils;
 import com.twelfthmile.yuga.types.GenTrie;
 import com.twelfthmile.yuga.types.Pair;
 import com.twelfthmile.yuga.types.RootTrie;
+import com.twelfthmile.yuga.types.Trie;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -151,4 +153,9 @@ public class Util {
         return true;
     }
 
+    public static Trie loadTokens() {
+        Trie tokenTrie = new Trie();
+        tokenTrie.loadTrie();
+        return tokenTrie;
+    }
 }
