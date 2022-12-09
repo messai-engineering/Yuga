@@ -778,6 +778,11 @@
     "accepted": true
   },
   {
+    "input": "3,6,9,12,18,24 ",
+    "response": {},
+    "accepted": false
+  },
+  {
     "input": "020918040601Avlbal",
     "response": {
       "type": "STR",
