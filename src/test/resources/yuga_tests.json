@@ -778,18 +778,6 @@
     "accepted": true
   },
   {
-    "input": "3,6,9,12,18,24 ",
-    "response": {
-      "type": "NUM",
-      "valMap": {
-        "num_class":"NUM"
-      },
-      "str": "369121824",
-      "index": 14
-    },
-    "accepted": true
-  },
-  {
     "input": "020918040601Avlbal",
     "response": {
       "type": "STR",
