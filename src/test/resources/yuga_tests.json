@@ -1122,6 +1122,18 @@
       "index":6
     },
     "accepted": true
+  },
+  {
+    "input":"1515-1750hrs",
+    "response": {
+      "type": "TIMES",
+      "valMap":{
+        "arrv_time": "17:50",
+        "dept_time": "15:15"
+      },
+      "str":"15151750",
+      "index":9
+    },
+    "accepted": true
   }
-
 ]

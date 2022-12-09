@@ -478,6 +478,7 @@ public class Yuga {
                             i = i - 1;
                         if(comma_count>1 && comma_count < 4 && map.getType().equals(Constants.TY_AMT))
                             map.setType(Constants.TY_NUM, Constants.TY_NUM);
+                        // to prevent 3,6,9,12,18,24 months highlighted as a number
                         else if(comma_count >= 4 && map.getType().equals(Constants.TY_AMT)) {
                             map.remove(map.getType());
                             map.remove("TYP");
@@ -796,6 +797,7 @@ public class Yuga {
                             map.setType(Constants.TY_NUM, Constants.TY_NUM);
                         }
                         map.append(c);
+                        // for cases like 1515-1750hrs
                         if ((delimiterStack.pop() == Constants.CH_SLSH || delimiterStack.pop() == Constants.CH_HYPH) && i + 1 < str.length() && Util.isNumber(str.charAt(i + 1)) && (i + 2 == str.length() || Util.isDelimiter(str.charAt(i + 2)) || str.charAt(i + 2)=='/' || str.substring(i + 2, i + 5).equals("hrs") )) {//flight time 0820/0950
                             map.setType(Constants.TY_TMS, Constants.TY_TMS);
                             map.append(str.charAt(i + 1));
