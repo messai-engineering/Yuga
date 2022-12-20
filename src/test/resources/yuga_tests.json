@@ -1128,5 +1128,35 @@
       "index":9
     },
     "accepted": true
+  },
+  {
+    "input":"11/01/2021:10:09:47PM",
+    "response": {
+      "type": "DATE",
+      "valMap":{},
+      "str":"2021-01-11 10:09:47",
+      "index":21
+    },
+    "accepted": true
+  },
+  {
+    "input":"11/01/2021:10:09:47AM",
+    "response": {
+      "type": "DATE",
+      "valMap":{},
+      "str":"2021-01-11 10:09:47",
+      "index":21
+    },
+    "accepted": true
+  },
+  {
+    "input":"11/01/2021:10:09:47 AM",
+    "response": {
+      "type": "DATE",
+      "valMap":{},
+      "str":"2021-01-11 10:09:47",
+      "index":22
+    },
+    "accepted": true
   }
 ]

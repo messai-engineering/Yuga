@@ -49,7 +49,7 @@ public class Util {
         if (isWordEndAtMeridien)
             return true;
         char c = str.charAt(i+2);
-        boolean checkIfJustWordStart = (c == Constants.CH_SPACE || c == Constants.CH_FSTP || c == Constants.CH_COMA || c == Constants.CH_RBKT ||  c == Constants.CH_HYPH) ;  //am or pm ahead but just a  word starting with am/pm like amp
+        boolean checkIfJustWordStart = (c == Constants.CH_SPACE || c == Constants.CH_FSTP || c == Constants.CH_COMA || c == Constants.CH_RBKT ||  c == Constants.CH_HYPH || c == Constants.CH_NLINE) ;  //am or pm ahead but just a  word starting with am/pm like amp
         return checkIfJustWordStart;
     }
 
