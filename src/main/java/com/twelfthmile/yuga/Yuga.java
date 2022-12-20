@@ -1191,7 +1191,7 @@ public class Yuga {
                     i = in + pTime.getA() + 1 + j;
                 } else if (sub.toLowerCase().startsWith("pm") || sub.toLowerCase().startsWith("am")) {
                     //todo handle appropriately for pm
-                    if((sub.length()>=3 && Util.isDelimiter(sub.charAt(2))) ||(sub.length()==2) ) {
+                    if((sub.length()>=3 && Util.isDelimiter(sub.charAt(2))) ||(Util.meridienTimeAhead(sub,0)) ) {
                         // second if condition added to move index to pm in case like : 11/01/2021:10:09:47PM
                         i = in + 2;
                     }
