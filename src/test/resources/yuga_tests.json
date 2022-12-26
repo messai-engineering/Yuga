@@ -1174,10 +1174,9 @@
   {
     "input":"1-7",
     "response": {
-      "type": "NUMRANGE",
+      "type": "NUM",
       "valMap":{
-        "from_num": "1",
-        "to_num": "7"
+        "num": "17"
       },
       "str":"1-7",
       "index":3
@@ -1187,10 +1186,9 @@
   {
     "input":"1-17 ",
     "response": {
-      "type": "NUMRANGE",
+      "type": "NUM",
       "valMap":{
-        "from_num": "1",
-        "to_num": "17"
+        "num": "117"
       },
       "str":"1-17 ",
       "index":5
@@ -1200,10 +1198,9 @@
   {
     "input":"11-17",
     "response": {
-      "type": "NUMRANGE",
+      "type": "NUM",
       "valMap":{
-        "from_num": "11",
-        "to_num": "17"
+        "num": "1117"
       },
       "str":"11-17",
       "index":5
@@ -1238,12 +1235,11 @@
   {
     "input":"12-451",
     "response": {
-      "type": "NUMRANGE",
+      "type": "NUM",
       "valMap":{
-        "from_num": "12",
-        "to_num": "451"
+        "num": "12451"
       },
-      "str":"12-451",
+      "str":"12451",
       "index": 6
     },
     "accepted": true
@@ -1326,9 +1322,35 @@
     "input": "010-150",
     "response": {
       "type": "NUM",
-      "valMap":{"num_class": "NUM"},
+      "valMap":{"num": "010150"},
       "str":"010150",
       "index": 7
+    },
+    "accepted": true
+  },
+  {
+    "input":"09-11AM",
+    "response": {
+      "type": "TIMES",
+      "valMap":{
+        "from_time": "09:00",
+        "to_time": "11:00"
+      },
+      "str":"09-11AM",
+      "index": 7
+    },
+    "accepted": true
+  },
+  {
+    "input":"09-11  PM",
+    "response": {
+      "type": "TIMES",
+      "valMap":{
+        "from_time": "21:00",
+        "to_time": "23:00"
+      },
+      "str":"09-11  PM",
+      "index": 9
     },
     "accepted": true
   }

@@ -181,7 +181,7 @@ public class Util {
     }
 
     public static boolean checkForNumRange(String val) {
-        if(val == null || val.length()<3 || !val.contains("-") || val.startsWith("0"))
+        if(val == null || val.length()<3 || !val.contains("-") || val.startsWith("00"))
             return false;
         String[] parts = val.split("-");
         // 1800-20-545-5477

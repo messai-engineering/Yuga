@@ -1193,13 +1193,13 @@ public class Yuga {
             }
         } else if (map.getType().equals(Constants.TY_TMS)) {
             handleTYTMS(map,map.get(map.getType()));
-        } else if (map.getType().equals(Constants.TY_NUMRANGE) && (i + 2) < str.length()) {
-            Pair<Integer, String> pRange;
+        } else if (map.getType().equals(Constants.TY_NUMRANGE)) {
             int in = i + skip(str.substring(i));
-            String sub = str.substring(in);
-            String fromNum = map.getVal("from_num");
-            String toNum = map.getVal("to_num");
             if (in < str.length()) {
+                Pair<Integer, String> pRange;
+                String sub = str.substring(in);
+                String fromNum = map.getVal("from_num");
+                String toNum = map.getVal("to_num");
                 if ((pRange = Util.checkTypes(getRoot(), "FSA_TIMES", sub)) != null) {
                     i = in + pRange.getA()+1;
                     if(handleTYTMS(map,fromNum+toNum)){
@@ -1224,14 +1224,16 @@ public class Yuga {
                 } else if ( (pRange = Util.checkTypes(getRoot(), "FSA_MONTHS", sub)) != null) {
                     i = in + pRange.getA()+1;
                     map.setType(Constants.TY_DTERANGE);
-                    map.setVal("from_date",getDate(fromNum+" "+pRange.getB(),config));
-                    map.setVal("to_date",getDate(toNum+" "+pRange.getB(),config));
+                    map.setVal("from_date",getYugaResponseOutput(fromNum+" "+pRange.getB(),config,false));
+                    map.setVal("to_date",getYugaResponseOutput(toNum+" "+pRange.getB(),config,false));
                     map.setVal("time_type","month");
                     map.getValMap().remove("from_num");
                     map.getValMap().remove("to_num");
                 } else if (Util.meridienTimeAhead(sub,0)) {
-                    map.setVal("from_time",fromNum);
-                    map.setVal("to_time",toNum);
+                    String meridien = (str.charAt(i)=='a')? "am":"pm";
+                    i = in+2;
+                    map.setVal("from_time",getYugaResponseOutput(fromNum+" "+ meridien,config,true));
+                    map.setVal("to_time",getYugaResponseOutput(toNum+" "+meridien,config,true));
                     map.getValMap().remove("from_num");
                     map.getValMap().remove("to_num");
                     map.setType(Constants.TY_TMS);
@@ -1249,6 +1251,10 @@ public class Yuga {
                     map.getValMap().remove("to_num");
                     i = i+del;
                 }
+            }
+            if (map.getType().equals(Constants.TY_NUMRANGE)) {
+                map.setType(Constants.TY_NUM);
+                map.setVal("num", map.getValMap().remove("from_num") + map.getValMap().remove("to_num"));
             }
         }
         return new Pair<>(i, map);
@@ -1471,10 +1477,14 @@ public class Yuga {
         return ( res<0 ) ? 1: prevStates.get(res);
     }
 
-    public static String getDate(String str,Map<String, String> config) {
-        Response r =  getResponse(str+" " , config);
-        return r.getStr();
+    public static String getYugaResponseOutput(String str,Map<String, String> config,boolean isTime) {
+        Response r =  getResponse(str, config);
+        if(isTime)
+            return r.getValMap().get("time");
+        else
+            return r.getStr();
     }
+
 
     static class DelimiterStack {
         final ArrayList<Character> stack;

@@ -18,7 +18,7 @@ public class GetOutputTest {
 
     @Test
     public void testYuga() {
-        String str = "11/01/2021:10:09:47 AM";
+        String str = "12-451";
         Response r = Yuga.parse( str, configMap);
         if(r!=null) {
             System.out.println(r.toString());
