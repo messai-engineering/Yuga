@@ -652,8 +652,8 @@
     "response": {
       "type": "TIMES",
       "valMap": {
-        "arrv_time": "09:50",
-        "dept_time": "08:20"
+        "to_time": "09:50",
+        "from_time": "08:20"
       },
       "str": "08200950",
       "index": 9
@@ -797,7 +797,7 @@
     "input": "0630-0845/1030-1220 hrs",
     "response": {
       "type" : "TIMES",
-      "valMap": {"arrv_time":"08:45", "dept_time":"06:30"},
+      "valMap": {"to_time":"08:45", "from_time":"06:30"},
       "str": "06300845",
       "index": 9
     },
@@ -951,10 +951,14 @@
   {
     "input": "1-2 Days",
     "response": {
-      "type": "NUM",
-      "valMap":{"num_class": "NUM"},
-      "str": "2",
-      "index": 3
+      "type": "DATERANGE",
+      "valMap": {
+        "from_date":"2022-12-27 00:00:00",
+        "to_date":"2022-12-28 00:00:00",
+        "time_type": "day"
+      },
+      "str": "1-2 Days",
+      "index": 8
     },
     "accepted": true
   },
@@ -1051,48 +1055,56 @@
   {
     "input": "3-4 business days",
     "response": {
-      "type": "NUM",
+      "type": "DATERANGE",
       "valMap": {
-        "num_class": "NUM"
+        "from_date":"2022-12-29 00:00:00",
+        "to_date":"2022-12-30 00:00:00",
+        "time_type": "day"
       },
-      "str": "4",
-      "index": 3
+      "str": "3-4 business days",
+      "index": 17
     },
     "accepted": true
   },
   {
     "input": "3-4 days",
     "response": {
-      "type": "NUM",
+      "type": "DATERANGE",
       "valMap": {
-        "num_class": "NUM"
+        "from_date":"2022-12-29 00:00:00",
+        "to_date":"2022-12-30 00:00:00",
+        "time_type": "day"
       },
-      "str": "4",
-      "index": 3
+      "str": "3-4 days",
+      "index": 8
     },
     "accepted": true
   },
   {
     "input": "3-4 working days",
     "response": {
-      "type": "NUM",
+      "type": "DATERANGE",
       "valMap": {
-        "num_class": "NUM"
+        "from_date":"2022-12-29 00:00:00",
+        "to_date":"2022-12-30 00:00:00",
+        "time_type": "day"
       },
-      "str": "4",
-      "index": 3
+      "str": "3-4 working days",
+      "index": 16
     },
     "accepted": true
   },
   {
     "input": "3-4 work days",
     "response": {
-      "type": "NUM",
+      "type": "DATERANGE",
       "valMap": {
-        "num_class": "NUM"
+        "from_date":"2022-12-29 00:00:00",
+        "to_date":"2022-12-30 00:00:00",
+        "time_type": "day"
       },
-      "str": "4",
-      "index": 3
+      "str": "3-4 work days",
+      "index": 13
     },
     "accepted": true
   },
@@ -1121,11 +1133,11 @@
     "response": {
       "type": "TIMES",
       "valMap":{
-        "arrv_time": "17:50",
-        "dept_time": "15:15"
+        "to_time": "17:50",
+        "from_time": "15:15"
       },
-      "str":"15151750",
-      "index":9
+      "str":"1515-1750hrs",
+      "index": 12
     },
     "accepted": true
   },
@@ -1156,6 +1168,167 @@
       "valMap":{},
       "str":"2021-01-11 10:09:47",
       "index":22
+    },
+    "accepted": true
+  },
+  {
+    "input":"1-7",
+    "response": {
+      "type": "NUMRANGE",
+      "valMap":{
+        "from_num": "1",
+        "to_num": "7"
+      },
+      "str":"1-7",
+      "index":3
+    },
+    "accepted": true
+  },
+  {
+    "input":"1-17 ",
+    "response": {
+      "type": "NUMRANGE",
+      "valMap":{
+        "from_num": "1",
+        "to_num": "17"
+      },
+      "str":"1-17 ",
+      "index":5
+    },
+    "accepted": true
+  },
+  {
+    "input":"11-17",
+    "response": {
+      "type": "NUMRANGE",
+      "valMap":{
+        "from_num": "11",
+        "to_num": "17"
+      },
+      "str":"11-17",
+      "index":5
+    },
+    "accepted": true
+  },
+  {
+    "input": "17:20 - 18:20",
+    "response": {
+      "type": "TIME",
+      "valMap": {
+        "time": "17:20"
+      },
+      "str": "17:20",
+      "index": 5
+    },
+    "accepted": true
+  },
+  {
+    "input":"1245-1530",
+    "response": {
+      "type": "TIMES",
+      "valMap":{
+        "from_time": "12:45",
+        "to_time": "15:30"
+      },
+      "str":"12451530",
+      "index": 9
+    },
+    "accepted": true
+  },
+  {
+    "input":"12-451",
+    "response": {
+      "type": "NUMRANGE",
+      "valMap":{
+        "from_num": "12",
+        "to_num": "451"
+      },
+      "str":"12-451",
+      "index": 6
+    },
+    "accepted": true
+  },
+  {
+    "input": "12-4512",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class": "NUM"},
+      "str":"124512",
+      "index": 7
+    },
+    "accepted": true
+  },
+  {
+    "input": "19:30 PM",
+    "response": {
+      "type": "TIME",
+      "valMap": {
+        "time": "19:30"
+      },
+      "str": "19:30 PM",
+      "index": 8
+    },
+    "accepted": true
+  },
+  {
+    "input":"24-48 hrs",
+    "response": {
+      "type": "TIMERANGE",
+      "valMap":{
+        "from_num": "24",
+        "to_num": "48",
+        "time_type": "hour"
+      },
+      "str":"24-48 hrs",
+      "index":9
+    },
+    "accepted": true
+  },
+  {
+    "input": "17-15",
+    "response": {
+      "type": "STR",
+      "valMap": {},
+      "str": "17-15",
+      "index": 5
+    },
+    "accepted": true
+  },
+  {
+    "input": "3-4 feb",
+    "response": {
+      "type": "DATERANGE",
+      "valMap": {
+        "from_date":"2018-02-03 00:00:00",
+        "to_date":"2018-02-04 00:00:00",
+        "time_type": "month"
+      },
+      "str": "3-4 feb",
+      "index": 7
+    },
+    "accepted": true
+  },
+  {
+    "input": "10-15 Jan!",
+    "response": {
+      "type": "DATERANGE",
+      "valMap": {
+        "from_date":"2018-01-10 00:00:00",
+        "to_date":"2018-01-15 00:00:00",
+        "time_type": "month"
+      },
+      "str": "10-15 Jan",
+      "index": 9
+    },
+    "accepted": true
+  },
+  {
+    "input": "010-150",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class": "NUM"},
+      "str":"010150",
+      "index": 7
     },
     "accepted": true
   }

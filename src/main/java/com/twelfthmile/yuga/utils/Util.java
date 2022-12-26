@@ -5,10 +5,8 @@ import com.twelfthmile.yuga.types.Pair;
 import com.twelfthmile.yuga.types.RootTrie;
 import com.twelfthmile.yuga.types.Trie;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 
 /**
  * Created by johnjoseph on 19/03/17.
@@ -108,7 +106,7 @@ public class Util {
     }
 
     public static boolean isTypeEnd(char ch) {
-        return (isNumber(ch) || ch == Constants.CH_FSTP || ch == Constants.CH_SPACE || ch == Constants.CH_HYPH || ch == Constants.CH_COMA || ch == Constants.CH_SLSH || ch == Constants.CH_RBKT || ch == Constants.CH_PLUS || ch == Constants.CH_STAR || ch == '\r' || ch == '\n' || ch =='\'');
+        return (isNumber(ch) || ch == Constants.CH_FSTP || ch == Constants.CH_SPACE || ch == Constants.CH_HYPH || ch == Constants.CH_COMA || ch == Constants.CH_SLSH || ch == Constants.CH_RBKT || ch == Constants.CH_EXCL || ch == Constants.CH_PLUS || ch == Constants.CH_STAR || ch == '\r' || ch == '\n' || ch =='\'');
     }
 
     public static boolean isAlpha(char c) {
@@ -158,4 +156,57 @@ public class Util {
         tokenTrie.loadTrie();
         return tokenTrie;
     }
+
+    public static Integer parseStrToInt(String text) {
+        // length check in valChecks for INT overflow
+        if(text==null || text.isEmpty() || text.length()>9)
+            return null;
+        try {
+            return Integer.parseInt(text);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    public static boolean checkForTimeRange(String val) {
+        if(!isNumber(val) || val.length()<7)
+            return false;
+        Integer fromTimeHour = parseStrToInt(val.substring(0,2));
+        Integer toTimeHour = parseStrToInt(val.substring(4,6));
+        if(fromTimeHour==null || toTimeHour==null)
+            return false;
+        if(fromTimeHour<24 && toTimeHour <24)
+            return true;
+        return false;
+    }
+
+    public static boolean checkForNumRange(String val) {
+        if(val == null || val.length()<3 || !val.contains("-") || val.startsWith("0"))
+            return false;
+        String[] parts = val.split("-");
+        // 1800-20-545-5477
+        if(parts.length !=2)
+            return false;
+        // -324
+        if((parts[0].length()==0 || parts[0].length()>6) || (parts[1].length()==0 || parts[1].length()>6))
+            return false;
+        // 1800-20 or 91-9811
+        boolean lengthRelatedChecks = (parts[1].length() >= parts[0].length()) && (parts[1].length()-parts[0].length() < 2);
+        boolean valChecks = ( isNumber(parts[0]) && isNumber(parts[1]) ) && ( parseStrToInt(parts[1]) - parseStrToInt(parts[0]) ) > 0 ;
+        if( lengthRelatedChecks && valChecks)
+            return true;
+        return false;
+    }
+
+    public static Date addHoursToJavaUtilDate(Date date, int hours) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR_OF_DAY, hours);
+        return calendar.getTime();
+    }
+
+    public static String addDaysToDate(Date date, int days) {
+        return LocalDate.now().plusDays(days).toString() + " 00:00:00";
+    }
+
 }

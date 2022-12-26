@@ -42,10 +42,13 @@ public class Constants {
     public static final String TY_ACC = "INSTRNO";
     public static final String TY_TYP = "TYP";
     public static final String TY_DTE = "DATE";
+    public static final String TY_DTERANGE = "DATERANGE";
     public static final String TY_TME = "TIME";
+    public static final String TY_TMERANGE = "TIMERANGE";
+    public static final String TY_TMS = "TIMES";
     public static final String TY_STR = "STR";
     public static final String TY_PHN = "PHN";
-    public static final String TY_TMS = "TIMES";
+
     public static final String TY_OTP = "OTP";
     public static final String TY_DTA = "DATA";
     public static final String TY_MLT = "MLTPL";
@@ -55,6 +58,7 @@ public class Constants {
 
     public static final String FSA_MONTHS = "jan;uary,feb;r;uary,mar;ch,apr;il,may,jun;e,jul;y,aug;ust,sep;t;ember,oct;ober,nov;ember,dec;ember";
     public static final String FSA_DAYS = "sun;day,mon;day,tue;sday,wed;nesday,thu;rsday,thur;sday,fri;day,sat;urday";
+    public static final String FSA_DAYRANGE = "day;s,work days,working days,business days";
     public static final String FSA_TIMEPRFX = "at,on,before,by";
     public static final String FSA_AMT = "lac,lakh,k";
     public static final String FSA_TIMES = "hours,hrs,hr,mins,minutes";

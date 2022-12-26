@@ -43,6 +43,7 @@ public class Yuga {
         root.next.put("FSA_TZ", new GenTrie());
         root.next.put("FSA_DAYSFFX", new GenTrie());
         root.next.put("FSA_UPI", new GenTrie());
+        root.next.put("FSA_DAYRANGE", new GenTrie());
         seeding(Constants.FSA_MONTHS, root.next.get("FSA_MONTHS"));
         seeding(Constants.FSA_DAYS, root.next.get("FSA_DAYS"));
         seeding(Constants.FSA_TIMEPRFX, root.next.get("FSA_TIMEPRFX"));
@@ -51,6 +52,7 @@ public class Yuga {
         seeding(Constants.FSA_TZ, root.next.get("FSA_TZ"));
         seeding(Constants.FSA_DAYSFFX, root.next.get("FSA_DAYSFFX"));
         seeding(Constants.FSA_UPI, root.next.get("FSA_UPI"));
+        seeding(Constants.FSA_DAYRANGE, root.next.get("FSA_DAYRANGE"));
         return root;
     }
 
@@ -348,8 +350,11 @@ public class Yuga {
                             map.put(Constants.DT_HH, String.valueOf(0));
                     } else if (c == 'p' && (i + 1) < str.length() && str.charAt(i + 1) == 'm') {
                         int hh = Integer.parseInt(map.get(Constants.DT_HH));
-                        if (hh != 12)
+                        if (hh < 12)
                             map.put(Constants.DT_HH, String.valueOf(hh + 12));
+                        // 19:30 PM
+                        else if (hh>12)
+                            map.put(Constants.DT_HH, String.valueOf(hh));
                         i = i + 1;
                     } else if ((p = Util.checkTypes(getRoot(), "FSA_TIMES", str.substring(i))) != null) {
                         i += p.getA();
@@ -669,19 +674,6 @@ public class Yuga {
                         state=19;
                     }
                     else {
-                        boolean day = nextSpace(str.substring(i)) >=3 && str.substring(i,i+3).equals("day");
-                        boolean working = nextSpace(str.substring(i)) >=4 && str.substring(i,i+4).equals("work");
-                        boolean business= nextSpace(str.substring(i)) >=8 && str.substring(i,i+8).equals("business");
-                        // 1-2 Days, 3-4 working days, 2-3 business days
-                        if(Util.isAlpha(c) && (day || working || business) ){
-                            String laterDay = map.get("MM");
-                            map = new FsaContextMap();
-                            map.setType(Constants.TY_NUM, Constants.TY_NUM);
-                            map.put(Constants.TY_NUM,laterDay);
-                            i=i-2;
-                            state=-1;
-                            break;
-                        }
                         i = i - 2;
                         state = -1;
                     }
@@ -797,8 +789,9 @@ public class Yuga {
                             map.setType(Constants.TY_NUM, Constants.TY_NUM);
                         }
                         map.append(c);
+                        boolean checkIfPossTimeRange = Util.checkForTimeRange(map.get("NUM"));
                         // for cases like 1515-1750hrs
-                        if ((delimiterStack.pop() == Constants.CH_SLSH || delimiterStack.pop() == Constants.CH_HYPH) && i + 1 < str.length() && Util.isNumber(str.charAt(i + 1)) && (i + 2 == str.length() || Util.isDelimiter(str.charAt(i + 2)) || str.charAt(i + 2)=='/' || str.substring(i + 2, i + 5).equals("hrs") )) {//flight time 0820/0950
+                        if ((delimiterStack.pop() == Constants.CH_SLSH || delimiterStack.pop() == Constants.CH_HYPH) && i + 1 < str.length() && Util.isNumber(str.charAt(i + 1)) && (i + 2 == str.length() || Util.isDelimiter(str.charAt(i + 2)) || str.charAt(i + 2)=='/') && checkIfPossTimeRange) {//flight time 0820/0950
                             map.setType(Constants.TY_TMS, Constants.TY_TMS);
                             map.append(str.charAt(i + 1));
                             i = i + 1;
@@ -1115,6 +1108,7 @@ public class Yuga {
             }
         }
 
+        setIfNumRange(str, i, map);
         if (map.getType().equals(Constants.TY_NUM)) {
             // Added last char is not space check that prevents 'num' becoming a 'str'. Ex: "+919057235089 pin"
             if (i < str.length() && str.charAt(i-1)!=' ' && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||(!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))&&!Constants.YUGA_SC_TRANSID.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))))) {
@@ -1198,13 +1192,85 @@ public class Yuga {
                 }
             }
         } else if (map.getType().equals(Constants.TY_TMS)) {
-            String v = map.get(map.getType());
-            if (v != null && v.length() == 8 && Util.isHour(v.charAt(0), v.charAt(1)) && Util.isHour(v.charAt(4), v.charAt(5))) {
-                extractTime(v.substring(0, 4), map.getValMap(), "dept");
-                extractTime(v.substring(4, 8), map.getValMap(), "arrv");
+            handleTYTMS(map,map.get(map.getType()));
+        } else if (map.getType().equals(Constants.TY_NUMRANGE) && (i + 2) < str.length()) {
+            Pair<Integer, String> pRange;
+            int in = i + skip(str.substring(i));
+            String sub = str.substring(in);
+            String fromNum = map.getVal("from_num");
+            String toNum = map.getVal("to_num");
+            if (in < str.length()) {
+                if ((pRange = Util.checkTypes(getRoot(), "FSA_TIMES", sub)) != null) {
+                    i = in + pRange.getA()+1;
+                    if(handleTYTMS(map,fromNum+toNum)){
+                        map.setType(Constants.TY_TMS);
+                        map.getValMap().remove("from_num");
+                        map.getValMap().remove("to_num");
+                    }else {
+                        map.setType(Constants.TY_TMERANGE);
+                        if(sub.charAt(0)=='h')
+                            map.setVal("time_type","hour");
+                        else
+                            map.setVal("time_type","min");
+                    }
+                }else if ( (pRange= Util.checkTypes(getRoot(), "FSA_DAYRANGE", sub)) != null) {
+                    i = in + pRange.getA()+1;
+                    map.setType(Constants.TY_DTERANGE);
+                    map.setVal("from_date", Util.addDaysToDate(new Date(),Util.parseStrToInt(fromNum)));
+                    map.setVal("to_date",Util.addDaysToDate(new Date(),Util.parseStrToInt(toNum)));
+                    map.setVal("time_type","day");
+                    map.getValMap().remove("from_num");
+                    map.getValMap().remove("to_num");
+                } else if ( (pRange = Util.checkTypes(getRoot(), "FSA_MONTHS", sub)) != null) {
+                    i = in + pRange.getA()+1;
+                    map.setType(Constants.TY_DTERANGE);
+                    map.setVal("from_date",getDate(fromNum+" "+pRange.getB(),config));
+                    map.setVal("to_date",getDate(toNum+" "+pRange.getB(),config));
+                    map.setVal("time_type","month");
+                    map.getValMap().remove("from_num");
+                    map.getValMap().remove("to_num");
+                } else if (Util.meridienTimeAhead(sub,0)) {
+                    map.setVal("from_time",fromNum);
+                    map.setVal("to_time",toNum);
+                    map.getValMap().remove("from_num");
+                    map.getValMap().remove("to_num");
+                    map.setType(Constants.TY_TMS);
+                } else if(sub.length()>3 && (sub.charAt(0)=='-' || sub.charAt(0)=='x')){
+                    int del = nextSpace(sub);
+                    if(Util.isNumber(sub.substring(1))){
+                        map.append(sub);
+                        map.setType(Constants.TY_NUM, Constants.TY_NUM);
+                    }
+                    else{
+                        map.append(sub.substring(0,del));
+                        map.setType(Constants.TY_STR, Constants.TY_STR);
+                    }
+                    map.getValMap().remove("from_num");
+                    map.getValMap().remove("to_num");
+                    i = i+del;
+                }
             }
         }
-        return new Pair<Integer, FsaContextMap>(i, map);
+        return new Pair<>(i, map);
+    }
+
+    private static void setIfNumRange(String str, int i, FsaContextMap map) {
+        String trimmed = str.substring(0, i).trim();
+        if(Util.checkForNumRange(trimmed) && !map.getType().equals(Constants.TY_TMS)){
+            String[] parts = trimmed.split("-");
+            map.setVal("from_num",parts[0]);
+            map.setVal("to_num",parts[1]);
+            map.setType(Constants.TY_NUMRANGE);
+        }
+    }
+
+    private static boolean handleTYTMS(FsaContextMap map,String v) {
+        if (v != null && v.length() == 8 && Util.isHour(v.charAt(0), v.charAt(1)) && Util.isHour(v.charAt(4), v.charAt(5))) {
+            extractTime(v.substring(0, 4), map.getValMap(), "from");
+            extractTime(v.substring(4, 8), map.getValMap(), "to");
+            return true;
+        }
+        else return false;
     }
 
     private static int skipForTZ(String str, FsaContextMap map) {
@@ -1403,6 +1469,11 @@ public class Yuga {
     private static int getPrevState(ArrayList<Integer> prevStates) {
         int res = prevStates.size()-2;
         return ( res<0 ) ? 1: prevStates.get(res);
+    }
+
+    public static String getDate(String str,Map<String, String> config) {
+        Response r =  getResponse(str+" " , config);
+        return r.getStr();
     }
 
     static class DelimiterStack {
