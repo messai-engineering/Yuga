@@ -5,6 +5,7 @@ import com.twelfthmile.yuga.utils.FsaContextMap;
 import com.twelfthmile.yuga.utils.L;
 import com.twelfthmile.yuga.utils.Util;
 import com.twelfthmile.yuga.utils.Constants;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1195,7 +1196,9 @@ public class Yuga {
             handleTYTMS(map,map.get(map.getType()));
         } else if (map.getType().equals(Constants.TY_NUMRANGE)) {
             int in = i + skip(str.substring(i));
-            if (in < str.length()) {
+            String dateStr = config.get(Constants.YUGA_CONF_DATE);
+            Date dt = Util.getDateObject(dateStr);
+            if (in < str.length() && dt!=null) {
                 Pair<Integer, String> pRange;
                 String sub = str.substring(in);
                 String fromNum = map.getVal("from_num");
@@ -1216,8 +1219,8 @@ public class Yuga {
                 }else if ( (pRange= Util.checkTypes(getRoot(), "FSA_DAYRANGE", sub)) != null) {
                     i = in + pRange.getA()+1;
                     map.setType(Constants.TY_DTERANGE);
-                    map.setVal("from_date", Util.addDaysToDate(new Date(),Util.parseStrToInt(fromNum)));
-                    map.setVal("to_date",Util.addDaysToDate(new Date(),Util.parseStrToInt(toNum)));
+                    map.setVal("from_date", Util.addDaysToDate( dt,Util.parseStrToInt(fromNum)));
+                    map.setVal("to_date",Util.addDaysToDate(dt,Util.parseStrToInt(toNum)));
                     map.setVal("time_type","day");
                     map.getValMap().remove("from_num");
                     map.getValMap().remove("to_num");

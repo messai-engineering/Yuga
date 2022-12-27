@@ -953,8 +953,8 @@
     "response": {
       "type": "DATERANGE",
       "valMap": {
-        "from_date":"2022-12-27 00:00:00",
-        "to_date":"2022-12-28 00:00:00",
+        "from_date":"2018-06-02 00:00:00",
+        "to_date":"2018-06-03 00:00:00",
         "time_type": "day"
       },
       "str": "1-2 Days",
@@ -1057,8 +1057,8 @@
     "response": {
       "type": "DATERANGE",
       "valMap": {
-        "from_date":"2022-12-29 00:00:00",
-        "to_date":"2022-12-30 00:00:00",
+        "from_date":"2018-06-04 00:00:00",
+        "to_date":"2018-06-05 00:00:00",
         "time_type": "day"
       },
       "str": "3-4 business days",
@@ -1071,8 +1071,8 @@
     "response": {
       "type": "DATERANGE",
       "valMap": {
-        "from_date":"2022-12-29 00:00:00",
-        "to_date":"2022-12-30 00:00:00",
+        "from_date":"2018-06-04 00:00:00",
+        "to_date":"2018-06-05 00:00:00",
         "time_type": "day"
       },
       "str": "3-4 days",
@@ -1085,8 +1085,8 @@
     "response": {
       "type": "DATERANGE",
       "valMap": {
-        "from_date":"2022-12-29 00:00:00",
-        "to_date":"2022-12-30 00:00:00",
+        "from_date":"2018-06-04 00:00:00",
+        "to_date":"2018-06-05 00:00:00",
         "time_type": "day"
       },
       "str": "3-4 working days",
@@ -1099,8 +1099,8 @@
     "response": {
       "type": "DATERANGE",
       "valMap": {
-        "from_date":"2022-12-29 00:00:00",
-        "to_date":"2022-12-30 00:00:00",
+        "from_date":"2018-06-04 00:00:00",
+        "to_date":"2018-06-05 00:00:00",
         "time_type": "day"
       },
       "str": "3-4 work days",

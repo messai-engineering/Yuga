@@ -5,6 +5,7 @@ import com.twelfthmile.yuga.types.Pair;
 import com.twelfthmile.yuga.types.RootTrie;
 import com.twelfthmile.yuga.types.Trie;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -206,7 +207,22 @@ public class Util {
     }
 
     public static String addDaysToDate(Date date, int days) {
-        return LocalDate.now().plusDays(days).toString() + " 00:00:00";
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.add(Calendar.DAY_OF_MONTH, days);
+        return Constants.dateTimeFormatter().format(calendar.getTime());
+    }
+
+    public static Date getDateObject(String dateStr){
+        try {
+            Date dt = Constants.dateTimeFormatter().parse(dateStr);
+            return dt;
+        } catch (ParseException e) {
+            return null;
+        }
     }
 
 }
