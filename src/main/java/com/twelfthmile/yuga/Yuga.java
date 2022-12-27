@@ -1196,8 +1196,10 @@ public class Yuga {
             handleTYTMS(map,map.get(map.getType()));
         } else if (map.getType().equals(Constants.TY_NUMRANGE)) {
             int in = i + skip(str.substring(i));
-            String dateStr = config.get(Constants.YUGA_CONF_DATE);
-            Date dt = Util.getDateObject(dateStr);
+            Date dt = null;
+            if(config.containsKey(Constants.YUGA_CONF_DATE)) {
+                dt = Util.getDateObject(config.get(Constants.YUGA_CONF_DATE));
+            }
             if (in < str.length() && dt!=null) {
                 Pair<Integer, String> pRange;
                 String sub = str.substring(in);
