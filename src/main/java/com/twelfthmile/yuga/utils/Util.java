@@ -225,4 +225,8 @@ public class Util {
         }
     }
 
+    public static String addTimeStampSuffix(String hour){
+        return hour + ":00";
+    }
+
 }
