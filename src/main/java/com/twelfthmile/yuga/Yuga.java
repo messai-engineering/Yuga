@@ -190,6 +190,7 @@ public class Yuga {
 
     private static Pair<Integer, FsaContextMap> parseInternal(String str, Map<String, String> config) {
         int state = 1, i = 0, comma_count = 1;
+        boolean haveSeenAComma = false;
         Pair<Integer, String> p;
         char c;
         FsaContextMap map = new FsaContextMap();
@@ -274,6 +275,8 @@ public class Yuga {
                         state = 4;
                     }// [IL-77]. Rs 20 at msg end becomes currency Date instead of AMT in absence of extra newline character.
                     else if ( (Util.isDateOperator(c) && !configContextIsCURR(config)  ) || c == Constants.CH_COMA) {
+                        if(c == Constants.CH_COMA)
+                            haveSeenAComma = true;
                         if(c==Constants.CH_SPACE && Util.meridienTimeAhead(str,i+1)){ //am or pm ahead
                             map.setType(Constants.TY_DTE, Constants.DT_HH);
                             map.put(Constants.DT_mm,"00");
@@ -860,7 +863,7 @@ public class Yuga {
                         map.put(Constants.DT_MMM, p.getB());
                         i += p.getA();
                         state = 24;
-                    } else if (c == Constants.CH_COMA || c == Constants.CH_SPACE)
+                    } else if (c == Constants.CH_COMA || c == Constants.CH_SPACE || c == Constants.CH_NLINE)
                         state = 32;
                     else if ((p = Util.checkTypes(getRoot(), "FSA_DAYSFFX", str.substring(i))) != null) {
                         i += p.getA();
@@ -1129,6 +1132,11 @@ public class Yuga {
                     map.setVal("num_class", Constants.TY_PHN);
                 else if (map.get(Constants.TY_NUM).length() == 11 && map.get(Constants.TY_NUM).charAt(0) == '0')
                     map.setVal("num_class", Constants.TY_PHN);
+                else if(config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_TRANS)) {
+                    if(map.get(Constants.TY_NUM) != null && (haveSeenAComma == true || comma_count > 1)) {
+                        map.setType(Constants.TY_AMT);
+                    }
+                }
                 else {
                     if(map.get(Constants.TY_NUM) != null && (map.get(Constants.TY_NUM).length() == 6 || map.get(Constants.TY_NUM).length() == 8) && config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_ON) && (i >= str.length() || (str.charAt(i)==Constants.CH_SPACE || str.charAt(i)==Constants.CH_FSTP|| str.charAt(i)==Constants.CH_COMA))) {
                         Pattern pattern;
@@ -1197,14 +1205,14 @@ public class Yuga {
         } else if (map.getType().equals(Constants.TY_NUMRANGE)) {
             int in = i + skip(str.substring(i));
             Date dt = null;
+            String fromNum = map.getVal("from_num");
+            String toNum = map.getVal("to_num");
             if(config.containsKey(Constants.YUGA_CONF_DATE)) {
                 dt = Util.getDateObject(config.get(Constants.YUGA_CONF_DATE));
             }
             if (in < str.length() && dt!=null) {
                 Pair<Integer, String> pRange;
                 String sub = str.substring(in);
-                String fromNum = map.getVal("from_num");
-                String toNum = map.getVal("to_num");
                 if ((pRange = Util.checkTypes(getRoot(), "FSA_TIMES", sub)) != null) {
                     i = in + pRange.getA()+1;
                     if(handleTYTMS(map,fromNum+toNum)){
@@ -1257,7 +1265,15 @@ public class Yuga {
                     i = i+del;
                 }
             }
-            if (map.getType().equals(Constants.TY_NUMRANGE)) {
+            // post-processing
+            if((config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_TMERANGE)) && (fromNum.length()==2 && toNum.length()==2)){
+                map.getValMap().put("from_time",Util.addTimeStampSuffix(fromNum));
+                map.getValMap().put("to_time",Util.addTimeStampSuffix(toNum));
+                map.getValMap().remove("from_num");
+                map.getValMap().remove("to_num");
+                map.setType(Constants.TY_TMS);
+            }
+            else if (map.getType().equals(Constants.TY_NUMRANGE)) {
                 map.setType(Constants.TY_NUM);
                 map.setVal("num", map.getValMap().remove("from_num") + map.getValMap().remove("to_num"));
             }
@@ -1267,6 +1283,10 @@ public class Yuga {
 
     private static void setIfNumRange(String str, int i, FsaContextMap map) {
         String trimmed = str.substring(0, i).trim();
+        // 18-22.
+        if(Util.isDelimiter(trimmed.charAt(trimmed.length()-1))){
+            trimmed = trimmed.substring(0,trimmed.length()-1);
+        }
         if(Util.checkForNumRange(trimmed) && !map.getType().equals(Constants.TY_TMS)){
             String[] parts = trimmed.split("-");
             map.setVal("from_num",parts[0]);
