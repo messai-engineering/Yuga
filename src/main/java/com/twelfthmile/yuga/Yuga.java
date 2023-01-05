@@ -1197,14 +1197,14 @@ public class Yuga {
         } else if (map.getType().equals(Constants.TY_NUMRANGE)) {
             int in = i + skip(str.substring(i));
             Date dt = null;
+            String fromNum = map.getVal("from_num");
+            String toNum = map.getVal("to_num");
             if(config.containsKey(Constants.YUGA_CONF_DATE)) {
                 dt = Util.getDateObject(config.get(Constants.YUGA_CONF_DATE));
             }
             if (in < str.length() && dt!=null) {
                 Pair<Integer, String> pRange;
                 String sub = str.substring(in);
-                String fromNum = map.getVal("from_num");
-                String toNum = map.getVal("to_num");
                 if ((pRange = Util.checkTypes(getRoot(), "FSA_TIMES", sub)) != null) {
                     i = in + pRange.getA()+1;
                     if(handleTYTMS(map,fromNum+toNum)){
@@ -1257,7 +1257,15 @@ public class Yuga {
                     i = i+del;
                 }
             }
-            if (map.getType().equals(Constants.TY_NUMRANGE)) {
+            // post-processing
+            if((config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_TMERANGE)) && (fromNum.length()==2 && toNum.length()==2)){
+                map.getValMap().put("from_time",Util.addTimeStampSuffix(fromNum));
+                map.getValMap().put("to_time",Util.addTimeStampSuffix(toNum));
+                map.getValMap().remove("from_num");
+                map.getValMap().remove("to_num");
+                map.setType(Constants.TY_TMS);
+            }
+            else if (map.getType().equals(Constants.TY_NUMRANGE)) {
                 map.setType(Constants.TY_NUM);
                 map.setVal("num", map.getValMap().remove("from_num") + map.getValMap().remove("to_num"));
             }
@@ -1267,6 +1275,10 @@ public class Yuga {
 
     private static void setIfNumRange(String str, int i, FsaContextMap map) {
         String trimmed = str.substring(0, i).trim();
+        // 18-22.
+        if(Util.isDelimiter(trimmed.charAt(trimmed.length()-1))){
+            trimmed = trimmed.substring(0,trimmed.length()-1);
+        }
         if(Util.checkForNumRange(trimmed) && !map.getType().equals(Constants.TY_TMS)){
             String[] parts = trimmed.split("-");
             map.setVal("from_num",parts[0]);
