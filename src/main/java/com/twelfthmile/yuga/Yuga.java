@@ -860,7 +860,7 @@ public class Yuga {
                         map.put(Constants.DT_MMM, p.getB());
                         i += p.getA();
                         state = 24;
-                    } else if (c == Constants.CH_COMA || c == Constants.CH_SPACE)
+                    } else if (c == Constants.CH_COMA || c == Constants.CH_SPACE || c == Constants.CH_NLINE)
                         state = 32;
                     else if ((p = Util.checkTypes(getRoot(), "FSA_DAYSFFX", str.substring(i))) != null) {
                         i += p.getA();
