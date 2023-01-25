@@ -190,6 +190,7 @@ public class Yuga {
 
     private static Pair<Integer, FsaContextMap> parseInternal(String str, Map<String, String> config) {
         int state = 1, i = 0, comma_count = 1;
+        boolean haveSeenAComma = false;
         Pair<Integer, String> p;
         char c;
         FsaContextMap map = new FsaContextMap();
@@ -274,6 +275,8 @@ public class Yuga {
                         state = 4;
                     }// [IL-77]. Rs 20 at msg end becomes currency Date instead of AMT in absence of extra newline character.
                     else if ( (Util.isDateOperator(c) && !configContextIsCURR(config)  ) || c == Constants.CH_COMA) {
+                        if(c == Constants.CH_COMA)
+                            haveSeenAComma = true;
                         if(c==Constants.CH_SPACE && Util.meridienTimeAhead(str,i+1)){ //am or pm ahead
                             map.setType(Constants.TY_DTE, Constants.DT_HH);
                             map.put(Constants.DT_mm,"00");
@@ -1129,6 +1132,11 @@ public class Yuga {
                     map.setVal("num_class", Constants.TY_PHN);
                 else if (map.get(Constants.TY_NUM).length() == 11 && map.get(Constants.TY_NUM).charAt(0) == '0')
                     map.setVal("num_class", Constants.TY_PHN);
+                else if(config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_TRANS)) {
+                    if(map.get(Constants.TY_NUM) != null && (haveSeenAComma == true || comma_count > 1)) {
+                        map.setType(Constants.TY_AMT);
+                    }
+                }
                 else {
                     if(map.get(Constants.TY_NUM) != null && (map.get(Constants.TY_NUM).length() == 6 || map.get(Constants.TY_NUM).length() == 8) && config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_ON) && (i >= str.length() || (str.charAt(i)==Constants.CH_SPACE || str.charAt(i)==Constants.CH_FSTP|| str.charAt(i)==Constants.CH_COMA))) {
                         Pattern pattern;
