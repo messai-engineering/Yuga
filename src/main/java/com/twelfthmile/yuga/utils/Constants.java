@@ -65,6 +65,7 @@ public class Constants {
     public static final String FSA_TZ = "gmt,ist";
     public static final String FSA_DAYSFFX = "st,nd,rd,th";
     public static final String FSA_UPI = "UPI,MMT,NEFT";
+    public static final String FSA_FLTID = "6E,AI,I5,SG,G8,UK,IX,2T,9W";
 
     public static final String[] curr = {"rs", "inr", "cny", "amt", "amount", "ngn", "usd", "cad", "eur", "gbp", "aed", "jpy", "aud", "s$", "lkr", "ksh", "egp"};
 

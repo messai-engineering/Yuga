@@ -30,7 +30,7 @@ public class Yuga {
         RootTrie root = getRoot();
     }
 
-    private static RootTrie getRoot() {
+    public static RootTrie getRoot() {
         return LazyHolder.root;
     }
 
@@ -45,6 +45,7 @@ public class Yuga {
         root.next.put("FSA_DAYSFFX", new GenTrie());
         root.next.put("FSA_UPI", new GenTrie());
         root.next.put("FSA_DAYRANGE", new GenTrie());
+        root.next.put("FSA_FLTID", new GenTrie());
         seeding(Constants.FSA_MONTHS, root.next.get("FSA_MONTHS"));
         seeding(Constants.FSA_DAYS, root.next.get("FSA_DAYS"));
         seeding(Constants.FSA_TIMEPRFX, root.next.get("FSA_TIMEPRFX"));
@@ -54,6 +55,7 @@ public class Yuga {
         seeding(Constants.FSA_DAYSFFX, root.next.get("FSA_DAYSFFX"));
         seeding(Constants.FSA_UPI, root.next.get("FSA_UPI"));
         seeding(Constants.FSA_DAYRANGE, root.next.get("FSA_DAYRANGE"));
+        seeding(Constants.FSA_FLTID, root.next.get("FSA_FLTID"));
         return root;
     }
 
@@ -877,7 +879,11 @@ public class Yuga {
                     }
                     break;
                 case 33:
-                    if (Util.isNumber(c)) {
+                    if (Util.isNumber(c) && str.substring(i + 1, i + 3).equals("th")) {
+                        map.put(Constants.DT_D, c);
+                        i = i + 2;
+                        state = 34;
+                    } else if (Util.isNumber(c)) {
                         map.put(Constants.DT_D, c);
                         state = 34;
                     } else if (c == Constants.CH_SPACE || c == Constants.CH_COMA || c == Constants.CH_HYPH){
@@ -1072,21 +1078,7 @@ public class Yuga {
             if(j<str.length()) {
                 if ((str.charAt(j) == 'k' || str.charAt(j) == 'm' || str.charAt(j) == 'g') && (j + 1) < str.length() && str.charAt(j + 1) == 'b') {
                     map.setVal("data",map.get(map.getType()));
-                    String sData = "";
-                    switch (str.charAt(j)){
-                        case 'k':
-                            map.setVal("data_type","KB");
-                            sData = " KB";
-                            break;
-                        case 'm':
-                            map.setVal("data_type","MB");
-                            sData = " MB";
-                            break;
-                        case 'g':
-                            map.setVal("data_type","GB");
-                            sData = " GB";
-                            break;
-                    }
+                    String sData = checkIfData(str, j, map);
                     map.setType(Constants.TY_DTA, Constants.TY_DTA);
                     map.append(sData);
                     i = j+2;
@@ -1114,8 +1106,16 @@ public class Yuga {
 
         setIfNumRange(str, i, map);
         if (map.getType().equals(Constants.TY_NUM)) {
+            int k = i + skip(str.substring(i));
             // Added last char is not space check that prevents 'num' becoming a 'str'. Ex: "+919057235089 pin"
-            if (i < str.length() && str.charAt(i-1)!=' ' && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||(!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))&&!Constants.YUGA_SC_TRANSID.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))))) {
+            if(k < str.length() && ((str.charAt(k) == 'k' || str.charAt(k) == 'm' || str.charAt(k) == 'g') && (k + 1) < str.length() && str.charAt(k + 1) == 'b')) {
+                map.setVal("data",map.get(map.getType()));
+                String sData = checkIfData(str, k, map);
+                map.setType(Constants.TY_DTA, Constants.TY_DTA);
+                map.append(sData);
+                i = k + 2;
+            }
+            else if (i < str.length() && str.charAt(i-1)!=' ' && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||(!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))&&!Constants.YUGA_SC_TRANSID.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))))) {
                 int j = i;
                 while (j < str.length() && str.charAt(j) != ' ')
                     j++;
@@ -1293,6 +1293,25 @@ public class Yuga {
             map.setVal("to_num",parts[1]);
             map.setType(Constants.TY_NUMRANGE);
         }
+    }
+
+    private static String checkIfData(String str, int j, FsaContextMap map) {
+        String sData = "";
+        switch (str.charAt(j)){
+            case 'k':
+                map.setVal("data_type","KB");
+                sData = " KB";
+                break;
+            case 'm':
+                map.setVal("data_type","MB");
+                sData = " MB";
+                break;
+            case 'g':
+                map.setVal("data_type","GB");
+                sData = " GB";
+                break;
+        }
+        return sData;
     }
 
     private static boolean handleTYTMS(FsaContextMap map,String v) {
