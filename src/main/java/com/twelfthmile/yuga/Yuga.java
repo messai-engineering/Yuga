@@ -1079,11 +1079,8 @@ public class Yuga {
             int j = i + skip(str.substring(i));
             if(j<str.length()) {
                 if ((str.charAt(j) == 'k' || str.charAt(j) == 'm' || str.charAt(j) == 'g') && (j + 1) < str.length() && str.charAt(j + 1) == 'b') {
-                    map.setVal("data",map.get(map.getType()));
-                    String sData = checkIfData(str, j, map);
-                    map.setType(Constants.TY_DTA, Constants.TY_DTA);
-                    map.append(sData);
-                    i = j+2;
+                    checkIfData(str, j, map);
+                    i = j + 2;
                 }else if (str.charAt(j) == 'k'  && (j + 1) < str.length() && str.charAt(j + 1) == 'g'){
                     map.setVal("data",map.get(map.getType()));
                     String sData = " KG";
@@ -1111,10 +1108,7 @@ public class Yuga {
             int k = i + skip(str.substring(i));
             // Added last char is not space check that prevents 'num' becoming a 'str'. Ex: "+919057235089 pin"
             if(k < str.length() && ((str.charAt(k) == 'k' || str.charAt(k) == 'm' || str.charAt(k) == 'g') && (k + 1) < str.length() && str.charAt(k + 1) == 'b')) {
-                map.setVal("data",map.get(map.getType()));
-                String sData = checkIfData(str, k, map);
-                map.setType(Constants.TY_DTA, Constants.TY_DTA);
-                map.append(sData);
+                checkIfData(str, k, map);
                 i = k + 2;
             }
             else if (i < str.length() && str.charAt(i-1)!=' ' && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||(!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))&&!Constants.YUGA_SC_TRANSID.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))))) {
@@ -1297,7 +1291,8 @@ public class Yuga {
         }
     }
 
-    private static String checkIfData(String str, int j, FsaContextMap map) {
+    private static void checkIfData(String str, int j, FsaContextMap map) {
+        map.setVal("data",map.get(map.getType()));
         String sData = "";
         switch (str.charAt(j)){
             case 'k':
@@ -1313,7 +1308,8 @@ public class Yuga {
                 sData = " GB";
                 break;
         }
-        return sData;
+        map.setType(Constants.TY_DTA, Constants.TY_DTA);
+        map.append(sData);
     }
 
     private static boolean handleTYTMS(FsaContextMap map,String v) {
