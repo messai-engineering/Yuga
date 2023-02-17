@@ -879,7 +879,7 @@ public class Yuga {
                     }
                     break;
                 case 33:
-                    if (Util.isNumber(c) && str.substring(i + 1, i + 3).equals("th")) {
+                    if (i + 3 < str.length() && Util.isNumber(c) && str.substring(i + 1, i + 3).equals("th")) {
                         map.put(Constants.DT_D, c);
                         i = i + 2;
                         state = 34;
@@ -1034,6 +1034,8 @@ public class Yuga {
                         map.append(c);
                     } else if (c == Constants.CH_HYPH && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1))) {
                         state = 39;
+                    } else if (c == Constants.CH_SPACE && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1))) {
+                        state = 45;
                     } else {
                         if (i - 1 > 0 && str.charAt(i - 1) == Constants.CH_COMA)
                             i = i - 2;
