@@ -1353,5 +1353,38 @@
       "index": 9
     },
     "accepted": true
+  },
+  {
+    "input": "044-6175 4830",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class": "PHN"},
+      "str":"04461754830",
+      "index": 13
+    },
+    "accepted": true
+  },
+  {
+    "input": "100MB",
+    "response": {
+      "type": "DATA",
+      "valMap":{
+        "data": "100",
+        "data_type": "MB"
+      },
+      "str":"100 MB",
+      "index": 5
+    },
+    "accepted": true
+  },
+  {
+    "input": "Dec 5th 2022",
+    "response": {
+      "type": "DATE",
+      "valMap":{},
+      "str":"2022-12-05 00:00:00",
+      "index": 12
+    },
+    "accepted": true
   }
 ]
