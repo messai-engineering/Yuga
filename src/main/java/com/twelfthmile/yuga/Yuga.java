@@ -30,7 +30,7 @@ public class Yuga {
         RootTrie root = getRoot();
     }
 
-    public static RootTrie getRoot() {
+    private static RootTrie getRoot() {
         return LazyHolder.root;
     }
 
@@ -45,7 +45,6 @@ public class Yuga {
         root.next.put("FSA_DAYSFFX", new GenTrie());
         root.next.put("FSA_UPI", new GenTrie());
         root.next.put("FSA_DAYRANGE", new GenTrie());
-        root.next.put("FSA_FLTID", new GenTrie());
         seeding(Constants.FSA_MONTHS, root.next.get("FSA_MONTHS"));
         seeding(Constants.FSA_DAYS, root.next.get("FSA_DAYS"));
         seeding(Constants.FSA_TIMEPRFX, root.next.get("FSA_TIMEPRFX"));
@@ -55,7 +54,6 @@ public class Yuga {
         seeding(Constants.FSA_DAYSFFX, root.next.get("FSA_DAYSFFX"));
         seeding(Constants.FSA_UPI, root.next.get("FSA_UPI"));
         seeding(Constants.FSA_DAYRANGE, root.next.get("FSA_DAYRANGE"));
-        seeding(Constants.FSA_FLTID, root.next.get("FSA_FLTID"));
         return root;
     }
 
@@ -432,7 +430,7 @@ public class Yuga {
                         state = 13;
                     } else if (c == ' ' && ((i + 1) < str.length() && (str.charAt(i + 1) == 42 || str.charAt(i + 1) == 88 || str.charAt(i + 1) == 120 || Util.isNumber(str.charAt(i + 1)))))
                         state = 11;
-                    else if (c == Constants.CH_FSTP && (insi = lookAheadForInstr(str, i)) > 0) {
+                    else if (c == Constants.CH_FSTP && (insi = YugaMethods.lookAheadForInstr(str, i)) > 0) {
                         int x;
                         for(x = insi-i;x>0;x--){
                             map.append('X');
@@ -469,7 +467,7 @@ public class Yuga {
                         map= new FsaContextMap();
                         str=str.substring(1);
                         state=1;
-                    }   else if(c==Constants.CH_SPACE && lookAheadForNum(str,i)!=-1 ){
+                    }   else if(c==Constants.CH_SPACE && YugaMethods.lookAheadForNum(str,i)!=-1 ){
                         // BLNC: NUM MOBNUM case like "25,011 868886999"
                         if(delimiterStack.pop()==Constants.CH_COMA)
                             state=-1;
@@ -507,7 +505,7 @@ public class Yuga {
                         map.put(Constants.TY_AMT, map.get(Constants.TY_AMT).replaceAll("X", ""));
                         map.append(c);
                         state = 10;
-                    } else if (c == Constants.CH_FSTP && (insi = lookAheadForInstr(str, i)) > 0) {
+                    } else if (c == Constants.CH_FSTP && (insi = YugaMethods.lookAheadForInstr(str, i)) > 0) {
                         int x;
                         for(x = insi-i;x>0;x--){
                             map.append('X');
@@ -731,7 +729,7 @@ public class Yuga {
                         state = 24;
                     } else if (Util.isNumber(c)) {
                         // IL-190
-                        if(lookAheadForMerid(str,i)){
+                        if(YugaMethods.lookAheadForMerid(str,i)){
                             state=-1;
                             i=i-2;
                         }else{
@@ -888,10 +886,10 @@ public class Yuga {
                         state = 34;
                     } else if (c == Constants.CH_SPACE || c == Constants.CH_COMA || c == Constants.CH_HYPH){
                         state = 33;
-                    } else if (getPrevState(prevStates)==1 && c == Constants.CH_FSTP && lookAheadForNum(str,i)!=-1 ) {
+                    } else if (getPrevState(prevStates)==1 && c == Constants.CH_FSTP && YugaMethods.lookAheadForNum(str,i)!=-1 ) {
                         // case like "Dec. 31, 2017"
                         state=33;
-                        i=lookAheadForNum(str,i);
+                        i=YugaMethods.lookAheadForNum(str,i);
                     } else {
                         map.setType(Constants.TY_DTE);
                         i = i - 1;
@@ -1411,7 +1409,7 @@ public class Yuga {
             return 10;
         }
         // change prevents strings like "xxl" "Xfinity" from being INSTRNO
-        else if (isInstrNumStart(c) && (lookAheadForInstr(str,i+2)!=-1)) {//*Xx
+        else if (YugaMethods.isInstrNumStart(c) && (YugaMethods.lookAheadForInstr(str,i+2)!=-1)) {//*Xx
             map.setType(Constants.TY_ACC, Constants.TY_ACC);
             map.append('X');
             return 11;
@@ -1429,7 +1427,7 @@ public class Yuga {
         } else if (i > 0 && (p = Util.checkTypes(getRoot(), "FSA_AMT", subStr)) != null) {
             map.setIndex(p.getA());
             map.setType(Constants.TY_AMT, Constants.TY_AMT);
-            map.append(getAmt(p.getB()));
+            map.append(YugaMethods.getAmt(p.getB()));
             return 38;
         } else if (i > 0 && (p = Util.checkTypes(getRoot(), "FSA_TIMES", subStr)) != null) {
             int ind = i + p.getA();
@@ -1443,23 +1441,6 @@ public class Yuga {
         } else
             return -1;
     }
-
-    private static String getAmt(String type) {
-        switch (type) {
-            case "lakh":
-            case "lac":
-                return "00000";
-            case "k":
-                return "000";
-            default:
-                return "";
-        }
-    }
-
-    private static boolean isInstrNumStart(char c) {
-        return (c == 42 || c == 88 || c == 120); //*xX
-    }
-
     private static void extractTime(String str, Map<String, String> valMap, String... prefix) {
         String pre = "";
         if (prefix != null && prefix.length > 0)
@@ -1469,45 +1450,6 @@ public class Yuga {
         if (m.find()) {
             valMap.put(pre + "time", m.group(1) + ((m.groupCount() > 1 && m.group(2) != null) ? ":" + m.group(2) : ":00"));
         }
-    }
-
-    private static int lookAheadForInstr(String str, int index) {
-        char c;
-        for (int i = index; i < str.length(); i++) {
-            c = str.charAt(i);
-            if (c == Constants.CH_FSTP) {
-            }
-            else if (c == 42 || c == 88 || c == 120 || Util.isNumber(c))
-                return i;
-            else
-                return -1;
-        }
-        return -1;
-    }
-
-    private static int lookAheadForNum(String str, int index) {
-        char c;
-        for (int i = index+1; i < str.length(); i++) {
-            c = str.charAt(i);
-            if (c == Constants.CH_SPACE) {
-            }
-            else if (Util.isNumber(c))
-                return i-1; //Assuming the index will get incremented by the loop to get to the num
-            else
-                return -1;
-        }
-        return -1;
-    }
-
-    // for cases like 18th Jun, 12 pm
-    private static boolean lookAheadForMerid(String str, int index) {
-        if ( index+4>=str.length())
-            return false;
-        for(int i =index+1;i<index+4;i++){
-           if(Util.meridienTimeAhead(str,i)==true)
-               return true;
-        }
-        return false;
     }
 
     private static boolean configContextIsCURR(Map config) {
