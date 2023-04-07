@@ -1386,5 +1386,15 @@
       "index": 12
     },
     "accepted": true
+  },
+  {
+    "input": "0098-AI-936402",
+    "response": {
+      "type": "TAGNUM",
+      "valMap":{},
+      "str":"0098AI936402",
+      "index": 14
+    },
+    "accepted": true
   }
 ]
