@@ -34,6 +34,7 @@ public class Constants {
     public static final String DT_ss = "ss";
 
     public static final String TY_NUM = "NUM";
+    public static final String TY_TAGNUM = "TAGNUM";
     public static final String TY_NUMRANGE = "NUMRANGE";
     public static final String TY_AMT = "AMT";
     public static final String TY_PCT = "PCT";

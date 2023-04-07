@@ -768,7 +768,13 @@ public class Yuga {
                         extractTime(s, map.getValMap());
                         i = i + p.getA();
                         state = -1;
-                    } else {
+                    } else if(i + 2 < str.length() && str.substring(i, i + 2).equals("ai")) {
+                        map.setType(Constants.TY_TAGNUM, null);
+                        map.put("TAGNUM", map.get("NUM") + str.substring(i, i + 2).toUpperCase());
+                        map.remove("NUM");
+                        i = i + 1;
+                        state = 26;
+                    }else {
                         //it wasn't year, it was just a number
                         i = i - 2;
                         state = -1;
@@ -778,7 +784,13 @@ public class Yuga {
                     if (Util.isNumber(c)) {
                         map.append(c);
                         state = 27;
-                    } else {
+                    } else if(c == Constants.CH_HYPH && map.getType() == Constants.TY_TAGNUM) {
+                        if(i + 6 < str.length()) {
+                            map.put("TAGNUM", map.get("TAGNUM") + str.substring(i + 1, i + 7));
+                            i = i + 6;
+                            state = -1;
+                        }
+                    }else {
                         map.setType(Constants.TY_STR, Constants.TY_STR);
                         i = i - 1;
                         state = -1;
@@ -815,7 +827,7 @@ public class Yuga {
                     }
                     break;
                 case 28:
-                    if (Util.isNumber(c)) {
+                    if (Util.isNumber(c) && map.getType() != Constants.TY_TAGNUM) {
                         map.put(Constants.DT_D, c);
                         state = 29;
                     } else {
@@ -1453,7 +1465,7 @@ public class Yuga {
     }
 
     private static boolean configContextIsCURR(Map config) {
-       return  config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_CURR);
+        return  config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_CURR);
     }
 
     private static int getPrevState(ArrayList<Integer> prevStates) {
