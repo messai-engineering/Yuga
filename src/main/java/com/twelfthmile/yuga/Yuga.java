@@ -444,7 +444,7 @@ public class Yuga {
                 case 12:
                     if (Util.isNumber(c)) {
                         // case like "729 613 is your Instagram code" Where the num was captured as AMT.
-                        if(i>2 && str.charAt(i-1)==Constants.CH_SPACE && Util.isNumber(str.charAt(i-2)))
+                        if((i>2 && str.charAt(i-1)==Constants.CH_SPACE && Util.isNumber(str.charAt(i-2))) || delimiterStack.pop() == Constants.CH_SLSH)
                         {
                             map.append(c);
                             if(map.contains("NUM"));

@@ -1396,5 +1396,15 @@
       "index": 14
     },
     "accepted": true
+  },
+  {
+    "input": "3024/4056",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class": "NUM"},
+      "str":"30244056",
+      "index": 9
+    },
+    "accepted": true
   }
 ]
