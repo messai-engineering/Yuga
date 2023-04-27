@@ -1406,5 +1406,15 @@
       "index": 9
     },
     "accepted": true
+  },
+  {
+    "input": "Mon\n27 Dec 2021",
+    "response": {
+      "type": "DATE",
+      "valMap": {},
+      "str": "2021-12-27 00:00:00",
+      "index": 15
+    },
+    "accepted": true
   }
 ]

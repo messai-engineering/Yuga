@@ -844,7 +844,7 @@ public class Yuga {
                     state = -1;
                     break;
                 case 30:
-                    if (c == Constants.CH_COMA || c == Constants.CH_SPACE)
+                    if (c == Constants.CH_COMA || c == Constants.CH_SPACE || c == Constants.CH_NLINE)
                         state = 30;
                     else if (Util.isNumber(c)) {
                         map.put(Constants.DT_D, c);
