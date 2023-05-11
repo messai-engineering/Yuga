@@ -223,7 +223,18 @@ public class Yuga {
                         state = 37;
                     } else if (c == Constants.CH_LSBT) {//it could be an OTP
                         state = 1;
-                    } else {
+                    } else if(c == Constants.CH_STAR && str.length()>12){
+                        String subStr = str.substring(i);
+                        int nextSpace = nextSpace(subStr);
+                        String code = Util.getcallFrwrdCode(str, i);
+                        if(Constants.callForwardCode.contains(code)){
+                            map.setType(Constants.TY_CALLFORWARD);
+                            String phn = subStr.substring(code.length(),nextSpace);
+                            i = code.length() + phn.length() -1;
+                            map.setVal("phn",phn);
+                            state =-1;
+                        }
+                    }  else {
                         state = accAmtNumPct(str, i, map, config);
                         if (map.getType() == null)
                             return null;
@@ -513,7 +524,7 @@ public class Yuga {
                         i = (Util.isNumber(str.charAt(insi)))?(insi-1):insi;
                     }
                     // USSD codes start with * and end with #. Second condition check for string like "*334# for"
-                    else if(c == Constants.CH_HASH && ((i==str.length()-1) || str.charAt(i+1)==Constants.CH_SPACE ) ){
+                    else if(c == Constants.CH_HASH && ((i==str.length()-1) || Util.isDelimiter(str.charAt(i+1)))){
                         map.setType(Constants.TY_USSD);
                     }  else {
                         i = i - 1;
@@ -1130,14 +1141,14 @@ public class Yuga {
             }else if(i+1 < str.length() && str.charAt(i)==Constants.CH_SLSH && str.charAt(i+1)==Constants.CH_HYPH ) {
                 map.setType(Constants.TY_AMT, Constants.TY_AMT);
             } else if (map.get(Constants.TY_NUM) != null) {
-                if (map.get(Constants.TY_NUM).length() == 10 && (map.get(Constants.TY_NUM).charAt(0) == '9' || map.get(Constants.TY_NUM).charAt(0) == '8' || map.get(Constants.TY_NUM).charAt(0) == '7'))
-                    map.setVal("num_class", Constants.TY_PHN);
-                else if (map.get(Constants.TY_NUM).length() == 12 && map.get(Constants.TY_NUM).startsWith("91"))
-                    map.setVal("num_class", Constants.TY_PHN);
-                else if (map.get(Constants.TY_NUM).length() == 11 && map.get(Constants.TY_NUM).startsWith("18"))
-                    map.setVal("num_class", Constants.TY_PHN);
-                else if (map.get(Constants.TY_NUM).length() == 11 && map.get(Constants.TY_NUM).charAt(0) == '0')
-                    map.setVal("num_class", Constants.TY_PHN);
+                boolean cond1 = map.get(Constants.TY_NUM).length() == 10 && (map.get(Constants.TY_NUM).charAt(0) == '9' || map.get(Constants.TY_NUM).charAt(0) == '8' || map.get(Constants.TY_NUM).charAt(0) == '7');
+                boolean cond2 = map.get(Constants.TY_NUM).length() == 12 && map.get(Constants.TY_NUM).startsWith("91");
+                boolean cond3 = map.get(Constants.TY_NUM).length() == 11 && map.get(Constants.TY_NUM).startsWith("18");
+                boolean cond4 = map.get(Constants.TY_NUM).length() == 11 && map.get(Constants.TY_NUM).charAt(0) == '0';
+                if (cond1 || cond2 || cond3 || cond4){
+                    map.setVal("num", map.get(Constants.TY_NUM));
+                    map.setType(Constants.TY_PHN);
+                }
                 else if(config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_TRANS)) {
                     if(map.get(Constants.TY_NUM) != null && (haveSeenAComma == true || comma_count > 1)) {
                         map.setType(Constants.TY_AMT);
@@ -1175,14 +1186,15 @@ public class Yuga {
                         map.setVal("num_class", Constants.TY_NUM);
                 }
             }
-        } else if (map.getType().equals(Constants.TY_DTE) && (i + 1) < str.length()) {
+        } else if (map.getType().equals(Constants.TY_DTE) && (i + 1) < str.length() ) {
             Pair<Integer, String> pTime;
             int in = i + skip(str.substring(i));
             String sub = str.substring(in);
             if (in < str.length()) {
                 if (Util.isNumber(str.charAt(in)) || Util.checkTypes(getRoot(), "FSA_MONTHS", sub) != null || Util.checkTypes(getRoot(), "FSA_DAYS", sub) != null) {
                     Pair<Integer, FsaContextMap> p_ = parseInternal(sub, config);
-                    if (p_ != null && p_.getB().getType().equals(Constants.TY_DTE)) {
+                    // on 2021-10-27 10.54.50
+                    if (p_ != null && p_.getB().getType().equals(Constants.TY_DTE) && (!map.containsAllDateContexts() || p_.getB().contains(Constants.DT_HH))) {
                         map.putAll(p_.getB());
                         i = in + p_.getA();
                     }
@@ -1450,7 +1462,8 @@ public class Yuga {
                 s = "00" + s;
             extractTime(s, map.getValMap());
             return 38;
-        } else
+        }
+        else
             return -1;
     }
     private static void extractTime(String str, Map<String, String> valMap, String... prefix) {

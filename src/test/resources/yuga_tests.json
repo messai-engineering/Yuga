@@ -306,11 +306,9 @@
   {
     "input": "+917032641284",
     "response": {
-      "type": "NUM",
-      "valMap": {
-        "num_class": "PHN"
-      },
-      "str": "917032641284",
+      "type": "PHN",
+      "valMap": {"num":"917032641284"},
+      "str": "+917032641284",
       "index": 13
     },
     "accepted": true
@@ -318,10 +316,8 @@
   {
     "input": "7032641284",
     "response": {
-      "type": "NUM",
-      "valMap": {
-        "num_class": "PHN"
-      },
+      "type": "PHN",
+      "valMap": {"num":"7032641284"},
       "str": "7032641284",
       "index": 10
     },
@@ -478,11 +474,9 @@
   {
     "input": "1-800-2703311",
     "response": {
-      "type": "NUM",
-      "valMap": {
-        "num_class": "PHN"
-      },
-      "str": "18002703311",
+      "type": "PHN",
+      "valMap": {"num":"18002703311"},
+      "str": "1-800-2703311",
       "index": 13
     },
     "accepted": true
@@ -490,11 +484,9 @@
   {
     "input": "1800-2703311",
     "response": {
-      "type": "NUM",
-      "valMap": {
-        "num_class": "PHN"
-      },
-      "str": "18002703311",
+      "type": "PHN",
+      "valMap": {"num":"18002703311"},
+      "str": "1800-2703311",
       "index": 12
     },
     "accepted": true
@@ -502,10 +494,8 @@
   {
     "input": "18002703311",
     "response": {
-      "type": "NUM",
-      "valMap": {
-        "num_class": "PHN"
-      },
+      "type": "PHN",
+      "valMap": {"num":"18002703311"},
       "str": "18002703311",
       "index": 11
     },
@@ -514,11 +504,9 @@
   {
     "input": "91-7032641284",
     "response": {
-      "type": "NUM",
-      "valMap": {
-        "num_class": "PHN"
-      },
-      "str": "917032641284",
+      "type": "PHN",
+      "valMap": {"num":"917032641284"},
+      "str": "91-7032641284",
       "index": 13
     },
     "accepted": true
@@ -526,11 +514,9 @@
   {
     "input": "0484-2340606",
     "response": {
-      "type": "NUM",
-      "valMap": {
-        "num_class": "PHN"
-      },
-      "str": "04842340606",
+      "type": "PHN",
+      "valMap": {"num":"04842340606"},
+      "str": "0484-2340606",
       "index": 12
     },
     "accepted": true
@@ -538,11 +524,9 @@
   {
     "input": "040-30425500",
     "response": {
-      "type": "NUM",
-      "valMap": {
-        "num_class": "PHN"
-      },
-      "str": "04030425500",
+      "type": "PHN",
+      "valMap": {"num":"04030425500"},
+      "str": "040-30425500",
       "index": 12
     },
     "accepted": true
@@ -550,11 +534,9 @@
   {
     "input": "080 26703300",
     "response": {
-      "type": "NUM",
-      "valMap": {
-        "num_class": "PHN"
-      },
-      "str": "08026703300",
+      "type": "PHN",
+      "valMap": {"num":"08026703300"},
+      "str": "080 26703300",
       "index": 12
     },
     "accepted": true
@@ -846,9 +828,9 @@
   {
     "input":"0484 2454311",
     "response": {
-      "type": "NUM",
-      "valMap":{"num_class":"PHN"},
-      "str":"04842454311",
+      "type": "PHN",
+      "valMap":{"num":"04842454311"},
+      "str":"0484 2454311",
       "index":12
     },
     "accepted": true
@@ -856,8 +838,8 @@
   {
     "input":"8289957757 9388566777",
     "response": {
-      "type": "NUM",
-      "valMap":{"num_class":"PHN"},
+      "type": "PHN",
+      "valMap":{"num":"8289957757"},
       "str":"8289957757",
       "index":10
     },
@@ -936,8 +918,8 @@
   {
     "input":"9633535665, 04872426313",
     "response": {
-      "type": "NUM",
-      "valMap":{"num_class": "PHN"},
+      "type": "PHN",
+      "valMap":{"num":"9633535665"},
       "str":"9633535665",
       "index":10
     },
@@ -1357,9 +1339,9 @@
   {
     "input": "044-6175 4830",
     "response": {
-      "type": "NUM",
-      "valMap":{"num_class": "PHN"},
-      "str":"04461754830",
+      "type": "PHN",
+      "valMap":{"num":"04461754830"},
+      "str":"044-6175 4830",
       "index": 13
     },
     "accepted": true
@@ -1413,6 +1395,16 @@
       "type": "DATE",
       "valMap": {},
       "str": "2021-12-27 00:00:00",
+      "index": 15
+    },
+    "accepted": true
+  },
+  {
+    "input": "*401*9087654321",
+    "response": {
+      "type": "CALLFORWARD",
+      "valMap":{"phn":"9087654321"},
+      "str":"*401*9087654321",
       "index": 15
     },
     "accepted": true

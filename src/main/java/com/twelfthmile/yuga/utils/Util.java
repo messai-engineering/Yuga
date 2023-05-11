@@ -6,7 +6,6 @@ import com.twelfthmile.yuga.types.RootTrie;
 import com.twelfthmile.yuga.types.Trie;
 
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -227,6 +226,17 @@ public class Util {
 
     public static String addTimeStampSuffix(String hour){
         return hour + ":00";
+    }
+
+    public static String getcallFrwrdCode(String str, int i) {
+        String code = "";
+        for(int k = i +1; k< i +5; k++){
+            if(str.charAt(k) == Constants.CH_STAR){
+                code = str.substring(i,k+1);
+                break;
+            }
+        }
+        return code;
     }
 
 }

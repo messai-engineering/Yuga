@@ -48,6 +48,7 @@ public class Constants {
     public static final String TY_TMERANGE = "TIMERANGE";
     public static final String TY_TMS = "TIMES";
     public static final String TY_STR = "STR";
+    public static final String TY_CALLFORWARD = "CALLFORWARD";
     public static final String TY_PHN = "PHN";
 
     public static final String TY_OTP = "OTP";
@@ -133,6 +134,9 @@ public class Constants {
     public static final Map<String, String> tokens = mapTokens();
     public static final Map<String, String> possiblePrevTokens = setPrevTokenPossibleList();
     public static Set<String> unmaskTokenSet = new HashSet<>(Arrays.asList(INSTRNO,NUM,IDVAL,AMT,URL));
+
+    // add codes for other countries later
+    public static Set<String> callForwardCode = new HashSet<>((Arrays.asList("*401*")));
 
 
     public static String formatDateTimeToDate(String date, String inputFormat) throws ParseException {
