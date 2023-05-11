@@ -1141,14 +1141,14 @@ public class Yuga {
             }else if(i+1 < str.length() && str.charAt(i)==Constants.CH_SLSH && str.charAt(i+1)==Constants.CH_HYPH ) {
                 map.setType(Constants.TY_AMT, Constants.TY_AMT);
             } else if (map.get(Constants.TY_NUM) != null) {
-                boolean cond1 = map.get(Constants.TY_NUM).length() == 10 && (map.get(Constants.TY_NUM).charAt(0) == '9' || map.get(Constants.TY_NUM).charAt(0) == '8' || map.get(Constants.TY_NUM).charAt(0) == '7');
-                boolean cond2 = map.get(Constants.TY_NUM).length() == 12 && map.get(Constants.TY_NUM).startsWith("91");
-                boolean cond3 = map.get(Constants.TY_NUM).length() == 11 && map.get(Constants.TY_NUM).startsWith("18");
-                boolean cond4 = map.get(Constants.TY_NUM).length() == 11 && map.get(Constants.TY_NUM).charAt(0) == '0';
-                if (cond1 || cond2 || cond3 || cond4){
-                    map.setVal("num", map.get(Constants.TY_NUM));
-                    map.setType(Constants.TY_PHN);
-                }
+                if (map.get(Constants.TY_NUM).length() == 10 && (map.get(Constants.TY_NUM).charAt(0) == '9' || map.get(Constants.TY_NUM).charAt(0) == '8' || map.get(Constants.TY_NUM).charAt(0) == '7'))
+                    map.setVal("num_class", Constants.TY_PHN);
+                else if (map.get(Constants.TY_NUM).length() == 12 && map.get(Constants.TY_NUM).startsWith("91"))
+                    map.setVal("num_class", Constants.TY_PHN);
+                else if (map.get(Constants.TY_NUM).length() == 11 && map.get(Constants.TY_NUM).startsWith("18"))
+                    map.setVal("num_class", Constants.TY_PHN);
+                else if (map.get(Constants.TY_NUM).length() == 11 && map.get(Constants.TY_NUM).charAt(0) == '0')
+                    map.setVal("num_class", Constants.TY_PHN);
                 else if(config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_TRANS)) {
                     if(map.get(Constants.TY_NUM) != null && (haveSeenAComma == true || comma_count > 1)) {
                         map.setType(Constants.TY_AMT);
@@ -1462,8 +1462,7 @@ public class Yuga {
                 s = "00" + s;
             extractTime(s, map.getValMap());
             return 38;
-        }
-        else
+        } else
             return -1;
     }
     private static void extractTime(String str, Map<String, String> valMap, String... prefix) {
