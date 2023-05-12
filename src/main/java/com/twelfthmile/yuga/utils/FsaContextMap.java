@@ -93,6 +93,10 @@ public class FsaContextMap {
         put(prevKey, preVal + value);
     }
 
+    public boolean containsAllDateContexts(){
+        return (map.containsKey(Constants.DT_D) && map.containsKey(Constants.DT_MM) && (map.containsKey(Constants.DT_YY) || map.containsKey(Constants.DT_YYYY)));
+    }
+
     //removing last appended value
     public char pop() {
         String preVal = map.get(prevKey);

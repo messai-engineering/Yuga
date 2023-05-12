@@ -1416,5 +1416,15 @@
       "index": 15
     },
     "accepted": true
+  },
+  {
+    "input": "*401*9087654321",
+    "response": {
+      "type": "CALLFORWARD",
+      "valMap":{"phn":"9087654321"},
+      "str":"*401*9087654321",
+      "index": 15
+    },
+    "accepted": true
   }
 ]

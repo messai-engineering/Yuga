@@ -223,7 +223,18 @@ public class Yuga {
                         state = 37;
                     } else if (c == Constants.CH_LSBT) {//it could be an OTP
                         state = 1;
-                    } else {
+                    } else if(c == Constants.CH_STAR && str.length()>12){
+                        String subStr = str.substring(i);
+                        int nextSpace = nextSpace(subStr);
+                        String code = Util.getcallFrwrdCode(str, i);
+                        if(Constants.callForwardCode.contains(code)){
+                            map.setType(Constants.TY_CALLFORWARD);
+                            String phn = subStr.substring(code.length(),nextSpace);
+                            i = code.length() + phn.length() -1;
+                            map.setVal("phn",phn);
+                            state =-1;
+                        }
+                    }  else {
                         state = accAmtNumPct(str, i, map, config);
                         if (map.getType() == null)
                             return null;
@@ -513,7 +524,7 @@ public class Yuga {
                         i = (Util.isNumber(str.charAt(insi)))?(insi-1):insi;
                     }
                     // USSD codes start with * and end with #. Second condition check for string like "*334# for"
-                    else if(c == Constants.CH_HASH && ((i==str.length()-1) || str.charAt(i+1)==Constants.CH_SPACE ) ){
+                    else if(c == Constants.CH_HASH && ((i==str.length()-1) || Util.isDelimiter(str.charAt(i+1)))){
                         map.setType(Constants.TY_USSD);
                     }  else {
                         i = i - 1;
@@ -1175,14 +1186,15 @@ public class Yuga {
                         map.setVal("num_class", Constants.TY_NUM);
                 }
             }
-        } else if (map.getType().equals(Constants.TY_DTE) && (i + 1) < str.length()) {
+        } else if (map.getType().equals(Constants.TY_DTE) && (i + 1) < str.length() ) {
             Pair<Integer, String> pTime;
             int in = i + skip(str.substring(i));
             String sub = str.substring(in);
             if (in < str.length()) {
                 if (Util.isNumber(str.charAt(in)) || Util.checkTypes(getRoot(), "FSA_MONTHS", sub) != null || Util.checkTypes(getRoot(), "FSA_DAYS", sub) != null) {
                     Pair<Integer, FsaContextMap> p_ = parseInternal(sub, config);
-                    if (p_ != null && p_.getB().getType().equals(Constants.TY_DTE)) {
+                    // on 2021-10-27 10.54.50
+                    if (p_ != null && p_.getB().getType().equals(Constants.TY_DTE) && (!map.containsAllDateContexts() || p_.getB().contains(Constants.DT_HH))) {
                         map.putAll(p_.getB());
                         i = in + p_.getA();
                     }
