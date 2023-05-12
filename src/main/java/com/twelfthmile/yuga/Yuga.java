@@ -223,22 +223,13 @@ public class Yuga {
                         state = 37;
                     } else if (c == Constants.CH_LSBT) {//it could be an OTP
                         state = 1;
-                    } else if(c == Constants.CH_STAR && str.length()>12){
-                        String subStr = str.substring(i);
-                        int nextSpace = nextSpace(subStr);
-                        String code = Util.getcallFrwrdCode(str, i);
-                        if(Constants.callForwardCode.contains(code)){
-                            map.setType(Constants.TY_CALLFORWARD);
-                            String phn = subStr.substring(code.length(),nextSpace);
-                            i = code.length() + phn.length() -1;
-                            map.setVal("phn",phn);
-                            state =-1;
-                        }
-                    }  else {
+                    } else {
                         state = accAmtNumPct(str, i, map, config);
                         if (map.getType() == null)
                             return null;
-                        if (state == -1 && !map.getType().equals(Constants.TY_PCT))
+                        if (state == -1 && map.getType().equals(Constants.TY_CALLFORWARD))
+                            i = map.getIndex();
+                        else if (state == -1 && !map.getType().equals(Constants.TY_PCT))
                             i = i - 1;
                     }
                     break;
@@ -1431,6 +1422,16 @@ public class Yuga {
                 map.setType(Constants.TY_AMT, Constants.TY_AMT);
             map.append(c);
             return 10;
+        } else if(c == Constants.CH_STAR && subStr.length()>10 && str.charAt(i+1)!= Constants.CH_STAR && nextSpace(subStr)-i>12){
+            int nextSpace = nextSpace(subStr);
+            String code = Util.getcallFrwrdCode(str, i);
+            if(Constants.callForwardCode.contains(code)){
+                map.setType(Constants.TY_CALLFORWARD);
+                String phn = subStr.substring(code.length(),nextSpace);
+                map.setIndex(code.length() + phn.length() -1);
+                map.setVal("phn",phn);
+            }
+            return -1;
         }
         // change prevents strings like "xxl" "Xfinity" from being INSTRNO
         else if (YugaMethods.isInstrNumStart(c) && (YugaMethods.lookAheadForInstr(str,i+2)!=-1)) {//*Xx
@@ -1462,7 +1463,8 @@ public class Yuga {
                 s = "00" + s;
             extractTime(s, map.getValMap());
             return 38;
-        } else
+        }
+        else
             return -1;
     }
     private static void extractTime(String str, Map<String, String> valMap, String... prefix) {
