@@ -138,6 +138,9 @@ public class Constants {
     // add codes for other countries later
     public static Set<String> callForwardCode = new HashSet<>((Arrays.asList("*401*")));
 
+    // IN,US,KE,SE,NG
+    public static Set<String> supportedISDCode = new HashSet<>( Arrays.asList("+91","+1","+254","+46","+234") ) ;
+
 
     public static String formatDateTimeToDate(String date, String inputFormat) throws ParseException {
         return dateFormatter().format(new SimpleDateFormat(inputFormat).parse(date));

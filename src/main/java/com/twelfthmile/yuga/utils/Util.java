@@ -18,6 +18,10 @@ public class Util {
         return (((c1 == '0' || c1 == '1') && isNumber(c2)) || (c1 == '2' && (c2 == '0' || c2 == '1' || c2 == '2' || c2 == '3' || c2 == '4')));
     }
 
+    public static boolean hasISDCodePrefix(String str, int i) {
+        return Constants.supportedISDCode.contains(str.substring(0, i)) || Constants.supportedISDCode.contains("+"+str.substring(0, i));
+    }
+
     public static boolean isNumber(char c) {
         return c >= 48 && c <= 57;
     }
@@ -128,6 +132,21 @@ public class Util {
             if (!isUpperAlpha(str.charAt(i)))
                 return false;
         }
+        return true;
+    }
+
+    public static boolean isAlphaNumeric(String str) {
+        if (str == null || str.length() == 0)
+            return false;
+        int numericCount=0;
+        for (int i = 0; i < str.length(); i++) {
+            boolean numeric = isNumber(str.charAt(i));
+            boolean alpha = isAlpha(str.charAt(i));
+            if(!(numeric || alpha))
+                return false;
+        }
+        if(numericCount==0 || numericCount==str.length())
+            return false;
         return true;
     }
 

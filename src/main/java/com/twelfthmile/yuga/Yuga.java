@@ -271,6 +271,8 @@ public class Yuga {
                     if (Util.isNumber(c)) {
                         map.append(c);
                         state = 8;
+                    } else if(c == Constants.CH_SPACE && Util.hasISDCodePrefix(str,i)){
+                        state = 3;
                     } else if (Util.isTimeOperator(c)) {
                         delimiterStack.push(c);
                         map.setType(Constants.TY_DTE, Constants.DT_HH);
@@ -542,11 +544,15 @@ public class Yuga {
                             if (samt.contains(".")) {
                                 String[] samtarr = samt.split("\\.");
                                 if (samtarr.length == 2) {
-                                    map.setType(Constants.TY_DTE);
-                                    map.put(Constants.DT_D, samtarr[0]);
-                                    map.put(Constants.DT_MM, samtarr[1]);
-                                    state = 19;
-                                    break;
+                                    int d = Util.parseStrToInt(samtarr[0]);
+                                    int mm = Util.parseStrToInt(samtarr[1]);
+                                    if(d<=31 && mm<=12) {
+                                        map.setType(Constants.TY_DTE);
+                                        map.put(Constants.DT_D, samtarr[0]);
+                                        map.put(Constants.DT_MM, samtarr[1]);
+                                        state = 19;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -662,7 +668,8 @@ public class Yuga {
                         map.setType(Constants.TY_NUM, Constants.TY_NUM);
                         map.append(c);
                         state = 10;
-                    } else if (c == Constants.CH_FSTP && map.contains(Constants.DT_D) && map.contains(Constants.DT_MM)) { //dot
+                    }
+                    else if (c == Constants.CH_FSTP && map.contains(Constants.DT_D) && map.contains(Constants.DT_MM)) { //dot
                         state = -1;
                     }else {
                         map.setType(Constants.TY_STR, Constants.TY_STR);
@@ -950,6 +957,9 @@ public class Yuga {
                         delimiterStack.push(c);
                         map.append(c);
                         state = 16;
+                    } else if(c == Constants.CH_SPACE && Util.hasISDCodePrefix(str, i)){
+                        map.setType(Constants.TY_PHN, Constants.TY_PHN);
+                        state = 46;
                     } else {
                         if (counter == 12 || Util.isNumber(str.substring(1, i)))
                             map.setType(Constants.TY_NUM, Constants.TY_NUM);
@@ -1056,6 +1066,17 @@ public class Yuga {
                         state = -1;
                     }
                     break;
+                case 46:
+                    if (Util.isNumber(c)) {
+                        map.append(c);
+                    } else if (c == Constants.CH_SPACE && counter<15 && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1))) {
+                        state = 46;
+                    } else if (c == Constants.CH_HYPH && counter<15 && (i + 1) < str.length() && Util.isNumber(str.charAt(i + 1))) {
+                        state = 46;
+                    } else {
+                        state = -1;
+                    }
+                    break;
             }
             i++;
             if (D_DEBUG) {
@@ -1132,7 +1153,8 @@ public class Yuga {
             }else if(i+1 < str.length() && str.charAt(i)==Constants.CH_SLSH && str.charAt(i+1)==Constants.CH_HYPH ) {
                 map.setType(Constants.TY_AMT, Constants.TY_AMT);
             } else if (map.get(Constants.TY_NUM) != null) {
-                if (map.get(Constants.TY_NUM).length() == 10 && (map.get(Constants.TY_NUM).charAt(0) == '9' || map.get(Constants.TY_NUM).charAt(0) == '8' || map.get(Constants.TY_NUM).charAt(0) == '7'))
+                // The first digit should contain numbers between 6 and 9
+                if (map.get(Constants.TY_NUM).length() == 10 && (map.get(Constants.TY_NUM).charAt(0) == '9' || map.get(Constants.TY_NUM).charAt(0) == '8' || map.get(Constants.TY_NUM).charAt(0) == '7' || map.get(Constants.TY_NUM).charAt(0) == '6'))
                     map.setVal("num_class", Constants.TY_PHN);
                 else if (map.get(Constants.TY_NUM).length() == 12 && map.get(Constants.TY_NUM).startsWith("91"))
                     map.setVal("num_class", Constants.TY_PHN);
@@ -1177,6 +1199,9 @@ public class Yuga {
                         map.setVal("num_class", Constants.TY_NUM);
                 }
             }
+        } else if(map.getType().equals(Constants.TY_PHN)){
+            map.setType(Constants.TY_NUM, Constants.TY_NUM);
+            map.setVal("num_class", Constants.TY_PHN);
         } else if (map.getType().equals(Constants.TY_DTE) && (i + 1) < str.length() ) {
             Pair<Integer, String> pTime;
             int in = i + skip(str.substring(i));
