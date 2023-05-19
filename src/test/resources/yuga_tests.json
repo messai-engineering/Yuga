@@ -1426,5 +1426,65 @@
       "index": 15
     },
     "accepted": true
+  },
+  {
+    "input": "+91 9222222222",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class":"PHN"},
+      "str":"919222222222",
+      "index": 14
+    },
+    "accepted": true
+  },
+  {
+    "input": "91 9222222222",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class":"PHN"},
+      "str":"919222222222",
+      "index": 13
+    },
+    "accepted": true
+  },
+  {
+    "input": "+7666 999 999",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class":"NUM"},
+      "str":"7666",
+      "index": 6
+    },
+    "accepted": true
+  },
+  {
+    "input": "2.132.02",
+    "response": {
+      "type": "AMT",
+      "valMap":{},
+      "str":"2.132",
+      "index": 5
+    },
+    "accepted": true
+  },
+  {
+    "input": "+254 20 3293900",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class":"PHN"},
+      "str":"254203293900",
+      "index": 15
+    },
+    "accepted": true
+  },
+  {
+    "input": "+1 415-236-8463",
+    "response": {
+      "type": "NUM",
+      "valMap":{"num_class":"PHN"},
+      "str":"14152368463",
+      "index": 15
+    },
+    "accepted": true
   }
 ]
