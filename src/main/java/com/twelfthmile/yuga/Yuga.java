@@ -154,11 +154,6 @@ public class Yuga {
         int index = p.getA();
         FsaContextMap map = p.getB();
         if (map.getType().equals(Constants.TY_DTE)) {
-            String dateHasYear = "true";
-            if(!map.contains("yy") && !map.contains("yyyy")) {
-               dateHasYear="false";
-            }
-            map.getValMap().put("hasYear", dateHasYear);
             if (map.contains(Constants.DT_MMM) && map.size() < 3)//may fix
                 return new Pair<>(Constants.TY_STR, str.substring(0, index));
             if (map.contains(Constants.DT_HH) && map.contains(Constants.DT_mm) && !map.contains(Constants.DT_D) && !map.contains(Constants.DT_DD) && !map.contains(Constants.DT_MM) && !map.contains(Constants.DT_MMM) && !map.contains(Constants.DT_YY) && !map.contains(Constants.DT_YYYY)) {
@@ -166,9 +161,11 @@ public class Yuga {
                 map.setVal("time", map.get(Constants.DT_HH) + ":" + map.get(Constants.DT_mm));
                 return new Pair<>(Constants.TY_TME, str.substring(0, index));
             }
+            checkIfDateHasYear(map);
             Date d = map.getDate(config);
-            if (d != null)
+            if (d != null) {
                 return new Pair<>(p.getB().getType(), d);
+            }
             else
                 return new Pair<>(Constants.TY_STR, str.substring(0, index));
         } else {
@@ -180,6 +177,14 @@ public class Yuga {
                 return new Pair<>(p.getB().getType(), str.substring(0, index));
 
         }
+    }
+
+    private static void checkIfDateHasYear(FsaContextMap map) {
+        String dateHasYear = "true";
+        if(!map.contains("yy") && !map.contains("yyyy") && (map.contains(Constants.DT_DD) || map.contains(Constants.DT_D))) {
+            dateHasYear="false";
+        }
+        map.getValMap().put("hasYear", dateHasYear);
     }
 
     private static Map<String, String> generateDefaultConfig() {
