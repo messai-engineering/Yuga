@@ -24,7 +24,7 @@ public class YugaMethods {
             c = str.charAt(i);
             if (c == Constants.CH_SPACE) {
             }
-            else if (Util.isNumber(c) && !Util.isAlpha(str.charAt(i + 1)))
+            else if (Util.isNumber(c) && (i + 1) < str.length() && !Util.isAlpha(str.charAt(i + 1)))
                 return i-1; //Assuming the index will get incremented by the loop to get to the num
             else
                 return -1;
