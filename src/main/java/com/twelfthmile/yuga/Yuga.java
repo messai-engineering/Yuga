@@ -154,6 +154,11 @@ public class Yuga {
         int index = p.getA();
         FsaContextMap map = p.getB();
         if (map.getType().equals(Constants.TY_DTE)) {
+            String dateHasYear = "true";
+            if(!map.contains("yy") && !map.contains("yyyy")) {
+               dateHasYear="false";
+            }
+            map.getValMap().put("hasYear", dateHasYear);
             if (map.contains(Constants.DT_MMM) && map.size() < 3)//may fix
                 return new Pair<>(Constants.TY_STR, str.substring(0, index));
             if (map.contains(Constants.DT_HH) && map.contains(Constants.DT_mm) && !map.contains(Constants.DT_D) && !map.contains(Constants.DT_DD) && !map.contains(Constants.DT_MM) && !map.contains(Constants.DT_MMM) && !map.contains(Constants.DT_YY) && !map.contains(Constants.DT_YYYY)) {
@@ -384,6 +389,8 @@ public class Yuga {
                             state = 45;
                         else if (state == -1 && !map.getType().equals(Constants.TY_PCT))
                             i = i - 1;
+                        else if(c == Constants.CH_COMA)
+                            delimiterStack.push(c);
                     }
                     break;
                 case 9:
@@ -564,8 +571,11 @@ public class Yuga {
                     if (Util.isNumber(c)) {
                         counter++;
                         map.append(c);
-                    } else if (c == Constants.CH_COMA && counter<10) //comma  :condition altered for case : "9633535665, 04872426313"
+                    } else if (c == Constants.CH_COMA && counter<10) {
+                        //comma  :condition altered for case : "9633535665, 04872426313"
+                        delimiterStack.push(c);
                         state = 12;
+                    }
                     else if (c == Constants.CH_FSTP) { //dot
                         map.append(c);
                         state = 10;
