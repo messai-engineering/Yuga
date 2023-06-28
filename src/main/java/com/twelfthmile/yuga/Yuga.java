@@ -384,6 +384,8 @@ public class Yuga {
                             state = 45;
                         else if (state == -1 && !map.getType().equals(Constants.TY_PCT))
                             i = i - 1;
+                        else if(c == Constants.CH_COMA)
+                            delimiterStack.push(c);
                     }
                     break;
                 case 9:
@@ -564,8 +566,11 @@ public class Yuga {
                     if (Util.isNumber(c)) {
                         counter++;
                         map.append(c);
-                    } else if (c == Constants.CH_COMA && counter<10) //comma  :condition altered for case : "9633535665, 04872426313"
+                    } else if (c == Constants.CH_COMA && counter<10) {
+                        //comma  :condition altered for case : "9633535665, 04872426313"
+                        delimiterStack.push(c);
                         state = 12;
+                    }
                     else if (c == Constants.CH_FSTP) { //dot
                         map.append(c);
                         state = 10;
