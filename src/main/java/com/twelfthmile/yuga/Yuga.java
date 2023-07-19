@@ -466,7 +466,11 @@ public class Yuga {
                             if(map.contains("NUM"));
                                 counter = map.get("NUM").length();
                             state=15;
-                        }else {
+                        } else if(delimiterStack.pop() == Constants.CH_COMA && checkForAlphaAfterComma(str, i)) {
+                            i = counter - 1;
+                            state = -1;
+                        }
+                        else {
                             map.setType(Constants.TY_AMT, Constants.TY_AMT);
                             map.append(c);
                         }
@@ -1450,6 +1454,17 @@ public class Yuga {
                 i++;
         }
         return i;
+    }
+    private static boolean checkForAlphaAfterComma(String str, int i) {
+        while(i < str.length()) {
+            char c = str.charAt(i);
+            if(Util.isDelimiter(c)) {
+                break;
+            } else if(Util.isAlpha(c))
+                return true;
+            i++;
+        }
+        return false;
     }
 
     private static int accAmtNumPct(String str, int i, FsaContextMap map, Map<String, String> config) {
