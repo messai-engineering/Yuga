@@ -1516,5 +1516,25 @@
       "index": 5
     },
     "accepted": true
+  },
+  {
+    "input": "100.0/30 mins",
+    "response": {
+      "type": "RATE",
+      "valMap":{"per":"TIME", "time":"00:30"},
+      "str":"100.0/30 mins",
+      "index": 13
+    },
+    "accepted": true
+  },
+  {
+    "input": "15.9/Km",
+    "response": {
+      "type": "RATE",
+      "valMap":{"per":"DISTANCE"},
+      "str":"15.9/Km",
+      "index": 7
+    },
+    "accepted": true
   }
 ]

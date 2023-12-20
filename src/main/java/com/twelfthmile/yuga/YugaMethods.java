@@ -3,9 +3,8 @@ package com.twelfthmile.yuga;
 import com.twelfthmile.yuga.utils.Constants;
 import com.twelfthmile.yuga.utils.Util;
 
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Arrays;
+
 
 public class YugaMethods {
     // for cases like 18th Jun, 12 pm
@@ -58,6 +57,30 @@ public class YugaMethods {
             default:
                 return "";
         }
+    }
+
+    static boolean isCurrencyAhead(String type) {
+        type = getPotentialCurrString(type);
+        if(Arrays.asList(Constants.currAct).contains(type.toLowerCase()))
+            return true;
+        return false;
+    }
+
+    static String getPotentialCurrString(String type) {
+        int next = nextSpace(type);
+        type = type.substring(0,next);
+        return type;
+    }
+
+    static int nextSpace(String str) {
+        int i = 0;
+        while (i < str.length()) {
+            if (str.charAt(i) == ' ')
+                return i;
+            else
+                i++;
+        }
+        return i;
     }
 }
 
