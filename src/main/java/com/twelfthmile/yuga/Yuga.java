@@ -153,7 +153,9 @@ public class Yuga {
     private static Pair<String, Object> prepareResult(String str, Pair<Integer, FsaContextMap> p, Map<String, String> config) {
         int index = p.getA();
         FsaContextMap map = p.getB();
-        if (map.getType().equals(Constants.TY_DTE)) {
+        if (map.getType().equals(Constants.TY_RATE)){
+            return new Pair<>(Constants.TY_RATE, str.substring(0, index));
+        } else if (map.getType().equals(Constants.TY_DTE)) {
             if (map.contains(Constants.DT_MMM) && map.size() < 3)//may fix
                 return new Pair<>(Constants.TY_STR, str.substring(0, index));
             if (map.contains(Constants.DT_HH) && map.contains(Constants.DT_mm) && !map.contains(Constants.DT_D) && !map.contains(Constants.DT_DD) && !map.contains(Constants.DT_MM) && !map.contains(Constants.DT_MMM) && !map.contains(Constants.DT_YY) && !map.contains(Constants.DT_YYYY)) {
@@ -1151,6 +1153,25 @@ public class Yuga {
                     map.setType(Constants.TY_MLT, Constants.TY_MLT);
                     map.append(str.substring(i,j+1));
                     i = j;
+                } else if(str.charAt(j) == '/') {
+                    j++;
+                    String ahead = str.substring(j);
+                    if(ahead.length() >= 2 && ahead.substring(0,2).equalsIgnoreCase("km")){
+                        map.setType(Constants.TY_RATE, Constants.TY_RATE);
+                        map.getValMap().put("per",Constants.TY_DIST);
+                        i = j + 2;
+                    }
+                    Response r =  getResponse(ahead, config);
+                    if(r != null) {
+                        String type = r.getType();
+                        if (type.equals(Constants.TY_NUM_MINS) || type.equals(Constants.TY_TME) || type.equals(Constants.TY_WGT) || type.equals(Constants.TY_DTA)) {
+                            map.setType(Constants.TY_RATE, Constants.TY_RATE);
+                            map.getValMap().putAll(r.getValMap());
+                            map.getValMap().put("per", r.getType());
+                            i = j + r.getStr().length();
+
+                        }
+                    }
                 }
             }
         }
@@ -1162,6 +1183,18 @@ public class Yuga {
             if(k < str.length() && ((str.charAt(k) == 'k' || str.charAt(k) == 'm' || str.charAt(k) == 'g') && (k + 1) < str.length() && str.charAt(k + 1) == 'b')) {
                 checkIfData(str, k, map);
                 i = k + 2;
+            } else if(map.get("NUM").length()<3 && k+3 < str.length() && str.substring(k,k+3).equalsIgnoreCase("min")){
+                i = k + 4;
+                map.setType(Constants.TY_NUM_MINS);
+                map.getValMap().put("minutes_num",map.get("NUM"));
+            } else if(!configContextIsCURR(config) && YugaMethods.isCurrencyAhead(str.substring(k))) {
+                map.setType(Constants.TY_AMT, Constants.TY_AMT);
+                map.getValMap().put("currency",YugaMethods.getPotentialCurrString(str.substring(k)));
+                i = k + 3;
+            } else if(k+3<str.length() && (str.substring(k,k+2).equalsIgnoreCase("km") || str.substring(k,k+3).equalsIgnoreCase("/km"))){
+                map.setType(Constants.TY_DIST, Constants.TY_DIST);
+                map.put("type","km");
+                i = k+3;
             }
             else if (i < str.length() && str.charAt(i-1)!=' ' && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||(!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))&&!Constants.YUGA_SC_TRANSID.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))))) {
                 int j = i;
@@ -1304,7 +1337,7 @@ public class Yuga {
                     map.getValMap().remove("to_num");
                     map.setType(Constants.TY_TMS);
                 } else if(sub.length()>3 && (sub.charAt(0)=='-' || sub.charAt(0)=='x')){
-                    int del = nextSpace(sub);
+                    int del = YugaMethods.nextSpace(sub);
                     if(Util.isNumber(sub.substring(1))){
                         map.append(sub);
                         map.setType(Constants.TY_NUM, Constants.TY_NUM);
@@ -1445,16 +1478,6 @@ public class Yuga {
         return i;
     }
 
-    private static int nextSpace(String str) {
-        int i = 0;
-        while (i < str.length()) {
-            if (str.charAt(i) == ' ')
-                return i;
-            else
-                i++;
-        }
-        return i;
-    }
     private static boolean checkForAlphaAfterComma(String str, int i) {
         while(i < str.length()) {
             char c = str.charAt(i);
@@ -1477,8 +1500,8 @@ public class Yuga {
                 map.setType(Constants.TY_AMT, Constants.TY_AMT);
             map.append(c);
             return 10;
-        } else if(c == Constants.CH_STAR && subStr.length()>10 && str.charAt(i+1)!= Constants.CH_STAR && nextSpace(subStr)-i>12){
-            int nextSpace = nextSpace(subStr);
+        } else if(c == Constants.CH_STAR && subStr.length()>10 && str.charAt(i+1)!= Constants.CH_STAR && YugaMethods.nextSpace(subStr)-i>12){
+            int nextSpace = YugaMethods.nextSpace(subStr);
             String code = Util.getcallFrwrdCode(str, i);
             if(Constants.callForwardCode.contains(code)){
                 map.setType(Constants.TY_CALLFORWARD);
@@ -1544,10 +1567,12 @@ public class Yuga {
 
     public static String getYugaResponseOutput(String str,Map<String, String> config,boolean isTime) {
         Response r =  getResponse(str, config);
-        if(isTime)
+        if(isTime && r!=null)
             return r.getValMap().get("time");
-        else
+        else if(r!=null)
             return r.getStr();
+        else
+            return "";
     }
 
 

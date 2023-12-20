@@ -42,9 +42,12 @@ public class Constants {
     public static final String TY_WGT = "WGT";
     public static final String TY_ACC = "INSTRNO";
     public static final String TY_TYP = "TYP";
+    public static final String TY_RATE = "RATE";
     public static final String TY_DTE = "DATE";
     public static final String TY_DTERANGE = "DATERANGE";
     public static final String TY_TME = "TIME";
+    public static final String TY_NUM_MINS = "NUM_MINS";
+    public static final String TY_DIST = "DISTANCE";
     public static final String TY_TMERANGE = "TIMERANGE";
     public static final String TY_TMS = "TIMES";
     public static final String TY_STR = "STR";
@@ -70,7 +73,7 @@ public class Constants {
     public static final String FSA_FLTID = "6E,AI,I5,SG,G8,UK,IX,2T,9W";
 
     public static final String[] curr = {"rs", "inr", "cny", "amt", "amount", "ngn", "usd", "cad", "eur", "gbp", "aed", "jpy", "aud", "s$", "lkr", "ksh", "egp"};
-
+    public static final String[] currAct = {"rs", "inr", "cny", "ngn", "usd", "cad", "eur", "gbp", "aed", "jpy", "aud", "s$", "lkr", "ksh", "egp"};
     public static final String[] instr = {"card", "no", "a/c"};
 
     public static final String[] fltid = {"6e", "indigo", "ai", "airindia", "sg", "spicejet", "g8", "goair", "uk", "vistara", "ix",
