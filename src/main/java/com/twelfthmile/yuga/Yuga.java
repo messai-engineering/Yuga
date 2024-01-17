@@ -1179,6 +1179,8 @@ public class Yuga {
         setIfNumRange(str, i, map);
         if (map.getType().equals(Constants.TY_NUM)) {
             int k = i + skip(str.substring(i));
+            // IL-748
+            boolean containsStartBracket = k < str.length() && str.substring(i,k).contains("{") || str.substring(i,k).contains("[") || str.substring(i,k).contains("(");
             // Added last char is not space check that prevents 'num' becoming a 'str'. Ex: "+919057235089 pin"
             if(k < str.length() && ((str.charAt(k) == 'k' || str.charAt(k) == 'm' || str.charAt(k) == 'g') && (k + 1) < str.length() && str.charAt(k + 1) == 'b')) {
                 checkIfData(str, k, map);
@@ -1187,7 +1189,7 @@ public class Yuga {
                 i = k + 4;
                 map.setType(Constants.TY_NUM_MINS);
                 map.getValMap().put("minutes_num",map.get("NUM"));
-            } else if(!configContextIsCURR(config) && YugaMethods.isCurrencyAhead(str.substring(k))) {
+            } else if(!configContextIsCURR(config) && !(containsStartBracket) && YugaMethods.isCurrencyAhead(str.substring(k))) {
                 map.setType(Constants.TY_AMT, Constants.TY_AMT);
                 map.getValMap().put("currency",YugaMethods.getPotentialCurrString(str.substring(k)));
                 i = k + 3;
@@ -1368,6 +1370,9 @@ public class Yuga {
     }
 
     private static void setIfNumRange(String str, int i, FsaContextMap map) {
+        // TCANDROID-52501 - introduce bound checks
+        if((str.isEmpty() || str==null) || str.length()<=i)
+            return;
         String trimmed = str.substring(0, i).trim();
         // 18-22.
         if(Util.isDelimiter(trimmed.charAt(trimmed.length()-1))){
