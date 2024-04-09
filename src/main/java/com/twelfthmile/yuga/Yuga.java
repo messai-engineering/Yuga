@@ -1371,9 +1371,13 @@ public class Yuga {
 
     private static void setIfNumRange(String str, int i, FsaContextMap map) {
         // TCANDROID-52501 - introduce bound checks
-        if((str.isEmpty() || str==null) || str.length()<i)
+        if((str.isEmpty() || str == null) || i < 0 || i > str.length())
             return;
         String trimmed = str.substring(0, i).trim();
+        // TCANDROID-54621 - SIOOB check
+        if (trimmed.isEmpty()) {
+            return;
+        }
         // 18-22.
         if(Util.isDelimiter(trimmed.charAt(trimmed.length()-1))){
             trimmed = trimmed.substring(0,trimmed.length()-1);
