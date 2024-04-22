@@ -562,9 +562,10 @@ public class Yuga {
                             if (samt.contains(".")) {
                                 String[] samtarr = samt.split("\\.");
                                 if (samtarr.length == 2) {
-                                    int d = Util.parseStrToInt(samtarr[0]);
-                                    int mm = Util.parseStrToInt(samtarr[1]);
-                                    if(d<=31 && mm<=12) {
+                                    // fix for IL-799
+                                    Integer d = Util.parseStrToInt(samtarr[0]);
+                                    Integer mm = Util.parseStrToInt(samtarr[1]);
+                                    if(d != null && mm != null && d<=31 && mm<=12) {
                                         map.setType(Constants.TY_DTE);
                                         map.put(Constants.DT_D, samtarr[0]);
                                         map.put(Constants.DT_MM, samtarr[1]);
