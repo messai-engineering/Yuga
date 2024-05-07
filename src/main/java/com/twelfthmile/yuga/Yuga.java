@@ -1132,7 +1132,7 @@ public class Yuga {
             }
 
             int j = i + skip(str.substring(i));
-            if(j<str.length()) {
+            if(j >= 0 && j < str.length()) {
                 if ((str.charAt(j) == 'k' || str.charAt(j) == 'm' || str.charAt(j) == 'g') && (j + 1) < str.length() && str.charAt(j + 1) == 'b') {
                     checkIfData(str, j, map);
                     i = j + 2;
@@ -1183,7 +1183,7 @@ public class Yuga {
             // IL-748
             boolean containsStartBracket = k < str.length() && str.substring(i,k).contains("{") || str.substring(i,k).contains("[") || str.substring(i,k).contains("(");
             // Added last char is not space check that prevents 'num' becoming a 'str'. Ex: "+919057235089 pin"
-            if(k < str.length() && ((str.charAt(k) == 'k' || str.charAt(k) == 'm' || str.charAt(k) == 'g') && (k + 1) < str.length() && str.charAt(k + 1) == 'b')) {
+            if((k >= 0 && k < str.length()) && ((str.charAt(k) == 'k' || str.charAt(k) == 'm' || str.charAt(k) == 'g') && (k + 1) < str.length() && str.charAt(k + 1) == 'b')) {
                 checkIfData(str, k, map);
                 i = k + 2;
             } else if(map.get("NUM").length()<3 && k+3 < str.length() && str.substring(k,k+3).equalsIgnoreCase("min")){
@@ -1199,7 +1199,7 @@ public class Yuga {
                 map.put("type","km");
                 i = k+3;
             }
-            else if (i < str.length() && str.charAt(i-1)!=' ' && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||(!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))&&!Constants.YUGA_SC_TRANSID.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))))) {
+            else if (i >= 0 && i < str.length() && str.charAt(i-1)!=' ' && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||(!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))&&!Constants.YUGA_SC_TRANSID.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))))) {
                 int j = i;
                 while (j < str.length() && str.charAt(j) != ' ')
                     j++;
@@ -1261,7 +1261,7 @@ public class Yuga {
             Pair<Integer, String> pTime;
             int in = i + skip(str.substring(i));
             String sub = str.substring(in);
-            if (in < str.length()) {
+            if (in >= 0 && in < str.length()) {
                 if (Util.isNumber(str.charAt(in)) || Util.checkTypes(getRoot(), "FSA_MONTHS", sub) != null || Util.checkTypes(getRoot(), "FSA_DAYS", sub) != null) {
                     Pair<Integer, FsaContextMap> p_ = parseInternal(sub, config);
                     // on 2021-10-27 10.54.50
@@ -1489,7 +1489,7 @@ public class Yuga {
     }
 
     private static boolean checkForAlphaAfterComma(String str, int i) {
-        while(i < str.length()) {
+        while(i >= 0 && i < str.length()) {
             char c = str.charAt(i);
             if(Util.isDelimiter(c)) {
                 break;
