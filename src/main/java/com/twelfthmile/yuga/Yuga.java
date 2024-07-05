@@ -1199,7 +1199,7 @@ public class Yuga {
                 map.put("type","km");
                 i = k+3;
             }
-            else if (i >= 0 && i < str.length() && str.charAt(i-1)!=' ' && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||(!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))&&!Constants.YUGA_SC_TRANSID.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))))) {
+            else if (i > 0 && i < str.length() && str.charAt(i-1)!=' ' && Character.isAlphabetic(str.charAt(i)) && (!config.containsKey(Constants.YUGA_SOURCE_CONTEXT)||(!Constants.YUGA_SC_CURR.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))&&!Constants.YUGA_SC_TRANSID.equals(config.get(Constants.YUGA_SOURCE_CONTEXT))))) {
                 int j = i;
                 while (j < str.length() && str.charAt(j) != ' ')
                     j++;
