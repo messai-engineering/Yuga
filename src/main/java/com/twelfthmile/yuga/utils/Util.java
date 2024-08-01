@@ -40,7 +40,7 @@ public class Util {
     }
 
     public static boolean isDelimiter(char c) {
-        return c == Constants.CH_SPACE || c == Constants.CH_FSTP || c == Constants.CH_COMA || c == Constants.CH_RBKT;
+        return c == Constants.CH_SPACE || c == Constants.CH_FSTP || c == Constants.CH_COMA || c == Constants.CH_RBKT || c == Constants.CH_NLINE;
     }
 
     public static boolean meridienTimeAhead(String str, int i) {
