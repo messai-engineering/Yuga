@@ -1491,7 +1491,7 @@ public class Yuga {
     private static boolean checkForAlphaAfterComma(String str, int i) {
         while(i >= 0 && i < str.length()) {
             char c = str.charAt(i);
-            if(Util.isDelimiter(c) || c == Constants.CH_NLINE) {
+            if(Util.isDelimiter(c)) {
                 break;
             } else if(Util.isAlpha(c))
                 return true;
