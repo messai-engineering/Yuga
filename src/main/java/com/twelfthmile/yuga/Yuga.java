@@ -460,6 +460,7 @@ public class Yuga {
                     }
                     break;
                 case 12:
+                    // TODO : Support 13999,1st
                     if (Util.isNumber(c)) {
                         // case like "729 613 is your Instagram code" Where the num was captured as AMT.
                         if((i>2 && str.charAt(i-1)==Constants.CH_SPACE && Util.isNumber(str.charAt(i-2))) || delimiterStack.pop() == Constants.CH_SLSH)
@@ -468,9 +469,6 @@ public class Yuga {
                             if(map.contains("NUM"));
                                 counter = map.get("NUM").length();
                             state=15;
-                        } else if(delimiterStack.pop() == Constants.CH_COMA && checkForAlphaAfterComma(str, i)) {
-                            i = counter - 1;
-                            state = -1;
                         }
                         else {
                             map.setType(Constants.TY_AMT, Constants.TY_AMT);
@@ -1486,18 +1484,6 @@ public class Yuga {
                 break;
         }
         return i;
-    }
-
-    private static boolean checkForAlphaAfterComma(String str, int i) {
-        while(i >= 0 && i < str.length()) {
-            char c = str.charAt(i);
-            if(Util.isDelimiter(c)) {
-                break;
-            } else if(Util.isAlpha(c))
-                return true;
-            i++;
-        }
-        return false;
     }
 
     private static int accAmtNumPct(String str, int i, FsaContextMap map, Map<String, String> config) {

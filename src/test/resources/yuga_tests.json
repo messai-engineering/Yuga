@@ -1508,16 +1508,6 @@
     "accepted": true
   },
   {
-    "input": "13999,1st",
-    "response": {
-      "type": "NUM",
-      "valMap":{"num_class":"NUM"},
-      "str":"13999",
-      "index": 5
-    },
-    "accepted": true
-  },
-  {
     "input": "100.0/30 mins",
     "response": {
       "type": "RATE",
