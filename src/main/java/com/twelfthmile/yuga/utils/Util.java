@@ -19,7 +19,12 @@ public class Util {
     }
 
     public static boolean hasISDCodePrefix(String str, int i) {
-        return Constants.supportedISDCode.contains(str.substring(0, i)) || Constants.supportedISDCode.contains("+"+str.substring(0, i));
+        return i < str.length() - 1 && Constants.supportedISDCode.contains(str.substring(0, i)) || Constants.supportedISDCode.contains("+" + str.substring(0, i));
+    }
+
+    public static boolean possibleTimeAhead(String str, int i) {
+        char c = str.charAt(i);
+        return c == Constants.CH_SPACE && (meridienTimeAhead(str, i + 1) || hrsTimeAhead(str, i + 1));
     }
 
     public static boolean isNumber(char c) {
@@ -53,6 +58,24 @@ public class Util {
         char c = str.charAt(i+2);
         boolean checkIfJustWordStart = (c == Constants.CH_SPACE || c == Constants.CH_FSTP || c == Constants.CH_COMA || c == Constants.CH_RBKT ||  c == Constants.CH_HYPH || c == Constants.CH_NLINE) ;  //am or pm ahead but just a  word starting with am/pm like amp
         return checkIfJustWordStart;
+    }
+
+    public static boolean hrsTimeAhead(String str, int i) {
+        boolean isHrsAhead = i + 1 < str.length() && str.charAt(i) == 'h' && str.charAt(i + 1) == 'r';
+        if (!isHrsAhead)
+            return false;
+        boolean isWordEndAtHrs = (i + 2 >= str.length());
+        if (isWordEndAtHrs)
+            return true;
+        char c = str.charAt(i + 2);
+        if (c == 's') {
+            isWordEndAtHrs = (i + 3 >= str.length());
+            if (isWordEndAtHrs)
+                return true;
+            c = str.charAt(i + 3);
+        }
+        boolean isJustAWordAtStart = !(c == Constants.CH_SPACE || c == Constants.CH_FSTP || c == Constants.CH_COMA || c == Constants.CH_RBKT || c == Constants.CH_HYPH || c == Constants.CH_NLINE);  // hr or hrs ahead but just a word starting with hr(s) like hrithik or hrabble
+        return !isJustAWordAtStart;
     }
 
     public static boolean isTimeOperator(char c) {
