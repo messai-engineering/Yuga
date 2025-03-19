@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.twelfthmile.yuga.utils.Util.possibleTimeAhead;
+
 /**
  * Created by johnjoseph on 19/03/17.
  */
@@ -285,6 +287,8 @@ public class Yuga {
                         state = 8;
                     } else if(c == Constants.CH_SPACE && Util.hasISDCodePrefix(str,i)){
                         state = 3;
+                    } else if(c == Constants.CH_SPACE && i == str.length() - 1) {
+                        state = -1;
                     } else if (Util.isTimeOperator(c)) {
                         delimiterStack.push(c);
                         map.setType(Constants.TY_DTE, Constants.DT_HH);
@@ -543,6 +547,13 @@ public class Yuga {
                 case 14:
                     if (Util.isNumber(c)) {
                         map.append(c);
+                    } else if (map.get(Constants.TY_AMT) != null && map.get(Constants.TY_AMT).contains(".") && possibleTimeAhead(str, i)) {
+                        String samt = map.get(Constants.TY_AMT);
+                        String[] time = samt.split("\\.");
+                        map.put(Constants.DT_HH, time[0]);
+                        map.put(Constants.DT_mm, time[1]);
+                        map.setType(Constants.TY_DTE);
+                        state = 7;
                     } else if (c == Constants.CH_PCT) {
                         map.setType(Constants.TY_PCT, Constants.TY_PCT);
                         state = -1;

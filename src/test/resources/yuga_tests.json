@@ -232,6 +232,18 @@
     "accepted": true
   },
   {
+    "input": "23.35 hrs",
+    "response": {
+      "type": "TIME",
+      "valMap": {
+        "time": "23:35"
+      },
+      "str": "23.35 hrs",
+      "index": 9
+    },
+    "accepted": true
+  },
+  {
     "input": "24-10-2017 15:05:57",
     "response": {
       "type": "DATE",
@@ -348,6 +360,18 @@
       },
       "str": "12",
       "index": 2
+    },
+    "accepted": true
+  },
+  {
+    "input": "12 ",
+    "response": {
+      "type": "NUM",
+      "valMap": {
+        "num_class": "NUM"
+      },
+      "str": "12",
+      "index": 3
     },
     "accepted": true
   },
@@ -1262,6 +1286,18 @@
         "time": "19:30"
       },
       "str": "19:30 PM",
+      "index": 8
+    },
+    "accepted": true
+  },
+  {
+    "input": "19.30 PM",
+    "response": {
+      "type": "TIME",
+      "valMap": {
+        "time": "19:30"
+      },
+      "str": "19.30 PM",
       "index": 8
     },
     "accepted": true
