@@ -155,9 +155,9 @@ public class Yuga {
     private static Pair<String, Object> prepareResult(String str, Pair<Integer, FsaContextMap> p, Map<String, String> config) {
         int index = p.getA();
         FsaContextMap map = p.getB();
-        if (map.getType().equals(Constants.TY_RATE)){
+        if (map.getType().equals(Constants.TY_RATE) && index >= 0 && index <= str.length()) {
             return new Pair<>(Constants.TY_RATE, str.substring(0, index));
-        } else if (map.getType().equals(Constants.TY_DTE)) {
+        } else if (map.getType().equals(Constants.TY_DTE)&& index >= 0 && index <= str.length()) {
             if (map.contains(Constants.DT_MMM) && map.size() < 3)//may fix
                 return new Pair<>(Constants.TY_STR, str.substring(0, index));
             if (map.contains(Constants.DT_HH) && map.contains(Constants.DT_mm) && !map.contains(Constants.DT_D) && !map.contains(Constants.DT_DD) && !map.contains(Constants.DT_MM) && !map.contains(Constants.DT_MMM) && !map.contains(Constants.DT_YY) && !map.contains(Constants.DT_YYYY)) {
@@ -178,7 +178,7 @@ public class Yuga {
                     return new Pair<>(Constants.TY_AMT, map.get(map.getType()).replaceAll("X", ""));
                 return new Pair<>(p.getB().getType(), map.get(map.getType()));
             } else
-                return new Pair<>(p.getB().getType(), str.substring(0, index));
+                return new Pair<>(p.getB().getType(), index >= 0 && index <= str.length() ? str.substring(0, index) : "");
 
         }
     }
@@ -213,7 +213,7 @@ public class Yuga {
         int counter = 0, insi;
         ArrayList<Integer> prevStates = new ArrayList<>();
         prevStates.add(state);
-        while (state > 0 && i < str.length()) {
+        while (state > 0 && i < str.length() && i >= 0) {
             c = str.charAt(i);
             if(prevStates.get(prevStates.size()-1)!=state)
                 prevStates.add(state);
@@ -1121,7 +1121,7 @@ public class Yuga {
             map.pop();
             i = i - 1;
         } else if (state == 36) {
-            if ((counter == 12 || Util.isNumber(str.substring(1, i))))
+            if ((counter == 12 || (i > 1 && Util.isNumber(str.substring(1, i)))))
                 map.setType(Constants.TY_NUM, Constants.TY_NUM);
             else
                 return null;
@@ -1140,7 +1140,7 @@ public class Yuga {
                 map.append(c1);
             }
 
-            int j = i + skip(str.substring(i));
+            int j = (i < str.length()) ? i + skip(str.substring(i)) : i;
             if(j >= 0 && j < str.length()) {
                 if ((str.charAt(j) == 'k' || str.charAt(j) == 'm' || str.charAt(j) == 'g') && (j + 1) < str.length() && str.charAt(j + 1) == 'b') {
                     checkIfData(str, j, map);
