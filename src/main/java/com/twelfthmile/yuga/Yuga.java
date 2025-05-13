@@ -155,9 +155,9 @@ public class Yuga {
     private static Pair<String, Object> prepareResult(String str, Pair<Integer, FsaContextMap> p, Map<String, String> config) {
         int index = p.getA();
         FsaContextMap map = p.getB();
-        if (map.getType().equals(Constants.TY_RATE)){
+        if (map.getType().equals(Constants.TY_RATE) && index >= 0 && index <= str.length()) {
             return new Pair<>(Constants.TY_RATE, str.substring(0, index));
-        } else if (map.getType().equals(Constants.TY_DTE)) {
+        } else if (map.getType().equals(Constants.TY_DTE)&& index >= 0 && index <= str.length()) {
             if (map.contains(Constants.DT_MMM) && map.size() < 3)//may fix
                 return new Pair<>(Constants.TY_STR, str.substring(0, index));
             if (map.contains(Constants.DT_HH) && map.contains(Constants.DT_mm) && !map.contains(Constants.DT_D) && !map.contains(Constants.DT_DD) && !map.contains(Constants.DT_MM) && !map.contains(Constants.DT_MMM) && !map.contains(Constants.DT_YY) && !map.contains(Constants.DT_YYYY)) {
@@ -178,7 +178,7 @@ public class Yuga {
                     return new Pair<>(Constants.TY_AMT, map.get(map.getType()).replaceAll("X", ""));
                 return new Pair<>(p.getB().getType(), map.get(map.getType()));
             } else
-                return new Pair<>(p.getB().getType(), str.substring(0, index));
+                return new Pair<>(p.getB().getType(), index >= 0 && index <= str.length() ? str.substring(0, index) : "");
 
         }
     }
@@ -213,7 +213,7 @@ public class Yuga {
         int counter = 0, insi;
         ArrayList<Integer> prevStates = new ArrayList<>();
         prevStates.add(state);
-        while (state > 0 && i < str.length()) {
+        while (state > 0 && i < str.length() && i >= 0) {
             c = str.charAt(i);
             if(prevStates.get(prevStates.size()-1)!=state)
                 prevStates.add(state);
@@ -537,7 +537,7 @@ public class Yuga {
                         i = (Util.isNumber(str.charAt(insi)))?(insi-1):insi;
                     }
                     // USSD codes start with * and end with #. Second condition check for string like "*334# for"
-                    else if(c == Constants.CH_HASH && ((i==str.length()-1) || Util.isDelimiter(str.charAt(i+1)))){
+                    else if (c == Constants.CH_HASH && ((i == str.length() - 1) || (i + 1 < str.length() && Util.isDelimiter(str.charAt(i + 1))))) {
                         map.setType(Constants.TY_USSD);
                     }  else {
                         i = i - 1;
@@ -649,7 +649,7 @@ public class Yuga {
                         } else {
                             map.setType(Constants.TY_NUM, Constants.TY_NUM);
                             int j = i;
-                            while (!Util.isNumber(str.charAt(j)))
+                            while (j >= 0 && j < str.length() && !Util.isNumber(str.charAt(j)))
                                 j--;
                             i = j;
                             state = -1;
@@ -847,7 +847,7 @@ public class Yuga {
                         map.append(c);
                         boolean checkIfPossTimeRange = Util.checkForTimeRange(map.get("NUM"));
                         // for cases like 1515-1750hrs
-                        if ((delimiterStack.pop() == Constants.CH_SLSH || delimiterStack.pop() == Constants.CH_HYPH) && i + 1 < str.length() && Util.isNumber(str.charAt(i + 1)) && (i + 2 == str.length() || Util.isDelimiter(str.charAt(i + 2)) || str.charAt(i + 2)=='/') && checkIfPossTimeRange) {//flight time 0820/0950
+                        if ((delimiterStack.pop() == Constants.CH_SLSH || delimiterStack.pop() == Constants.CH_HYPH) && i + 2 < str.length() && Util.isNumber(str.charAt(i + 1)) && (i + 2 == str.length() || Util.isDelimiter(str.charAt(i + 2)) || str.charAt(i + 2)=='/') && checkIfPossTimeRange) {//flight time 0820/0950
                             map.setType(Constants.TY_TMS, Constants.TY_TMS);
                             map.append(str.charAt(i + 1));
                             i = i + 1;
@@ -922,7 +922,7 @@ public class Yuga {
                         state = 32;
                     } else {
                         int j = i;
-                        while (!Util.isNumber(str.charAt(j)))
+                        while (j >= 0 && !Util.isNumber(str.charAt(j)))
                             j--;
                         i = j;
                         state = -1;
@@ -1121,7 +1121,7 @@ public class Yuga {
             map.pop();
             i = i - 1;
         } else if (state == 36) {
-            if ((counter == 12 || Util.isNumber(str.substring(1, i))))
+            if ((counter == 12 || (i > 1 && Util.isNumber(str.substring(1, i)))))
                 map.setType(Constants.TY_NUM, Constants.TY_NUM);
             else
                 return null;
@@ -1140,7 +1140,7 @@ public class Yuga {
                 map.append(c1);
             }
 
-            int j = i + skip(str.substring(i));
+            int j = (i < str.length()) ? i + skip(str.substring(i)) : i;
             if(j >= 0 && j < str.length()) {
                 if ((str.charAt(j) == 'k' || str.charAt(j) == 'm' || str.charAt(j) == 'g') && (j + 1) < str.length() && str.charAt(j + 1) == 'b') {
                     checkIfData(str, j, map);
@@ -1214,7 +1214,7 @@ public class Yuga {
                     j++;
                 map.setType(Constants.TY_STR, Constants.TY_STR);
                 i = j;
-            }else if(i+1 < str.length() && str.charAt(i)==Constants.CH_SLSH && str.charAt(i+1)==Constants.CH_HYPH ) {
+            } else if (i + 1 < str.length() && i < str.length() && str.charAt(i) == Constants.CH_SLSH && str.charAt(i + 1) == Constants.CH_HYPH) {
                 map.setType(Constants.TY_AMT, Constants.TY_AMT);
             } else if (map.get(Constants.TY_NUM) != null) {
                 // The first digit should contain numbers between 6 and 9
@@ -1232,7 +1232,7 @@ public class Yuga {
                     }
                 }
                 else {
-                    if(map.get(Constants.TY_NUM) != null && (map.get(Constants.TY_NUM).length() == 6 || map.get(Constants.TY_NUM).length() == 8) && config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_ON) && (i >= str.length() || (str.charAt(i)==Constants.CH_SPACE || str.charAt(i)==Constants.CH_FSTP|| str.charAt(i)==Constants.CH_COMA))) {
+                    if(map.get(Constants.TY_NUM) != null && (map.get(Constants.TY_NUM).length() == 6 || map.get(Constants.TY_NUM).length() == 8) && config.containsKey(Constants.YUGA_SOURCE_CONTEXT) && config.get(Constants.YUGA_SOURCE_CONTEXT).equals(Constants.YUGA_SC_ON) && (i >= str.length() || (i < str.length() && i >= 0 && (str.charAt(i)==Constants.CH_SPACE || str.charAt(i)==Constants.CH_FSTP|| str.charAt(i)==Constants.CH_COMA)))) {
                         Pattern pattern;
                         Matcher m;
                         if(map.get(Constants.TY_NUM).length() == 6) {
@@ -1280,7 +1280,7 @@ public class Yuga {
                     }
                 } else if ((pTime = Util.checkTypes(getRoot(), "FSA_TIMEPRFX", sub)) != null) {
                     int iTime = in + pTime.getA() + 1 + skip(str.substring(in + pTime.getA() + 1));
-                    if (iTime < str.length() && (Util.isNumber(str.charAt(iTime)) || Util.checkTypes(getRoot(), "FSA_DAYS", str.substring(iTime)) != null)) {
+                    if (iTime < str.length() && (iTime >= 0 && Util.isNumber(str.charAt(iTime)) || Util.checkTypes(getRoot(), "FSA_DAYS", str.substring(iTime)) != null)) {
                         Pair<Integer, FsaContextMap> p_ = parseInternal(str.substring(iTime), config);
                         if (p_ != null && p_.getB().getType().equals(Constants.TY_DTE)) {
                             map.putAll(p_.getB());
@@ -1319,7 +1319,7 @@ public class Yuga {
                         map.getValMap().remove("to_num");
                     }else {
                         map.setType(Constants.TY_TMERANGE);
-                        if(sub.charAt(0)=='h')
+                        if (!sub.isEmpty() && sub.charAt(0) == 'h')
                             map.setVal("time_type","hour");
                         else
                             map.setVal("time_type","min");
@@ -1341,7 +1341,7 @@ public class Yuga {
                     map.getValMap().remove("from_num");
                     map.getValMap().remove("to_num");
                 } else if (Util.meridienTimeAhead(sub,0)) {
-                    String meridien = (str.charAt(i)=='a')? "am":"pm";
+                    String meridien = (i < str.length() && !str.isEmpty() && str.charAt(i) == 'a') ? "am" : "pm";
                     i = in+2;
                     map.setVal("from_time",getYugaResponseOutput(fromNum+" "+ meridien,config,true));
                     map.setVal("to_time",getYugaResponseOutput(toNum+" "+meridien,config,true));
@@ -1507,7 +1507,7 @@ public class Yuga {
                 map.setType(Constants.TY_AMT, Constants.TY_AMT);
             map.append(c);
             return 10;
-        } else if(c == Constants.CH_STAR && subStr.length()>10 && str.charAt(i+1)!= Constants.CH_STAR && YugaMethods.nextSpace(subStr)-i>12){
+        } else if (c == Constants.CH_STAR && subStr.length() > 10 && (i + 1) < str.length() && str.charAt(i + 1) != Constants.CH_STAR && YugaMethods.nextSpace(subStr) - i > 12) {
             int nextSpace = YugaMethods.nextSpace(subStr);
             String code = Util.getcallFrwrdCode(str, i);
             if(Constants.callForwardCode.contains(code)){
