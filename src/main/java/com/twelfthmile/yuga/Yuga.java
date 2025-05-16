@@ -847,7 +847,7 @@ public class Yuga {
                         map.append(c);
                         boolean checkIfPossTimeRange = Util.checkForTimeRange(map.get("NUM"));
                         // for cases like 1515-1750hrs
-                        if ((delimiterStack.pop() == Constants.CH_SLSH || delimiterStack.pop() == Constants.CH_HYPH) && i + 1 < str.length() && Util.isNumber(str.charAt(i + 1)) && (i + 2 == str.length() || Util.isDelimiter(str.charAt(i + 2)) || str.charAt(i + 2)=='/') && checkIfPossTimeRange) {//flight time 0820/0950
+                        if ((delimiterStack.pop() == Constants.CH_SLSH || delimiterStack.pop() == Constants.CH_HYPH) && i + 1 < str.length() && Util.isNumber(str.charAt(i + 1)) && (i + 2 == str.length() || (i + 2 < str.length() && (Util.isDelimiter(str.charAt(i + 2)) || str.charAt(i + 2)=='/'))) && checkIfPossTimeRange) {//flight time 0820/0950
                             map.setType(Constants.TY_TMS, Constants.TY_TMS);
                             map.append(str.charAt(i + 1));
                             i = i + 1;
